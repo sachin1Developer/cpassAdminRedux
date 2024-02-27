@@ -1,0 +1,16 @@
+.wave-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.3);
+    transform: scale(0);
+    animation: ripple 0.3s linear;
+    pointer-events: none;
+    user-select: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
