@@ -26,6 +26,19 @@ export const getAllHttpLinks = createAsyncThunk("getAllHttpLinks", async (token)
     return response;
 })
 
+
+export const getAllRoleNameOnly = createAsyncThunk("getAllRoleNameOnly", async (token) => {
+    const response = axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/ftechRolesName`,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
+
 export const getRoleDetailsById = createAsyncThunk("getRoleDetailsById", async (data) => {
     const response = axios({
         method: 'get',
@@ -38,18 +51,18 @@ export const getRoleDetailsById = createAsyncThunk("getRoleDetailsById", async (
     return response;
 })
 
-// export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", async (data) => {
-//     const response = axios({
-//         method: 'post',
-//         url: `${process.env.REACT_APP_API_URL}/saveRoleType`,
-//         data: data.data,
-//         headers: {
-//             "Authorization": `Bearer ${data.token}`
-//         },
-//     })
-//     // console.log(response)
-//     return response;
-// })
+export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", async (data) => {
+    const response = axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_API_URL}/createRole`,
+        data: data.data,
+        headers: {
+            "Authorization": `Bearer ${data.token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
 
 
 // export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagement", async (data) => {

@@ -1,63 +1,74 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Input, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box, Checkbox, FormControlLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { toast } from 'react-toastify';
 import { Textarea } from '@mui/joy';
+import { useDispatch, useSelector } from 'react-redux';
+import { addRoleTypeManagement, getAllHttpLinks, getAllRoleNameOnly } from './slice/RoleTypeManagement';
+import CommanButton from '../../../components/CommanButton';
 
 
 const nameId = "nameId"
 
 function AddRoleType() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    let token = useSelector(state => state.token?.data?.token)
     const [httpLinks, setHttpLinks] = useState([]);
     const [nameOnly, setNameOnly] = useState([]);
     const [dataWithoutDuplicat, setDataWithoutDuplicat] = useState([]);
-    const [rolesCreateResponse, setRolesCreateResponse] = useState([]);
     const roleId = localStorage.getItem("RoleId");
     const [roleName, setRoleName] = useState("");
     const [description, setDescription] = useState("");
 
     const getHttpLinks = () => {
-        // callApi.getAllHttpLinks()
-        //     .then((resp) => {
-        //         // console.log(resp.data.body)
-        //         setHttpLinks(resp.data.body);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         toast.error('Error while fetching subscriber range list');
-        //     });
+        dispatch(getAllHttpLinks(token))
+            .then((resp) => {
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setHttpLinks(resp?.payload?.data?.body);
+                } else {
+                    toast.error('Internal server error')
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                toast.error('Error while fetching subscriber range list');
+            });
     }
 
     const getRoleName = () => {
-        // callApi.getAllRoleNameOnly()
-        //     .then((resp) => {
-        //         console.log(resp.data.body)
-        //         setNameOnly(resp.data.body);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         toast.error('Error while fetching subscriber range list');
-        //     });
+        dispatch(getAllRoleNameOnly(token))
+            .then((resp) => {
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setNameOnly(resp?.payload?.data?.body);
+                } else {
+                    toast.error('Internal server error')
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                toast.error('Error while fetching subscriber range list');
+            });
     }
 
     const handleRoleName = (e) => {
-        // setRoleName(e.target.value);
-        // let flag = false
-        // nameOnly.map((name) => {
-        //     if (e.target.value === name) {
-        //         flag = true;
-        //         setRoleName(e.target.value);
-        //     }
-        // })
-        // if (flag === false) {
-        //     setRoleName(e.target.value);
-        // } else {
-        //     toast.error('This Role name is already exist', {
-        //         toastId: nameId
-        //     });
-        // }
+        setRoleName(e.target.value);
+        let flag = false
+        nameOnly.map((name) => {
+            if (e.target.value === name) {
+                flag = true;
+                setRoleName(e.target.value);
+            }
+        })
+        if (flag === false) {
+            setRoleName(e.target.value);
+        } else {
+            toast.error('This Role name is already exist', {
+                toastId: nameId
+            });
+        }
     }
 
 
@@ -68,18 +79,20 @@ function AddRoleType() {
             "description": description,
             "httpLinkslst": val
         }
-        console.log(request)
-        // callApi.createRoles(request)
-        //     .then((resp) => {
-        //         console.log(resp.data)
-        //         console.log(resp.data.message)
-        //         setRolesCreateResponse(resp.data.message);
-        //         toast.success(resp.data.message);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         toast.error(rolesCreateResponse);
-        //     });
+        // console.log(request)
+        dispatch(addRoleTypeManagement({ token: token, data: request }))
+            .then((resp) => {
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    navigate('/operatorConfig/viewRoleType')
+                    // toast.success();
+                } else {
+                    toast.error('Internal server error')
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                toast.error("error while creating role");
+            });
     }
 
 
@@ -224,10 +237,6 @@ function AddRoleType() {
 
     return (
         <Container>
-            {/* {
-                rolesCreateResponse === "Role created successfully" &&
-                <Redirect to="/operatorConfig/viewRoleType" />
-            } */}
             <div className='d-flex justify-content-between'>
                 <div className='d-flex'>
                     <b>
@@ -236,7 +245,7 @@ function AddRoleType() {
                 </div>
                 <div className='d-flex'>
                     <Link to='/operatorConfig/viewRoleType'>
-                        <Button type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</Button>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
                     </Link>
                 </div>
 
