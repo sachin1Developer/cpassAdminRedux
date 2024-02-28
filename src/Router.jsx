@@ -64,15 +64,12 @@ const Router = createBrowserRouter(
 
                 {/* User Type */}
                 <Route path="/operatorConfig/userTypeManagement/viewUserType" element={<ViewUserType />} />
-
                 <Route path="/operatorConfig/userTypeManagement/addUserType" element={<AddUser />} />
                 <Route path="/operatorConfig/userTypeManagement/viewUserTypeDetail/:name" element={<ViewDetailsUser />} />
                 <Route path="/operatorConfig/userTypeManagement/modifyUserType" element={<ModifyUser />} />
-
                 <Route path="/operatorConfig/userTypeManagement/addVendor" element={<AddVendor />} />
                 <Route path="/operatorConfig/userTypeManagement/viewVendorDetail/:id" element={<ViewDetailsVendor />} />
                 <Route path="/operatorConfig/userTypeManagement/modifyVendor" element={<ModifyVendor />} />
-
                 <Route path="/operatorConfig/userActivityManagement" element={<UserActivity />} />
 
             </Route>
