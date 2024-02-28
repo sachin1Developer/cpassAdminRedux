@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Tooltip, useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import TextArea from 'antd/es/input/TextArea';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CommanButton from '../../../../components/CommanButton';
 
 
 const ITEM_HEIGHT = 48;
@@ -92,33 +92,20 @@ function ModifyVendor() {
     }
 
     return (
-        // <Container>
-        //     <b>
-        //         <h3 className='pvmHeading text-slate-800'>Modify Vendor Detail ✨
-        //             <div className='my-2'>
-        //                 <Link to='/operatorConfig/userTypeManagement/viewUserType'>
-        //                     <Button type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</Button>
-        //                 </Link>
-        //             </div>
-        //         </h3>
-        //     </b>
 
-        // </Container>
+        <div className='mx-3'>
 
-
-        <Container>
-            <div>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>Modify Vendor ✨
-                        <div className='d-flex align-items-center '>
-                            <Link to='/operatorConfig/userTypeManagement/viewUserType' style={{ textDecoration: 'none' }}>
-                                <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</Button>
-                            </Link>
-                        </div>
-                    </h3>
-                    {/* <hr /> */}
-                </b>
+            <div className=' d-flex justify-content-between my-2 align-items-center'>
+                <h4 className='fw-bold mx-2'>Modify Vendor ✨
+                </h4>
+                <div className='d-flex align-items-center'>
+                    <Link to='/operatorConfig/userTypeManagement/viewUserType' state={{ value: '1' }} style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </div>
             </div>
+
+
             <div>
                 <Container>
                     <div className='d-flex justify-content-center flex-column mx-5 my-4'>
@@ -164,15 +151,15 @@ function ModifyVendor() {
                                     <TextField type='text' label="User Id" variant="outlined" value={useId} />
                                 </Col>
                                 <Col md={4}>
-                                    <TextField type='text' label="Person_Contact Name" variant="outlined" value={personContact} onChange={(e) => { setPersonContact(e.target.value) }}  />
+                                    <TextField type='text' label="Person_Contact Name" variant="outlined" value={personContact} onChange={(e) => { setPersonContact(e.target.value) }} />
                                 </Col>
                                 <Col md={4}>
-                                    <TextField type='text' label="Position" variant="outlined" value={position} onChange={(e) => { setPosition(e.target.value) }}  />
+                                    <TextField type='text' label="Position" variant="outlined" value={position} onChange={(e) => { setPosition(e.target.value) }} />
                                 </Col>
                             </Row>
                             <Row className='my-3'>
                                 <Col md={4}>
-                                    <TextField type='email' label="Email Id" variant="outlined" value={email} onChange={(e) => { setEmail(e.target.value) }}  />
+                                    <TextField type='email' label="Email Id" variant="outlined" value={email} onChange={(e) => { setEmail(e.target.value) }} />
                                 </Col>
                                 <Col md={4}>
                                     <TextField type='number' label="Comp_phone" variant="outlined" value={compPhone} onChange={(e) => { setCompPhone(e.target.value) }} />
@@ -240,8 +227,8 @@ function ModifyVendor() {
                     </div>
                 </Container>
                 <div className='d-flex justify-content-center my-5'>
-                    <Button className='btnSend mx-4'  >Submit </Button>
-                    <Button className='btnSend mx-4' onClick={clearText} >Clear</Button>
+                    <CommanButton className='btnSend mx-4'  >Submit </CommanButton>
+                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                 </div>
 
                 {/* <Row className='d-flex justify-content-center'>
@@ -340,7 +327,7 @@ function ModifyVendor() {
                     </div>
                 </Row> */}
             </div>
-        </Container>
+        </div>
     );
 
 

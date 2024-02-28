@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Row } from 'reactstrap';
-import { Link, Redirect, useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Tooltip, useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import TextArea from 'antd/es/input/TextArea';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import callApi from '../../../../serviceApi/CallApi';
+import { createVendor } from '../slice/UserTypeManagement';
+import { useDispatch, useSelector } from 'react-redux';
+import CommanButton from '../../../../components/CommanButton';
 
 
 
@@ -32,8 +33,9 @@ const role = "roleId";
 const err = "error";
 
 function AddVendor() {
-
-
+    const dispatch = useDispatch()
+    let token = useSelector(state => state.token?.data?.token)
+    const navigate = useNavigate()
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
@@ -54,8 +56,6 @@ function AddVendor() {
     const [salesMobile, setSalesMobile] = useState("");
     const [billingNumber, setBillingNumber] = useState("");
     const [countryCode, setCountryCode] = useState("");
-
-    const [responseData, setResponseData] = useState([]);
 
     const handleUserName = (e) => {
         if (e.target.value != "") {
@@ -211,11 +211,13 @@ function AddVendor() {
             // "countryCode": countryCode,
         }
         console.log(request)
-        callApi.createVendor(request)
+        dispatch(createVendor({ data: request, token: token }))
             .then((resp) => {
-                setResponseData(resp.data);
-                // setLoading(false);
-                console.log(resp.data)
+                if (resp?.payload?.status === 200) {
+                    navigate('/operatorConfig/userTypeManagement/viewUserType')
+                } else {
+                    toast.error('Internal server error')
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -248,22 +250,18 @@ function AddVendor() {
 
     return (
         <Container>
-            {
-                responseData === "User created successfully" &&
-                <Redirect to="/operatorConfig/userTypeManagement/viewUserType" />
-            }
-            <div>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>Add Vendor ✨
-                        <div className='d-flex align-items-center '>
-                            <Link to={{ pathname: '/operatorConfig/userTypeManagement/viewUserType', state:'1', }} style={{ textDecoration: 'none' }} >
-                                <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</Button>
-                            </Link>
-                        </div>
-                    </h3>
-                    {/* <hr /> */}
-                </b>
+
+            <div className=' d-flex justify-content-between my-2 align-items-center'>
+                <h4 className='fw-bold mx-2'>Add Vendor ✨
+                </h4>
+                <div className='d-flex align-items-center'>
+                    <Link to='/operatorConfig/userTypeManagement/viewUserType' state={{value:'1'}} style={{ textDecoration: 'none' }} >
+                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </div>
             </div>
+
+
             <div>
                 <Container>
                     <div className='d-flex justify-content-center flex-column mx-5 my-4'>
@@ -383,8 +381,8 @@ function AddVendor() {
                     </div>
                 </Container>
                 <div className='d-flex justify-content-center my-5'>
-                    <Button className='btnSend mx-4' onClick={onSubmit} >Submit </Button>
-                    <Button className='btnSend mx-4' onClick={clearText} >Clear</Button>
+                    <CommanButton className='btnSend mx-4' onClick={onSubmit} >Submit </CommanButton>
+                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                 </div>
 
                 {/* <Row className='d-flex justify-content-center'>

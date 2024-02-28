@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Tooltip, useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import TextArea from 'antd/es/input/TextArea';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import callApi from '../../../../serviceApi/CallApi';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { createUser, getRoleTypeNameAndId } from '../slice/UserTypeManagement';
+import { useDispatch, useSelector } from 'react-redux';
+import CommanButton from '../../../../components/CommanButton';
 
 
 
@@ -33,7 +33,9 @@ const role = "roleId";
 const err = "error";
 
 function AddUser() {
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    let token = useSelector(state => state.token?.data?.token)
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
@@ -46,12 +48,16 @@ function AddUser() {
     const [sms, setSms] = useState("");
 
     const [roleView, setRoleView] = useState([]);
+
+
     const getListofRoleType = () => {
-        callApi.getRoleTypeNameAndId()
+        dispatch(getRoleTypeNameAndId(token))
             .then((resp) => {
-                setRoleView(resp.data.body[0]);
-                // setLoading(false);
-                // console.log(resp.data.body[0])
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setRoleView(resp?.payload?.data?.body[0]);
+                } else {
+                    toast.error('Internal server error')
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -191,15 +197,17 @@ function AddUser() {
                     setMobileNo(mobileNo);
                     setEmail(email);
 
-                    callApi.createUser(request)
+                    dispatch(createUser({ data: request, token: token }))
                         .then((resp) => {
-                            setResponseData(resp.data.message); 
-                            toast.success("Added Successfully");
-                            // console.log(resp.data.message)
+                            if (resp?.payload?.data?.httpStatusCode === 200) {
+                                setResponseData(resp?.payload?.data?.message);
+                                navigate('/operatorConfig/userTypeManagement/viewUserType')
+                            } else {
+                                toast.error('Internal server error')
+                            }
                         })
                         .catch((error) => {
-                            // console.error(error.response.data.errorMessage);
-                            toast.error(error.response.data.errorMessage);
+                            toast.error('Error while creating');
                         });
 
                 }
@@ -240,21 +248,19 @@ function AddUser() {
 
     return (
         <Container>
-            {
+            {/* {
                 responseData === "User Created Sucessfully" &&
                 <Redirect to="/operatorConfig/userTypeManagement/viewUserType" />
-            }
+            } */}
             <div>
-                <div>
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>Add User ✨
-                            <div className='d-flex align-items-center '>
-                                <Link to={{ pathname: '/operatorConfig/userTypeManagement/viewUserType', state: '0' }} style={{ textDecoration: 'none' }}>
-                                    <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</Button>
-                                </Link>
-                            </div>
-                        </h3>
-                    </b>
+                <div className=' d-flex justify-content-between my-2 align-items-center'>
+                    <h4 className='fw-bold mx-2'>Add User ✨
+                    </h4>
+                    <div className='d-flex align-items-center'>
+                        <Link to='/operatorConfig/userTypeManagement/viewUserType' state={{ value: '0' }} style={{ textDecoration: 'none' }}>
+                            <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                        </Link>
+                    </div>
                 </div>
                 <div>
                     <Row className='d-flex justify-content-center'>
@@ -346,8 +352,8 @@ function AddUser() {
                     </Row>
                 </div>
                 <div className='d-flex justify-content-center my-4'>
-                    <Button className='btnSend mx-4' onClick={validate} >Submit </Button>
-                    <Button className='btnSend mx-4' onClick={clearText} >Clear</Button>
+                    <CommanButton className='btnSend mx-4' onClick={validate} >Submit </CommanButton>
+                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                 </div>
             </div>
         </Container >

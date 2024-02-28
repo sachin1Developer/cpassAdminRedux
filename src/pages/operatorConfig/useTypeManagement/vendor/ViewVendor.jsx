@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Input, Row } from 'reactstrap';
-import { Link, Redirect, useLocation } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Modal } from 'react-bootstrap';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import callApi from '../../../../serviceApi/CallApi';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteVendorById, getVendorList } from '../slice/UserTypeManagement';
+import CommanButton from '../../../../components/CommanButton';
 
 
 function ViewVendor() {
-
+    const dispatch = useDispatch()
+    let token = useSelector(state => state.token?.data?.token)
 
     const [vendorList, setVendorList] = useState([]);
 
     const getVendorData = () => {
-        callApi.getVendorList()
+        dispatch(getVendorList(token))
             .then((resp) => {
                 // console.log(resp.data)
-                setVendorList(resp.data);
+                if (resp?.payload?.status === 200) {
+                    setVendorList(resp?.payload?.data);
+                } else {
+                    toast.error('Internal server error');
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -30,14 +37,13 @@ function ViewVendor() {
 
 
     const deleteVendorData = (id) => {
-        callApi.deleteVendorById(id)
+        dispatch(deleteVendorById({ id: id, token: token }))
             .then((resp) => {
-                console.log(resp)
-                if (resp.status === 200) {
+                if (resp?.payload?.status === 200) {
                     toast.success('Deleted successfully');
                     getVendorData();
                 } else {
-                    toast.error('Error while delete');
+                    toast.error('Internal server error');
                 }
             })
             .catch((error) => {
@@ -54,22 +60,19 @@ function ViewVendor() {
 
 
     return (
-        <Container>
-            <div className=''>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>View Vendor ✨
-                        <div className='d-flex align-items-center '>
-                            {/* <Link to='/operatorConfig/userTypeManagement/addVendor' */}
-                            <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
-                                <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add Vendor</Button>
-                            </Link>
-                            {/*  <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
-                                <Button type="submit" className="btnBack mb-3 mx-2  d-flex align-items-center" ><ManageSearchIcon />Search Blacklist</Button>
-                            </Link> */}
-                        </div>
-                    </h3>
-                </b>
+        <div className='mx-3'>
+
+            <div className=' d-flex justify-content-between my-2 align-items-center'>
+                <h4 className='fw-bold mx-2'>View Vendor ✨
+                </h4>
+                <div className='d-flex align-items-center'>
+                    <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
+                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add Vendor</CommanButton>
+                    </Link>
+                </div>
             </div>
+
+
             <div>
                 <TableContainer style={{ backgroundColor: '', width: '900px' }} >
                     <Table sx={{}} aria-label="simple table">
@@ -95,7 +98,7 @@ function ViewVendor() {
                     </Table>
                 </TableContainer>
             </div>
-        </Container>
+        </div>
     );
 
 
@@ -122,15 +125,8 @@ const ViewVendorTypeList = ({ list, remove }) => {
     }
 
 
-
-    const token = localStorage.getItem("Bearer");
-
-
     return (
         <TableBody className="">
-            {
-                token === null && <Redirect to='/' />
-            }
             <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600', fontSize: '12px', padding: '0' }}>
                     {data.userid}
@@ -148,18 +144,14 @@ const ViewVendorTypeList = ({ list, remove }) => {
                     {data.mobileNum}
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', padding: '0' }}>
-                    <Link style={{ color: 'rgb(100,116,139)' }} to={{
-                        pathname: '/operatorConfig/userTypeManagement/viewVendorDetail',
-                        state: { data: data.userid },
-                    }}>
+                    <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/userTypeManagement/viewVendorDetail/${data.userid}`}
+                    >
                         <VisibilityOutlinedIcon />
                     </Link>
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', padding: '0' }}>
-                    <Link style={{ color: 'black' }} to={{
-                        pathname: '/operatorConfig/userTypeManagement/modifyVendor',
-                        state: { data: data },
-                    }}>
+                    <Link style={{ color: 'black' }} to='/operatorConfig/userTypeManagement/modifyVendor'
+                        state={{ data: data }} >
                         <EditNoteSharpIcon />
                     </Link>
                 </TableCell>

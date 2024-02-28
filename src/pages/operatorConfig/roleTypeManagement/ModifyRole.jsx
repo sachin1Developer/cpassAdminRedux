@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Input, Row } from 'reactstrap';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box, Checkbox, FormControlLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
-import callApi from '../../../serviceApi/CallApi';
 import { toast } from 'react-toastify';
 import { Textarea } from '@mui/joy';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllHttpLinks, getRoleDetailsById, modifyRoleTypeManagement } from './slice/RoleTypeManagement';
+import CommanButton from '../../../components/CommanButton';
 
 
 function ModifyRole() {
 
-    const location = useLocation();
-    console.log(location.state.data);
+    const { id } = useParams()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    let token = useSelector(state => state.token?.data?.token)
 
     const [httpLinks, setHttpLinks] = useState([]);
     const [nameOnly, setNameOnly] = useState([]);
     const [dataWithoutDuplicat, setDataWithoutDuplicat] = useState([]);
     const [rolesCreateResponse, setRolesCreateResponse] = useState([]);
     const roleId = localStorage.getItem("RoleId");
-    const [roleName, setRoleName] = useState(location.state.data?.roleName);
-    const [description, setDescription] = useState(location.state.data?.description);
+    const [roleName, setRoleName] = useState();
+    const [description, setDescription] = useState();
 
     const [detailsData, setDetailsData] = useState([]);
 
+    if ((id === null) || (id === undefined) || (parseInt(id) === 1)) {
+        navigate('/operatorConfig/viewRoleType')
+    }
+
 
     const getRoleDetails = () => {
-        callApi.getRoleDetailsById(location.state.data?.roleId)
+        dispatch(getRoleDetailsById({ token: token, id: id }))
             .then((resp) => {
-                setDetailsData([...resp.data.body[0]?.httpLinkslst]);
-                setVal(resp.data.body[0]?.httpLinkslst)
-                // setLoading(false);
-                console.log(resp.data.body[0]?.httpLinkslst)
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setDetailsData(resp?.payload?.data?.body[0]?.httpLinkslst);
+                    setRoleName(resp?.payload?.data?.body[0]?.roleName)
+                    setDescription(resp?.payload?.data?.body[0]?.description)
+                    setVal(resp?.payload?.data?.body[0]?.httpLinkslst)
+                } else {
+                    toast.error('Internal server error')
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -43,10 +52,13 @@ function ModifyRole() {
 
 
     const getHttpLinks = () => {
-        callApi.getAllHttpLinks()
+        dispatch(getAllHttpLinks(token))
             .then((resp) => {
-                // console.log(resp.data.body)
-                setHttpLinks(resp.data.body);
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setHttpLinks(resp?.payload?.data?.body);
+                } else {
+                    toast.error('Internal server error')
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -56,21 +68,25 @@ function ModifyRole() {
 
     const modifyRoles = () => {
         const request = {
-            "roleId": location.state.data?.roleId,
+            "roleId": id,
             "roleName": roleName,
             "description": description,
             "httpLinkslst": val
         }
         console.log(request)
-        callApi.updateRoleType(request)
+        dispatch(modifyRoleTypeManagement({ token: token, data: request }))
             .then((resp) => {
-                console.log(resp.data.message)
-                setRolesCreateResponse(resp.data.message);
-                toast.success(resp.data.message);
+                console.log(resp?.payload?.data?.message)
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setRolesCreateResponse(resp?.payload?.data?.message);
+                    toast.success(resp?.payload?.data?.message);
+                }else{
+                    toast.error('Interval server error')
+                }
             })
             .catch((error) => {
                 console.error(error);
-                toast.error(rolesCreateResponse);
+                toast.error("error while updating");
             });
     }
 
@@ -211,10 +227,10 @@ function ModifyRole() {
 
     return (
         <Container>
-            {
+            {/* {
                 rolesCreateResponse === "roll is updated" &&
                 <Redirect to="/operatorConfig/viewRoleType" />
-            }
+            } */}
             <div className='d-flex justify-content-between'>
                 <div className='d-flex'>
                     <b>
@@ -223,7 +239,7 @@ function ModifyRole() {
                 </div>
                 <div className='d-flex'>
                     <Link to='/operatorConfig/viewRoleType'>
-                        <Button type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</Button>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
                     </Link>
                 </div>
 
@@ -263,7 +279,7 @@ function ModifyRole() {
 
             </div>
             <div className='d-flex justify-content-center'>
-                <Button className='btnBack my-4' onClick={modifyRoles}>Submit</Button>
+                <CommanButton className='btnBack my-4' onClick={modifyRoles}>Submit</CommanButton>
             </div>
 
         </Container >

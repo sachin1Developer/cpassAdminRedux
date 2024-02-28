@@ -144,59 +144,59 @@ const PlayGround = () => {
                 <Menu menuItemStyles={menuItemStyles}>
                     <MenuItem component={<Link to="/" />} icon={<DashboardSharpIcon style={{ color: 'white' }} />}> Dashboard </MenuItem>
                     <SubMenu label="Campaign Configuration" icon={<PermDataSettingSharpIcon style={{ color: 'white' }} />}>
-                            <SubMenu label="Campaigns" icon={<CampaignSharpIcon style={{ color: 'white' }} />}>
-                                <MenuItem  icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
-                                <MenuItem  icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem>
-                                <MenuItem  icon={<ApprovalSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignApproval" />}> Campaign Approval </MenuItem>
-                                <MenuItem  icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem>
-                            </SubMenu>
+                        <SubMenu label="Campaigns" icon={<CampaignSharpIcon style={{ color: 'white' }} />}>
+                            <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
+                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem>
+                            <MenuItem icon={<ApprovalSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignApproval" />}> Campaign Approval </MenuItem>
+                            <MenuItem icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem>
+                        </SubMenu>
 
-                            <MenuItem component={<Link to="/groupManagement/groupManager" />} icon={<Diversity1SharpIcon style={{ color: 'white' }} />}> Group Manager </MenuItem>
+                        {/* <MenuItem component={<Link to="/groupManagement/groupManager" />} icon={<Diversity1SharpIcon style={{ color: 'white' }} />}> Group Manager </MenuItem> */}
 
-                            <SubMenu label="Segment Management" icon={<SegmentSharpIcon style={{ color: 'white' }} />}>
+                        {/* <SubMenu label="Segment Management" icon={<SegmentSharpIcon style={{ color: 'white' }} />}>
 
-                                <MenuItem  icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/viewSegmenet" />}> View Segment </MenuItem>
+                            <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/viewSegmenet" />}> View Segment </MenuItem>
 
-                                <MenuItem  icon={<LocationSearchingSharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/mapSegment" />}> Add/Map Group to Segment </MenuItem>
+                            <MenuItem icon={<LocationSearchingSharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/mapSegment" />}> Add/Map Group to Segment </MenuItem>
 
-                                <MenuItem  icon={<Groups3SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/viewGroup" />}> View Group </MenuItem>
+                            <MenuItem icon={<Groups3SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/viewGroup" />}> View Group </MenuItem>
 
-                                <MenuItem  icon={<Groups3SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/segmentAutomate" />}> Segment Automate </MenuItem>
-
-
-                                <MenuItem  icon={<Diversity1SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/groupAutomate" />}> Group Automate </MenuItem>
-
-                            </SubMenu>
-
-                            <MenuItem component={<Link to="/productManagement" />} icon={<InventorySharpIcon style={{ color: 'white' }} />}> Product Management </MenuItem>
-
-                            <MenuItem component={<Link to="/templates/viewTemplates" />} icon={<ReceiptSharpIcon style={{ color: 'white' }} />}> Templates </MenuItem>
+                            <MenuItem icon={<Groups3SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/segmentAutomate" />}> Segment Automate </MenuItem>
 
 
-                            <MenuItem component={<Link to="/triggerCampaign" />} icon={<WhatshotSharpIcon style={{ color: 'white' }} />}> Trigger Campaign </MenuItem>
+                            <MenuItem icon={<Diversity1SharpIcon style={{ color: 'white' }} />} component={<Link to="/segment/groupAutomate" />}> Group Automate </MenuItem>
 
-                            <MenuItem component={<Link to="/btl" />} icon={<VerticalAlignTopSharpIcon style={{ color: 'white' }} />}> BTL </MenuItem>
+                        </SubMenu> */}
+
+                        {/* <MenuItem component={<Link to="/productManagement" />} icon={<InventorySharpIcon style={{ color: 'white' }} />}> Product Management </MenuItem> */}
+
+                        <MenuItem component={<Link to="/templates/viewTemplates" />} icon={<ReceiptSharpIcon style={{ color: 'white' }} />}> Templates </MenuItem>
+
+
+                        {/* <MenuItem component={<Link to="/triggerCampaign" />} icon={<WhatshotSharpIcon style={{ color: 'white' }} />}> Trigger Campaign </MenuItem>
+
+                        <MenuItem component={<Link to="/btl" />} icon={<VerticalAlignTopSharpIcon style={{ color: 'white' }} />}> BTL </MenuItem> */}
                     </SubMenu>
 
 
 
                     <SubMenu label="Operator Configuration " className='submenu' icon={<WebhookIcon style={{ color: 'white' }} />}>
-                            <MenuItem className='submenuCamp text-wrap' icon={<AppSettingsAltIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewSubscriberRange" />}> Subscriber Range Management </MenuItem>
+                        <MenuItem className='submenuCamp text-wrap' icon={<AppSettingsAltIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewSubscriberRange" />}> Subscriber Range Management </MenuItem>
 
-                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewPolicy" />}> Policy Management  </MenuItem>
+                        <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewPolicy" />}> Policy Management  </MenuItem>
 
-                            <MenuItem icon={<ContactEmergencyIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/blacklistManagemment/addBlacklist" />}> Blacklist Management </MenuItem>
+                        <MenuItem icon={<ContactEmergencyIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/blacklistManagemment/addBlacklist" />}> Blacklist Management </MenuItem>
 
-                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewRoleType" />}>Role Type Management  </MenuItem>
+                        <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/viewRoleType" />}>Role Type Management  </MenuItem>
 
-                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/userTypeManagement/viewUserType" />}>User Type Management  </MenuItem>
+                        <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/userTypeManagement/viewUserType" />}>User Type Management  </MenuItem>
 
-                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/userActivityManagement" />}>User Activity Management  </MenuItem>
+                        <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/operatorConfig/userActivityManagement" />}>User Activity Management  </MenuItem>
                     </SubMenu>
 
                     <SubMenu label="System Configuration" className='submenu' icon={<SettingsSuggestIcon style={{ color: 'white' }} />}>
 
-                        <MenuItem icon={<AppSettingsAltIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/applicationConfiguration" />}> Application Configuration </MenuItem>
+                        {/* <MenuItem icon={<AppSettingsAltIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/applicationConfiguration" />}> Application Configuration </MenuItem> */}
 
                         <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/inventoryConfiguration" />}> Inventory Configuration </MenuItem>
 
@@ -226,7 +226,7 @@ const PlayGround = () => {
             </Sidebar>
             <main className='w-100 container-fluid'  >
                 <HeaderComponent />
-
+                <hr style={{margin:0,padding:0 , marginBottom:'1em'}} />
                 <Outlet />
 
             </main>

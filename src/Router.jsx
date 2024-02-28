@@ -17,6 +17,15 @@ import ModifyBlacklistRange from "./pages/operatorConfig/blacklistManagement/Mod
 import ViewRoleType from "./pages/operatorConfig/roleTypeManagement/ViewRoleType";
 import ViewDetailsRole from "./pages/operatorConfig/roleTypeManagement/ViewDetailsRole";
 import AddRoleType from "./pages/operatorConfig/roleTypeManagement/AddRoleType";
+import ModifyRole from "./pages/operatorConfig/roleTypeManagement/ModifyRole";
+import ViewUserType from "./pages/operatorConfig/useTypeManagement/ViewUserType";
+import AddUser from "./pages/operatorConfig/useTypeManagement/user/AddUser";
+import ViewDetailsUser from "./pages/operatorConfig/useTypeManagement/user/ViewDetailsUser";
+import ModifyUser from "./pages/operatorConfig/useTypeManagement/user/ModifyUser";
+import AddVendor from "./pages/operatorConfig/useTypeManagement/vendor/AddVendor";
+import ViewDetailsVendor from "./pages/operatorConfig/useTypeManagement/vendor/ViewDetailsVendor";
+import ModifyVendor from "./pages/operatorConfig/useTypeManagement/vendor/ModifyVendor";
+import UserActivity from "./pages/operatorConfig/userActivityManagement/UserActivity";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
@@ -50,9 +59,21 @@ const Router = createBrowserRouter(
                 <Route path="/operatorConfig/viewRoleType" element={<ViewRoleType />} />
                 <Route path="/operatorConfig/viewDetailsRole/:id" element={<ViewDetailsRole />} />
                 <Route path="/operatorConfig/addRoleType" element={<AddRoleType />} />
-                {/* <Route path="/operatorConfig/modifyRoleType" element={<ModifyRole />} /> */}
+                <Route path="/operatorConfig/modifyRoleType/:id" element={<ModifyRole />} />
 
 
+                {/* User Type */}
+                <Route path="/operatorConfig/userTypeManagement/viewUserType" element={<ViewUserType />} />
+
+                <Route path="/operatorConfig/userTypeManagement/addUserType" element={<AddUser />} />
+                <Route path="/operatorConfig/userTypeManagement/viewUserTypeDetail/:name" element={<ViewDetailsUser />} />
+                <Route path="/operatorConfig/userTypeManagement/modifyUserType" element={<ModifyUser />} />
+
+                <Route path="/operatorConfig/userTypeManagement/addVendor" element={<AddVendor />} />
+                <Route path="/operatorConfig/userTypeManagement/viewVendorDetail/:id" element={<ViewDetailsVendor />} />
+                <Route path="/operatorConfig/userTypeManagement/modifyVendor" element={<ModifyVendor />} />
+
+                <Route path="/operatorConfig/userActivityManagement" element={<UserActivity />} />
 
             </Route>
         </>

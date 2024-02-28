@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'reactstrap';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Tooltip, useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import TextArea from 'antd/es/input/TextArea';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import callApi from '../../../../serviceApi/CallApi';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import CommanButton from '../../../../components/CommanButton';
+import { getRoleTypeNameAndId, modifyUserType } from '../slice/UserTypeManagement';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -34,6 +34,9 @@ const role = "roleId";
 const err = "error";
 
 function ModifyUser() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    let token = useSelector(state => state.token?.data?.token)
     const location = useLocation();
     console.log(location.state.data)
     const limit = JSON.parse(location.state.data?.total_limit)
@@ -50,9 +53,13 @@ function ModifyUser() {
     const [sms, setSms] = useState(limit?.smsLimit);
     const [roleView, setRoleView] = useState([]);
     const getListofRoleType = () => {
-        callApi.getRoleTypeNameAndId()
+        dispatch(getRoleTypeNameAndId(token))
             .then((resp) => {
-                setRoleView(resp.data.body[0]);
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setRoleView(resp?.payload?.data?.body[0]);
+                } else {
+                    toast.error('Internal server error')
+                }
                 // console.log(resp.data.body[0])
             })
             .catch((error) => {
@@ -130,7 +137,7 @@ function ModifyUser() {
             })
         }
     };
-    const [responseData, setResponseData] = useState([]);
+    
     const validate = () => {
         let flag = false;
         let request = {
@@ -145,10 +152,14 @@ function ModifyUser() {
         if (request != null) {
             console.log(request)
 
-            callApi.updateUser(request)
+            dispatch(modifyUserType({ data: request, token: token }))
                 .then((resp) => {
-                    setResponseData(resp.data.message);
-                    console.log(resp.data.message)
+                    if (resp?.payload?.data?.httpStatusCode === 200) {
+                        navigate('/operatorConfig/userTypeManagement/viewUserType')
+                    } else {
+                        toast.error('Internal server error')
+                    }
+                    console.log(resp?.payload?.data.message)
                 })
                 .catch((error) => {
                     // console.error(error.response.data.errorMessage);
@@ -177,21 +188,19 @@ function ModifyUser() {
 
     return (
         <Container>
-            {
-                responseData === "User updated successfully" &&
-                <Redirect to="/operatorConfig/userTypeManagement/viewUserType" />
-            }
-            <div>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>Modify User Detail ✨
-                        <div className='my-2'>
-                            <Link to='/operatorConfig/userTypeManagement/viewUserType'>
-                                <Button type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</Button>
-                            </Link>
-                        </div>
-                    </h3>
-                </b>
+
+
+            <div className=' d-flex justify-content-between my-2 align-items-center'>
+                <h4 className='fw-bold mx-2'>Modify User Detail ✨
+                </h4>
+                <div className='d-flex align-items-center'>
+                    <Link to='/operatorConfig/userTypeManagement/viewUserType'>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </div>
             </div>
+
+
             <div>
                 <Row className='d-flex justify-content-center'>
                     <Col sm={4} className='d-flex flex-column'>
@@ -246,8 +255,8 @@ function ModifyUser() {
                         <TextField className='' id="outlined-basic" type='email' label="Email Id" variant="outlined" />
                     </div> */}
                     <div className='d-flex justify-content-center my-5'>
-                        <Button className='btnSend mx-4' onClick={validate} >Submit </Button>
-                        <Button className='btnSend mx-4' onClick={clearText} >Clear</Button>
+                        <CommanButton className='btnSend mx-4' onClick={validate} >Submit </CommanButton>
+                        <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                     </div>
                 </Row>
             </div>

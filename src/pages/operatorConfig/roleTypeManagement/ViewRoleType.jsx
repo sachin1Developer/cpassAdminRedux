@@ -139,8 +139,7 @@ const ViewRoles = ({ index, list, remove }) => {
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
                     {data.roleId === 1 ? <EditNoteSharpIcon style={{ color: 'rgb(100,116,139)' }} />
-                        : <Link style={{ color: 'rgb(100,116,139)' }} to='/operatorConfig/modifyRoleType'
-                            state={{ data: data }} >
+                        : <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/modifyRoleType/${data.roleId}`} >
                             <EditNoteSharpIcon />
                         </Link>
                     }

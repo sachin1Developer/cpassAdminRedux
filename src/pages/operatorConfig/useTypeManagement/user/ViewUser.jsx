@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Input, Row } from 'reactstrap';
-import { Link, Redirect, useLocation } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { Link, } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Modal } from 'react-bootstrap';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import callApi from '../../../../serviceApi/CallApi';
 import { toast } from 'react-toastify';
-import { NavMenuContext } from 'rsuite/esm/Nav/NavMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUserByName, getUserList } from '../slice/UserTypeManagement';
+import CommanButton from '../../../../components/CommanButton';
 
 
 function ViewUser() {
+    const dispatch = useDispatch()
+    let token = useSelector(state => state.token?.data?.token)
     const [userView, setUserView] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1)
     const perPage = 10;
 
     const getListofUser = () => {
-        callApi.getUserList()
+        dispatch(getUserList(token))
             .then((resp) => {
-                setUserView(resp.data.body[0]);
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setUserView(resp?.payload?.data?.body[0]);
+                }else{
+                    toast.error('Internal server error')
+                }
                 // setLoading(false);
                 // console.log(resp.data.body)
             })
@@ -42,9 +49,9 @@ function ViewUser() {
 
 
     const onDelete = (name) => {
-        callApi.deleteuserByName(name)
+        dispatch(deleteUserByName({ token: token, id: name }))
             .then((res) => {
-                if (res.status === 200) {
+                if (res?.payload?.status === 200) {
                     toast.success('Deleted successfully');
                     getListofUser();
                 } else {
@@ -55,23 +62,20 @@ function ViewUser() {
 
 
     return (
-        <Container>
-            <div className=''>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>View User ✨
-                        <div className='d-flex align-items-center '>
-                            <Link to='/operatorConfig/userTypeManagement/addUserType' style={{ textDecoration: 'none' }}>
-                                <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add User</Button>
-                            </Link>
-                            {/*  <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
-                                <Button type="submit" className="btnBack mb-3 mx-2  d-flex align-items-center" ><ManageSearchIcon />Search Blacklist</Button>
-                            </Link> */}
-                        </div>
-                    </h3>
-                </b>
+        <div>
+
+            <div className=' d-flex justify-content-between my-2 align-items-center'>
+                <h4 className='fw-bold mx-2'>View User ✨
+                </h4>
+                <div className='d-flex align-items-center'>
+                    <Link to='/operatorConfig/userTypeManagement/addUserType' style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add User</CommanButton>
+                    </Link>
+                </div>
             </div>
-            <div>
-                <TableContainer style={{ backgroundColor: '', width: '900px' }} >
+
+            <div className='d-flex justify-content-center w-100'>
+                <TableContainer  >
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow className='bodyColor'>
@@ -96,7 +100,7 @@ function ViewUser() {
             <div className='d-flex justify-content-center my-4'>
                 <Pagination count={Math.ceil(userView.length / 10)} color="primary" onChange={(e, p) => setCurrentPage(p)} />
             </div>
-        </Container>
+        </div>
     );
 
 
@@ -121,14 +125,10 @@ const ViewUserTypeList = ({ key, data, deleteUser }) => {
         setModal(!modal);
     }
 
-    const token = localStorage.getItem("Bearer");
 
 
     return (
         <TableBody className="">
-            {
-                token === null && <Redirect to='/' />
-            }
             <TableRow key={key} sx={{ '&:last-child td, &:last-child th': { border: 0, padding: 1 } }}>
                 <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600', fontSize: '12px', padding: '0' }}>
                     {data?.USERNAME}
@@ -141,18 +141,13 @@ const ViewUserTypeList = ({ key, data, deleteUser }) => {
                     {limit.obdLimit}
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', padding: '0' }}>
-                    <Link style={{ color: 'rgb(100,116,139)' }} to={{
-                        pathname: '/operatorConfig/userTypeManagement/viewUserTypeDetail',
-                        state: { data: data },
-                    }}>
+                    <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/userTypeManagement/viewUserTypeDetail/${data?.USERNAME}`} >
                         <VisibilityOutlinedIcon />
                     </Link>
                 </TableCell>
                 <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', padding: '0' }}>
-                    <Link style={{ color: 'black' }} to={{
-                        pathname: '/operatorConfig/userTypeManagement/modifyUserType',
-                        state: { data: data },
-                    }}>
+                    <Link style={{ color: 'black' }} to='/operatorConfig/userTypeManagement/modifyUserType'
+                        state={ {data: data} } >
                         <EditNoteSharpIcon />
                     </Link>
                 </TableCell>

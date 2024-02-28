@@ -8,20 +8,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination } from "@mui/material";
-import callApi from '../../../serviceApi/CallApi';
 import { toast } from 'react-toastify';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserActivity } from './slice/UserActivityManagement';
+import CommanButton from '../../../components/CommanButton';
 
 
 
 
 
 function UserActivity() {
+    const dispatch = useDispatch()
+    let token = useSelector(state => state.token?.data?.token)
+    let userId = useSelector(state => state.vendor?.data?.user_id)
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null);
-    let userId = localStorage.getItem("UserId")
     // console.log(userId)
     const [responseData, setResponseData] = useState([]);
     const [isActive, setIsActive] = useState(false)
@@ -38,10 +41,11 @@ function UserActivity() {
             let sDate = dayjs(startDate).format().slice(0, 19);
             let eDate = dayjs(endDate).format().slice(0, 19)
 
-            callApi.getUserActivity(sDate, eDate, userId)
+            // callApi.getUserActivity(sDate, eDate, userId)
+            dispatch(getUserActivity({ token: token, startDate: sDate, endDate: eDate, userId: userId }))
                 .then((resp) => {
-                    setResponseData(resp.data.body[0]);
-                    console.log(resp.data.body[0])
+                    setResponseData(resp?.payload?.data?.body[0]);
+                    // console.log(resp.data.body[0])
                 })
                 .catch((error) => {
                     console.error(error);
@@ -51,7 +55,7 @@ function UserActivity() {
     }
     let indexofLast = currentPage * perPage
     let indexofFirst = indexofLast - perPage
-    let activePage = responseData.slice(indexofFirst, indexofLast)
+    let activePage = responseData?.slice(indexofFirst, indexofLast)
 
 
     return (
@@ -75,9 +79,9 @@ function UserActivity() {
                     </LocalizationProvider>
                 </div>
                 <div className='d-flex'>
-                    <Button className='btnBack' onClick={() => { submitDate(startDate, endDate); setIsActive(true) }}>
+                    <CommanButton className='btnBack' onClick={() => { submitDate(startDate, endDate); setIsActive(true) }}>
                         Submit
-                    </Button>
+                    </CommanButton>
                 </div>
             </div>
 
@@ -97,7 +101,7 @@ function UserActivity() {
                                             <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Details</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    {activePage.map((searchList, index) => (
+                                    {activePage?.map((searchList, index) => (
                                         < SearchListData
                                             key={index}
                                             index={index}
@@ -107,7 +111,7 @@ function UserActivity() {
                                 </Table>
                             </TableContainer>
                             <div className='d-flex justify-content-center my-4'>
-                                <Pagination count={Math.ceil(responseData.length / 10)} color="primary" onChange={(e, p) => setCurrentPage(p)} />
+                                <Pagination count={Math.ceil(responseData?.length / 10)} color="primary" onChange={(e, p) => setCurrentPage(p)} />
                             </div>
                         </div>
 
@@ -130,18 +134,11 @@ const SearchListData = ({ index, list, remove }) => {
 
     useEffect(() => {
         setData(list);
-        // console.log(list)
     }, [list]);
-
-
-    const token = localStorage.getItem("Bearer");
 
 
     return (
         <TableBody className="">
-            {
-                token === null && <Redirect to='/' />
-            }
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="center" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
                     {data?.username}

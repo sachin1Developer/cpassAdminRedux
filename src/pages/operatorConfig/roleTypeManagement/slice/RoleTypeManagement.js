@@ -65,18 +65,18 @@ export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", 
 })
 
 
-// export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagement", async (data) => {
-//     const response = axios({
-//         method: 'put',
-//         url: `${process.env.REACT_APP_API_URL}/updateRoleType/${data.id}`,
-//         data: data.data,
-//         headers: {
-//             "Authorization": `Bearer ${data.token}`
-//         },
-//     })
-//     // console.log(response)
-//     return response;
-// })
+export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagement", async (data) => {
+    const response = axios({
+        method: 'put',
+        url: `${process.env.REACT_APP_API_URL}/updateRole`,
+        data: data.data,
+        headers: {
+            "Authorization": `Bearer ${data.token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
 
 
 export  const deleteRoleTypeManagement = createAsyncThunk("deleteRoleTypeManagement", async (data) => {
