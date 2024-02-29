@@ -26,19 +26,59 @@ import AddVendor from "./pages/operatorConfig/useTypeManagement/vendor/AddVendor
 import ViewDetailsVendor from "./pages/operatorConfig/useTypeManagement/vendor/ViewDetailsVendor";
 import ModifyVendor from "./pages/operatorConfig/useTypeManagement/vendor/ModifyVendor";
 import UserActivity from "./pages/operatorConfig/userActivityManagement/UserActivity";
+import ViewCampaign from "./pages/campaignConfig/campaign/ViewCampaign";
+import ViewTemplate from "./pages/campaignConfig/templates/ViewTemplate";
+import AddTemplate from "./pages/campaignConfig/templates/AddTemplate";
+import CampViewDetails from "./pages/campaignConfig/campaign/CampViewDetails";
+import CampaignStatus from "./pages/campaignConfig/campaign/CampaignStatus";
+import CampaignApproval from "./pages/campaignConfig/campaign/CampaignApproval";
+import ViewParam from "./pages/systemConfiguration/appConfigParam/ViewParam";
+import AddParam from "./pages/systemConfiguration/appConfigParam/AddParam";
+import ModifyParam from "./pages/systemConfiguration/appConfigParam/ModifyParam";
+import ViewCountryCode from "./pages/systemConfiguration/countryCode/ViewCountryCode";
+import AddCountryCode from "./pages/systemConfiguration/countryCode/AddCountryCode";
+import ModifyCountryCode from "./pages/systemConfiguration/countryCode/ModifyCountryCode";
+import ViewServer from "./pages/systemConfiguration/serverManagement/ViewServer";
+import AddServer from "./pages/systemConfiguration/serverManagement/AddServer";
+import ModifyServer from "./pages/systemConfiguration/serverManagement/ModifyServer";
+import ViewVoice from "./pages/systemConfiguration/voiceConfig/ViewVoice";
+import AddVoice from "./pages/systemConfiguration/voiceConfig/AddVoice";
+import ModifyVoice from "./pages/systemConfiguration/voiceConfig/ModifyVoice";
+import InventoryConfig from "./pages/systemConfiguration/inventory/InventoryConfig";
+import ModifyInventory from "./pages/systemConfiguration/inventory/ModifyInventory";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<PlayGround />} >
-                <Route path="" element={<Dashboard />} />
+            <Route  element={<PlayGround />} >
+                <Route path="/" element={<Dashboard />} />
+
+
+                {/* Campaign */}
+                <Route exact path="/camapign/viewCamapign" element={<ViewCampaign />} />
+                <Route path="/camapign/viewCampDetails" element={<CampViewDetails />} />
+                {/* <Route path="/campaign/createCampaign" element={<CreateCamp />} />
+                <Route path="/campaign/modifyCampaign" element={<CreateCamp />} /> */}
+                <Route path="/camapign/campaignStatus" element={<CampaignStatus />} />
+                <Route path="/camapign/campaignApproval" element={<CampaignApproval />} />
+
+
+                {/* Templates */}
+                <Route path="/templates/viewTemplates" element={<ViewTemplate />} />
+                <Route path="/templates/addTemplates" element={<AddTemplate />} />
+
+
+                {/* Campaign Inventory */}
+                <Route path="/systemConfiguration/inventoryConfiguration" element={<InventoryConfig />} />
+                <Route path="/systemConfiguration/modifyInventoryConfiguration" element={<ModifyInventory />} />
+
 
                 {/* Subscriber Ramge */}
-                <Route path="operatorConfig/viewSubscriberRange" element={<ViewSubsRange />} />
+                <Route path="/operatorConfig/viewSubscriberRange" element={<ViewSubsRange />} />
                 <Route path="/operatorConfig/viewDetailSubsRange" element={<VIewDetails />} />
                 <Route path="/operatorConfig/addSubscriberRange" element={<AddSubsRange />} />
-                <Route path="operatorConfig/modifySubscriberRange" element={<ModifySubsRange />} />
+                <Route path="/operatorConfig/modifySubscriberRange" element={<ModifySubsRange />} />
 
 
                 {/* Policy Management  */}
@@ -71,6 +111,29 @@ const Router = createBrowserRouter(
                 <Route path="/operatorConfig/userTypeManagement/viewVendorDetail/:id" element={<ViewDetailsVendor />} />
                 <Route path="/operatorConfig/userTypeManagement/modifyVendor" element={<ModifyVendor />} />
                 <Route path="/operatorConfig/userActivityManagement" element={<UserActivity />} />
+
+
+                {/* App Params */}
+                <Route path="/systemConfiguration/appConfigParam" element={<ViewParam />} />
+                <Route path="/systemConfiguration/addAppConfigParam" element={<AddParam />} />
+                <Route path="/systemConfiguration/modifyAppConfigParam" element={<ModifyParam />} />
+
+                {/* Country code   */}
+                <Route path="/systemConfiguration/countryCodeManagement" element={<ViewCountryCode />} />
+                <Route path="/systemConfiguration/addCountryCodeManagement" element={<AddCountryCode />} />
+                <Route path="/systemConfiguration/modifyCountryCode" element={<ModifyCountryCode />} />
+
+
+                {/* server */}
+                <Route path="/systemConfiguration/serverManagement" element={<ViewServer />} />
+                <Route path="/systemConfiguration/addServerManagement" element={<AddServer />} />
+                <Route path="/systemConfiguration/modifyServerManagement" element={<ModifyServer />} />
+
+
+                {/* Voice Configuration */}
+                <Route path="/systemConfiguration/voiceConfiguration" element={<ViewVoice />} />
+                <Route path="/systemConfiguration/AddVoiceConfiguration" element={<AddVoice />} />
+                <Route path="/systemConfiguration/modifyVoiceConfiguration" element={<ModifyVoice />} />
 
             </Route>
         </>

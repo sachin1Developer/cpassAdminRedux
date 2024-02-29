@@ -3,15 +3,14 @@ import { Link } from "react-router-dom";
 import { Button, Col, Input } from "reactstrap";
 import { Modal } from 'react-bootstrap';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Pagination, Radio, RadioGroup, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
-import TextArea from "antd/es/input/TextArea";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
-import { Padding } from "@mui/icons-material";
-import callApi from "../../../serviceApi/CallApi";
 import { toast } from "react-toastify";
+import { Textarea } from "@mui/joy";
+import { getAllCampaign, getCampaignApproval } from "./slice/Campaign";
+import { useDispatch, useSelector } from "react-redux";
 
 function CampaignApproval() {
-
+    const dispatch = useDispatch()
+    let token = useSelector(state => state?.token?.data?.token)
     const [campFilter, setCampFilter] = useState(false)
     const [campList, setcampList] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -20,9 +19,9 @@ function CampaignApproval() {
 
 
     const getCampList = () => {
-        callApi.getPVMdata()
+        dispatch(getAllCampaign(token))
             .then((resp) => {
-                setcampList(resp.data);
+                setcampList(resp?.payload?.data);
                 // console.log(resp.data)
             })
             .catch((error) => {
@@ -32,10 +31,10 @@ function CampaignApproval() {
     }
 
     const campaignApproval = (status, campId) => {
-        callApi.getCampaignApproval(status, campId)
+        dispatch(getCampaignApproval({ token: token, status: status, campId: campId }))
             .then((resp) => {
-                if (resp.data === 1) {
-                    setApprovalResp(resp.data);
+                if (resp?.payload?.data === 1) {
+                    setApprovalResp(resp?.payload?.data);
                     console.log(resp)
                     toast.info("Campaign Approved Successfully")
                     getCampList();
@@ -242,7 +241,7 @@ const ViewCampApproval = ({ list, approval }) => {
                                             <lable>Enter Msisdn :</lable>
                                         </Col>
                                         <Col sm={8}>
-                                            <TextArea className='my-2 border border-primary' id="outlined-basic" rows={3} type='text' />
+                                            <Textarea className='my-2 border border-primary' id="outlined-basic" rows={3} type='text' />
                                         </Col>
                                     </div>
                                 </div>

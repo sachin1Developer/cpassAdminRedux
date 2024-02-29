@@ -86,7 +86,7 @@ function UserActivity() {
             </div>
 
 
-            {responseData != "" &&
+            {responseData !== "" &&
                 < div >
                     {isActive &&
                         <div className='my-4' id='search'>

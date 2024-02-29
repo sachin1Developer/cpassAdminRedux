@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Input } from "reactstrap";
 import AddIcon from '@mui/icons-material/Add';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import callApi from "../../../serviceApi/CallApi";
 import { Modal } from 'react-bootstrap';
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import CommanButton from "../../../components/CommanButton";
+import { deleteCampaignById, getCampaignByDistinct } from "./slice/Campaign";
 
 
 function ViewCampaign() {
+    const dispatch = useDispatch()
+    let token = useSelector(state => state?.token?.data?.token)
 
     const [campFilter, setCampFilter] = useState(false)
 
     const [campList, setCampList] = useState([])
 
     const getCampaignList = () => {
-        callApi.getCampaignByDistinct()
+        dispatch(getCampaignByDistinct(token))
             .then((resp) => {
-                setCampList(resp.data);
+                setCampList(resp?.payload?.data);
                 console.log(resp.data)
             })
             .catch((error) => {
@@ -40,9 +44,9 @@ function ViewCampaign() {
 
 
     const onDelete = (id) => {
-        callApi.deleteCampaign(id)
+        dispatch(deleteCampaignById({ id: id, token: token }))
             .then((res) => {
-                if (res.status === 200) {
+                if (res?.payload?.status === 200) {
                     toast.success("Deleted Successfully");
                     getCampaignList();
                 } else {
@@ -55,23 +59,21 @@ function ViewCampaign() {
             });
     }
 
-    const token = localStorage.getItem("Bearer");
 
     return (
         <div className='d-flex'>
-            {token === null && <Redirect to='/' />}
             <div className='container my-2'>
                 <div className="mx-4">
-                    <b>
+                    {/* <b>
                         <h5 className='campFilter '> Campaign Filter
                             <div className=''>
-                                <Button style={{ border: 'none', textDecoration: 'none', backgroundColor: 'transparent', }} onClick={() => { setCampFilter(!campFilter) }}>
+                                <CommanButton style={{ border: 'none', textDecoration: 'none', backgroundColor: 'transparent', }} onClick={() => { setCampFilter(!campFilter) }}>
                                     {campFilter ?
                                         <div className="btnBack mb-3" ><IndeterminateCheckBoxIcon /></div>
                                         :
                                         <div className="btnBack mb-3" ><AddBoxIcon /></div>
                                     }
-                                </Button>
+                                </CommanButton>
                             </div>
                         </h5>
                     </b>
@@ -81,20 +83,17 @@ function ViewCampaign() {
                         <div className="d-flex justify-content-end mx-2 " style={{ fontSize: '13px' }}>
                             New | Running | Approve | Paused | Completed | Reject | All | Date Wise
                         </div>
-                    }
+                    } */}
 
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>View Campaign ✨
-                            <div className='my-2'>
-                                {/* <Link to="/createCampaign/pvm/addPVM" style={{ textDecoration: 'none' }}>
-                                    <Button type="submit" className="btnBack mb-3" ><AddIcon />Create Dynamic Campaign</Button>
-                                </Link> &nbsp; */}
-                                <Link to="/campaign/createCampaign" style={{ textDecoration: 'none' }}>
-                                    <Button type="submit" className="btnBack mb-3" ><AddIcon />Create Campaign</Button>
-                                </Link>
-                            </div>
-                        </h3>
-                    </b>
+
+                    <div className=' d-flex justify-content-between my-2 align-items-center'>
+                        <h4 className='fw-bold mx-2'>View Campaign ✨</h4>
+                        <div className='d-flex align-items-center'>
+                            <Link to="/campaign/createCampaign" style={{ textDecoration: 'none' }}>
+                                <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Create Campaign</CommanButton>
+                            </Link>
+                        </div>
+                    </div>
 
                     <TableContainer style={{ backgroundColor: '' }}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -148,7 +147,6 @@ const ViewCampList = ({ list, remove }) => {
         setModal(!modal);
     }
 
-    const token = localStorage.getItem("Bearer");
     const campStatus = () => {
         let statusCamp = ''
         if (status === 'N') {
@@ -169,9 +167,6 @@ const ViewCampList = ({ list, remove }) => {
 
     return (
         <TableBody className="">
-            {
-                token === null && <Redirect to='/' />
-            }
             <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" align="center" scope="row" style={{ color: 'rgb(40,165,233)', fontWeight: '600', fontSize: '15px', height: '4em' }}>
                     {data.CAMPAIGN_ID}
@@ -186,10 +181,8 @@ const ViewCampList = ({ list, remove }) => {
                     {/* </Link> */}
                 </TableCell>
                 <TableCell align="center" >
-                    <Link style={{ color: 'rgb(100,116,139)' }} to={{
-                        pathname: '/camapign/viewCampDetails',
-                        state: { data: data },
-                    }}>
+                    <Link style={{ color: 'rgb(100,116,139)' }} to='/camapign/viewCampDetails'
+                        state={{ data: data }}>
                         <VisibilityOutlinedIcon />
                     </Link>
                 </TableCell>

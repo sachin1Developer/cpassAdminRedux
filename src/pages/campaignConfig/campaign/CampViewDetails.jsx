@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
-import CreditBarComponent from '../../creditLimit/CreditBarComponent';
-import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function CampViewDetails(props) {
     const location = useLocation();
     const data = location.state.data;
-    console.log(data)
+    // console.log(data)
 
-   
 
     return (
         <div className='' >

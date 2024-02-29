@@ -4,7 +4,9 @@ import { Button, Col, Input, Row, Tooltip } from "reactstrap";
 import AddIcon from '@mui/icons-material/Add';
 import { Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import TextArea from "antd/es/input/TextArea";
+import { Textarea } from "@mui/joy";
+import CommanButton from "../../../components/CommanButton";
+// import TextArea from "antd/es/input/TextArea";
 
 
 
@@ -17,16 +19,15 @@ function AddTemplate() {
         <div className='d-flex mb-4'>
             <div className='container-fluid my-2'>
                 <div className="mx-4">
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>Dynamic Template System ✨
-                            <div className='my-2'>
-                                <Link to="/templates/viewTemplates" style={{ textDecoration: 'none' }}>
-                                    <Button type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</Button>
-                                </Link> &nbsp;
-                            </div>
-                        </h3>
-                        <h5 className="mx-3">Add Template ✨</h5>
-                    </b>
+                    <div className=' d-flex justify-content-between my-2 align-items-center'>
+                        <h4 className='fw-bold mx-2'>Dynamic Template System ✨</h4>
+                        <div className='d-flex align-items-center'>
+                            <Link to="/templates/viewTemplates" style={{ textDecoration: 'none' }}>
+                                <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                            </Link>
+                        </div>
+                    </div>
+                    <h5 className="mx-3">Add Template ✨</h5>
                     <Row className="d-flex">
                         <div className="d-flex container-fluid ">
                             <Col style={{ display: 'flex', justifyContent: 'space-around', padding: '1em' }}>
@@ -41,14 +42,14 @@ function AddTemplate() {
                                                     </TableCell>
                                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: '', display: 'flex', alignContent: 'center' }}>Template Message : </TableCell>
                                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: '' }}>
-                                                        <TextArea type="text" rows="1" className=" border-secondary w-100" required />
+                                                        <Textarea type="text" rows="1" className=" border-secondary w-100" required />
                                                         <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> Specify NA As Default </label>
                                                     </TableCell>
                                                 </TableRow>
                                                 <TableRow className='bodyColor'>
                                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: '', display: 'flex', alignContent: 'center' }}>Template Description: </TableCell>
                                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: '' }}>
-                                                        <TextArea type="text" rows="1" className=" border-secondary w-100" required />
+                                                        <Textarea type="text" rows="1" className=" border-secondary w-100" required />
                                                         <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> Specify NA As Default </label>
                                                     </TableCell>
                                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: '', display: 'flex', alignContent: 'center' }}>Voice Type : </TableCell>

@@ -58,6 +58,7 @@ const Login = () => {
                     const redirectStatus = resp.data.httpStatusCode;
 
                     if (redirectStatus === 200) {
+                        console.log(resp)
                         const links = resp.data?.body[2]?.httpLinkslst
                         links?.map((link) => {
                             if (link?.linkId === parseInt(process.env.REACT_APP_CAMPAIGN_APPROVAL_LINK)) {

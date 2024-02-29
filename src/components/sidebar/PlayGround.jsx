@@ -115,7 +115,7 @@ const PlayGround = () => {
     }
 
     return (
-        <div style={{ display: 'flex', height: '100%' }} className='user-select-none'>
+        <div style={{ display: 'flex', height: '100%' }} >
             <Sidebar
                 collapsed={collapsed}
                 transitionDuration={"600"}
@@ -126,6 +126,7 @@ const PlayGround = () => {
                 rootStyles={{
                     color: dark.sidebar.color,
                 }}
+                // width='280'
                 style={{ height: '100vh', position: 'sticky', top: '0', left: "0" }}
             >
                 <div className='mx-2 my-4  p-3 d-flex align-items-end justify-content-center fs-3 fw-bold rounded' >
@@ -148,7 +149,7 @@ const PlayGround = () => {
                             <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
                             <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem>
                             <MenuItem icon={<ApprovalSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignApproval" />}> Campaign Approval </MenuItem>
-                            <MenuItem icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem>
+                            {/* <MenuItem icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem> */}
                         </SubMenu>
 
                         {/* <MenuItem component={<Link to="/groupManagement/groupManager" />} icon={<Diversity1SharpIcon style={{ color: 'white' }} />}> Group Manager </MenuItem> */}
@@ -201,7 +202,7 @@ const PlayGround = () => {
                         <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/inventoryConfiguration" />}> Inventory Configuration </MenuItem>
 
 
-                        <MenuItem icon={<WifiChannelIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/viewCICConfiguration" />} >CIC Configuration </MenuItem>
+                        {/* <MenuItem icon={<WifiChannelIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/viewCICConfiguration" />} >CIC Configuration </MenuItem> */}
 
                         <MenuItem icon={<AppsOutageIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/appConfigParam" />}> App Config Param </MenuItem>
 

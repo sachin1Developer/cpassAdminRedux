@@ -9,6 +9,7 @@ import { LinearProgress } from "@mui/material";
 // import { ProgressBar } from "react-bootstrap";
 import ProgressBar from "@ramonak/react-progress-bar";
 import CampaignSharpIcon from '@mui/icons-material/CampaignSharp';
+import CommanButton from "../../../components/CommanButton";
 
 function CampaignStatus() {
 
@@ -114,16 +115,16 @@ function CampaignStatus() {
                             Campaign Filter
                         </h5>
                     </Link> */}
-                    <b>
+                    {/* <b>
                         <h5 className='campFilter '> Campaign Filter
                             <div className=''>
-                                <Button style={{ border: 'none', textDecoration: 'none', backgroundColor: 'transparent', }} onClick={() => { setCampFilter(!campFilter) }}>
+                                <CommanButton style={{ border: 'none', textDecoration: 'none', backgroundColor: 'transparent', }} onClick={() => { setCampFilter(!campFilter) }}>
                                     {campFilter ?
                                         <div className="btnBack mb-3" ><IndeterminateCheckBoxIcon /></div>
                                         :
                                         <div className="btnBack mb-3" ><AddBoxIcon /></div>
                                     }
-                                </Button>
+                                </CommanButton>
                             </div>
                         </h5>
                     </b>
@@ -133,7 +134,7 @@ function CampaignStatus() {
                         <div className="d-flex justify-content-end mx-2 " style={{ fontSize: '13px' }}>
                             New | Running | Approve | Paused | Completed | Reject | All | Date Wise
                         </div>
-                    }
+                    } */}
 
                     <b>
                         <h3 className='pvmHeading text-slate-800'>View Campaign Status ✨ </h3>
