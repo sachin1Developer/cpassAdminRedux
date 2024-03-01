@@ -88,11 +88,11 @@ function ViewCampaign() {
 
                     <div className=' d-flex justify-content-between my-2 align-items-center'>
                         <h4 className='fw-bold mx-2'>View Campaign ✨</h4>
-                        <div className='d-flex align-items-center'>
+                        {/* <div className='d-flex align-items-center'>
                             <Link to="/campaign/createCampaign" style={{ textDecoration: 'none' }}>
                                 <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Create Campaign</CommanButton>
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
 
                     <TableContainer style={{ backgroundColor: '' }}>
@@ -103,11 +103,11 @@ function ViewCampaign() {
                                     <TableCell align="left" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Campaign Name</TableCell>
                                     <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Campaign Status</TableCell>
                                     <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>View</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Modify</TableCell>
+                                    {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Modify</TableCell> */}
                                     <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Delete</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>
+                                    {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>
                                         <Input type="checkbox" style={{ borderColor: 'black' }} />
-                                    </TableCell>
+                                    </TableCell> */}
                                 </TableRow>
                             </TableHead>
                             {campList.map((listCamp) => (
@@ -186,14 +186,14 @@ const ViewCampList = ({ list, remove }) => {
                         <VisibilityOutlinedIcon />
                     </Link>
                 </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
+                {/* <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
                     <Link style={{ color: 'rgb(100,116,139)' }} to={{
                         pathname: '/campaign/modifyCampaign',
                         state: { data: data.CAMPAIGN_ID },
                     }}>
                         <EditNoteSharpIcon />
                     </Link>
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="center">
                     <button className="border-0" onClick={showModal}>
                         <DeleteForeverIcon style={{ color: 'red' }} />
@@ -211,9 +211,9 @@ const ViewCampList = ({ list, remove }) => {
                         </Modal.Footer>
                     </Modal>
                 </TableCell>
-                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)' }}>
+                {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)' }}>
                     <Input type="checkbox" style={{ borderColor: 'black' }} />
-                </TableCell>
+                </TableCell> */}
             </TableRow>
         </TableBody>
     );

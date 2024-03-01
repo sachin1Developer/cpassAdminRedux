@@ -137,7 +137,7 @@ const Router = createBrowserRouter(
 
             </Route>
         </>
-    )
+    ),{basename:'/Outreach/Admin'}
 )
 
 export default Router;

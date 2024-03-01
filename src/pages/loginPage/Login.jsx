@@ -58,21 +58,27 @@ const Login = () => {
                     const redirectStatus = resp.data.httpStatusCode;
 
                     if (redirectStatus === 200) {
-                        console.log(resp)
-                        const links = resp.data?.body[2]?.httpLinkslst
-                        links?.map((link) => {
-                            if (link?.linkId === parseInt(process.env.REACT_APP_CAMPAIGN_APPROVAL_LINK)) {
-                                localStorage.setItem("campApprove", JSON.stringify(link))
-                            }
-                        })
-                        dispatch(addData(resp.data?.body[0]))
-                        dispatch(addToken(resp.data?.body[1]))
-                        const encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify(resp.data.body[0]), `${process.env.React_APP_TOKEN_SECURITY_KEY}`).toString();
-                        const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(resp.data.body[1]), `${process.env.React_APP_TOKEN_SECURITY_KEY}`).toString();
-                        localStorage.setItem("Token", encryptedToken);
-                        localStorage.setItem("UserData", encryptedUserData);
+                        if (resp.data.body[0].roleId === 1) {
 
-                        navigate('/')
+                            const links = resp.data?.body[2]?.httpLinkslst
+                            links?.map((link) => {
+                                if (link?.linkId === parseInt(process.env.REACT_APP_CAMPAIGN_APPROVAL_LINK)) {
+                                    localStorage.setItem("campApprove", JSON.stringify(link))
+                                }
+                            })
+                            dispatch(addData(resp.data?.body[0]))
+                            dispatch(addToken(resp.data?.body[1]))
+                            const encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify(resp.data.body[0]), `${process.env.React_APP_TOKEN_SECURITY_KEY}`).toString();
+                            const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(resp.data.body[1]), `${process.env.React_APP_TOKEN_SECURITY_KEY}`).toString();
+                            localStorage.setItem("Token", encryptedToken);
+                            localStorage.setItem("UserData", encryptedUserData);
+
+                            navigate('/')
+                        } else {
+                            loading.value = false
+                            toast.error("Invalid user", { position: "top-center", toastId: invalidToastId });
+                            firstElement.current.children[1].children[0].focus()
+                        }
 
                     } else {
                         loading.value = false

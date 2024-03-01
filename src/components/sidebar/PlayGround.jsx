@@ -147,7 +147,7 @@ const PlayGround = () => {
                     <SubMenu label="Campaign Configuration" icon={<PermDataSettingSharpIcon style={{ color: 'white' }} />}>
                         <SubMenu label="Campaigns" icon={<CampaignSharpIcon style={{ color: 'white' }} />}>
                             <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
-                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem>
+                            {/* <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem> */}
                             <MenuItem icon={<ApprovalSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignApproval" />}> Campaign Approval </MenuItem>
                             {/* <MenuItem icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem> */}
                         </SubMenu>
@@ -214,7 +214,7 @@ const PlayGround = () => {
 
 
                     </SubMenu>
-                    <SubMenu label="Reports" className='submenu' icon={<AssessmentIcon style={{ color: 'white' }} />}>
+                    {/* <SubMenu label="Reports" className='submenu' icon={<AssessmentIcon style={{ color: 'white' }} />}>
                         <SubMenu className='submenu' label="PVM" icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} >
                             <MenuItem className='submenu' icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to="/campaignReport/reportPVM" />}> OBD Duration </MenuItem>
                             <MenuItem className='submenu' icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to="/campaignReport/reportPVM" />}> OBD Campaign </MenuItem>
@@ -222,7 +222,7 @@ const PlayGround = () => {
                         </SubMenu>
                         <MenuItem className='submenu' icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to="/campaignReport/reportCorp" />}> Corp-RBT </MenuItem>
                         <MenuItem className='submenu' icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to="/campaignReport/reportAd" />}> Ad-RBT </MenuItem>
-                    </SubMenu>
+                    </SubMenu> */}
                 </Menu>
             </Sidebar>
             <main className='w-100 container-fluid'  >
