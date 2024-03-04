@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addVoice } from './slice/VoiceConfiguration';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -131,44 +132,39 @@ function AddVoice() {
     }
 
     return (
-        <Container>
+        <div className='mx-3'>
+            <Heading name='Add Voice Type'>
+                <Link to='/systemConfiguration/voiceConfiguration' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
             <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Add Voice Type ✨</h4>
-                    <div className='mx-2'>
-                        <Link to='/systemConfiguration/voiceConfiguration' style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Voice Name" variant="outlined" autoFocus='true' value={voiceName} onChange={handleVoiceName} />
-                        </Col>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" AWS Name" variant="outlined" value={awsName} onChange={handleAwsName} />
-                        </Col>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Voice Name" variant="outlined" autoFocus='true' value={voiceName} onChange={handleVoiceName} />
+                    </Col>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" AWS Name" variant="outlined" value={awsName} onChange={handleAwsName} />
+                    </Col>
 
-                    </Row>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Country" variant="outlined" value={country} onChange={handleCountry} />
-                        </Col>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Status" variant="outlined" value={status} onChange={handleStatus} />
-                        </Col>
-
-                    </Row>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={onSubmit}>Submit </CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
-                </div>
+                </Row>
             </div>
-        </Container >
+            <div>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Country" variant="outlined" value={country} onChange={handleCountry} />
+                    </Col>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Status" variant="outlined" value={status} onChange={handleStatus} />
+                    </Col>
+
+                </Row>
+            </div>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={onSubmit}>Submit </CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
+            </div>
+        </div >
     );
 
 

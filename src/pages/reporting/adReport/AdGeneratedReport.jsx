@@ -1,17 +1,18 @@
 import { Pagination, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 // import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import exportFromJSON from 'export-from-json'
-import CommanButton from '../../../component/CommanButton';
 import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSignal } from '@preact/signals-react';
 import { getAdReportBySpecificId, getAdSummaryReports } from './slice/ReportAd';
-import Loader from '../../../component/loader/Loader';
-import ErrorPage from '../../../component/error/ErrorPage';
 import { TableBody, Tooltip } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import CommanButton from '../../../components/CommanButton';
+import Empty from '../../../components/empty/Empty';
 
 
 function AdGeneratedReport() {
@@ -19,13 +20,17 @@ function AdGeneratedReport() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const token = useSelector(state => state.token?.data?.token)
-    const loading = useSignal(true)
+    const [loading, setLoading] = useState(true)
     const isError = useSignal(false)
     const reportsAd = useSignal({})
     const commanData = useSignal([])
-    const currentPage = useSignal(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
+        getData()
+    }, [])
+
+    let getData = () => {
         let data = {
             id: id,
             token: token
@@ -41,16 +46,15 @@ function AdGeneratedReport() {
                     throw new Error('Internal server error')
                 }
             }).then((resp) => {
+                console.log(resp.payload?.data)
                 commanData.value = resp.payload?.data
-                setTimeout(() => {
-                    loading.value = false
-                }, 1000);
+                setLoading(false)
             }).catch(() => {
-                loading.value = false
+                setLoading(false)
                 isError.value = true
             })
         }
-    }, [])
+    }
 
 
     const exportCsv = () => {
@@ -66,15 +70,15 @@ function AdGeneratedReport() {
     let indexofFirst = indexofLast - perPage
     let activePage = commanData.value?.slice(indexofFirst, indexofLast)
 
-    if (loading.value) {
+    if (loading) {
         return <Loader />
     } else if (isError.value) {
         return <ErrorPage />
     } else {
         return (
-            <div>
+            <div className='mx-3'>
                 <div className='d-flex justify-content-between my-2 mx-4'>
-                    <div className='container fs-6 fw-medium w-50'>
+                    <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2 bg-body-tertiary rounded border border-2'>
                         <Row className='text-left'>
                             <Col>Service</Col>
                             <Col className='text-center'>:</Col>
@@ -97,49 +101,49 @@ function AdGeneratedReport() {
                         </Row>
                     </div>
                 </div>
-                <hr />
+
                 {
                     commanData.value?.length === 0
                         ?
-                        <div className='d-flex justify-content-center' >Data Not Found</div>
+                        <Empty name='Data Not Found' />
                         :
                         <>
                             <div className='d-flex' >
-                                <TableContainer>
+                                <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
                                     <Table>
-                                        <TableHead>
+                                        <TableHead style={{ backgroundColor: '#d6d6f7' }} >
                                             <TableRow>
-                                                <TableCell align='center' style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Date
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     New Subs
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Terminations
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Active Subs
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Daily Charge
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Total Unique Subs
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Total Incoming Calls
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     International Calls
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Local Calls
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
                                                     Time of Exposure
                                                 </TableCell>
-                                                <TableCell style={{ fontWeight: 'bolder', textAlign: 'center' }}>
+                                                <TableCell className="border border-2 fw-bolder fs-6" align="center">
 
                                                 </TableCell>
                                             </TableRow>
@@ -158,7 +162,7 @@ function AdGeneratedReport() {
 
                             </div>
                             <div className='d-flex justify-content-center my-4'>
-                                <Pagination count={Math.ceil(commanData.value?.length / 10)} color="primary" onChange={(e, p) => { currentPage.value = p }} />
+                                <Pagination count={Math.ceil(commanData.value?.length / 10)} variant="outlined" shape="rounded" onChange={(e, p) => { setCurrentPage(p) }} />
                             </div>
                             <div className='d-flex justify-content-center'>
                                 <CommanButton className='btnBack' onClick={exportCsv}>Download CSV File</CommanButton>
@@ -199,37 +203,37 @@ function AdReportList({ key, data }) {
         <>
             <TableRow key={key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} className='reportsList' >
 
-                <TableCell component="th" scope="row" align="center" style={{ fontSize: '12px', height: '4em', width: '100px' }}>
+                <TableCell align="center" className="border border-2" >
                     {data?.reportDate?.slice(0, 10)} </TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2" style={{ color: 'green', fontWeight: '600' }} >
                     {data?.newSubscriber}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2" style={{ color: 'red', fontWeight: '600' }}>
                     {data?.unsubscription}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2" style={{ color: '#6366f1', fontWeight: '600' }}>
                     {data?.activeSubscriber}
                 </TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     {data?.dailyCharges}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.uniqueSubscriber}</TableCell>
+                <TableCell align="center" className="border border-2">{data?.uniqueSubscriber}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     {data?.totalIncomingCalls}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     {data?.internationalCalls}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     {data?.localCalls}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     {data?.timeOfExposure}</TableCell>
 
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
+                <TableCell align="center" className="border border-2">
                     <Tooltip title="Download per day csv file" >
                         <button onClick={() => { exportCsvForPerDay(data?.reportDate?.slice(0, 10), data) }} style={{ border: 'none', textDecoration: 'underLine', color: '#6366f1', fontWeight: '700', backgroundColor: 'transparent' }}>
                             <DownloadIcon />

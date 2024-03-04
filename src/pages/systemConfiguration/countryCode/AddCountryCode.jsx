@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSystemCountryCode } from './slice/CountryCode';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 const cName = "cname";
 const cCode = "cCode";
@@ -66,43 +67,38 @@ function AddCountryCode() {
     }
 
     return (
-        <Container>
+        <div className='mx-3'>
+            <Heading name='Add Country Code'>
+                <Link to='/systemConfiguration/countryCodeManagement' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
             <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Add Country Code ✨</h4>
-                    <div className='mx-2'>
-                        <Link to='/systemConfiguration/countryCodeManagement' style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Country Name" variant="outlined" autoFocus="true" value={countryName} onChange={(e) => { setCountryName(e.target.value) }} />
-                        </Col>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='number' label=" Country Code" variant="outlined" value={countryCode} onChange={(e) => { setCountryCode(e.target.value) }} />
-                        </Col>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Country Name" variant="outlined" autoFocus="true" value={countryName} onChange={(e) => { setCountryName(e.target.value) }} />
+                    </Col>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='number' label=" Country Code" variant="outlined" value={countryCode} onChange={(e) => { setCountryCode(e.target.value) }} />
+                    </Col>
 
-                    </Row>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label="Site Id" variant="outlined" value={siteId} onChange={(e) => { setSiteId(e.target.value) }} />
-                        </Col>
-                        <Col sm={4}>
-
-                        </Col>
-                    </Row>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={onSubmit} >Submit </CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-                </div>
+                </Row>
             </div>
-        </Container >
+            <div>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label="Site Id" variant="outlined" value={siteId} onChange={(e) => { setSiteId(e.target.value) }} />
+                    </Col>
+                    <Col sm={4}>
+
+                    </Col>
+                </Row>
+            </div>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={onSubmit} >Submit </CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
+            </div>
+        </div >
     );
 
 

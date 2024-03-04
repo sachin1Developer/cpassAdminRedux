@@ -8,6 +8,7 @@ import { Textarea } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllHttpLinks, getRoleDetailsById, modifyRoleTypeManagement } from './slice/RoleTypeManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 function ModifyRole() {
@@ -80,7 +81,7 @@ function ModifyRole() {
                 if (resp?.payload?.data?.httpStatusCode === 200) {
                     setRolesCreateResponse(resp?.payload?.data?.message);
                     toast.success(resp?.payload?.data?.message);
-                }else{
+                } else {
                     toast.error('Interval server error')
                 }
             })
@@ -226,32 +227,16 @@ function ModifyRole() {
 
 
     return (
-        <Container>
-            {/* {
-                rolesCreateResponse === "roll is updated" &&
-                <Redirect to="/operatorConfig/viewRoleType" />
-            } */}
-            <div className='d-flex justify-content-between'>
-                <div className='d-flex'>
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>Modify Role ✨</h3>
-                    </b>
-                </div>
-                <div className='d-flex'>
-                    <Link to='/operatorConfig/viewRoleType'>
-                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
-                </div>
-
+        <div className='mx-3'>
+            <Heading name='Modify Role'>
+                <Link to='/operatorConfig/viewRoleType'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='d-flex justify-content-center '>
+                    <TextField id="outlined-basic" type='text' className='mx-2' label="Role Name" variant="outlined" autoFocus='true' value={roleName} />
+                    <Textarea id="outlined-basic" type='text' className='mx-2' placeholder="Description" variant="outlined" minRows={3} value={description} />
             </div>
-            <Row className='mx-5'>
-                <Col sm={4}>
-                    <TextField id="outlined-basic" type='text' label="Role Name" variant="outlined" autoFocus='true' value={roleName} />
-                </Col>
-                <Col sm={6}>
-                    <Textarea id="outlined-basic" type='text' placeholder="Description" variant="outlined" minRows={3} value={description} />
-                </Col>
-            </Row>
             <div className='d-flex justify-content-center mt-4  '>
                 <Row>
                     <Col sm={9}>
@@ -282,7 +267,7 @@ function ModifyRole() {
                 <CommanButton className='btnBack my-4' onClick={modifyRoles}>Submit</CommanButton>
             </div>
 
-        </Container >
+        </div >
     );
 
 

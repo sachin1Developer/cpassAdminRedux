@@ -10,6 +10,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteBlacklistManagerGroup, searchSpecificMsisdninBlacklist } from './slice/BlacklistManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -70,17 +71,13 @@ function SearchBlacklist() {
 
 
     return (
-        <Container>
+        <div className='mx-3'>
             <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Search Blacklist ✨
-                    </h4>
-                    <div>
-                        <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
+                <Heading name='Search Blacklist'>
+                    <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </Heading>
                 <div className='d-flex container justify-content-center align-items-center '>
                     <div className='d-flex flex-column'>
                         <TextField id="outlined-basic" type='number' label="Search MSISDN" variant="outlined" autoFocus='true' onChange={handleSearchedMsisdn} />
@@ -124,7 +121,7 @@ function SearchBlacklist() {
                 </div>
 
             }
-        </Container >
+        </div >
     );
 
 

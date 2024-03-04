@@ -8,6 +8,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CommanButton from '../../../../components/CommanButton';
 import { getRoleTypeNameAndId, modifyUserType } from '../slice/UserTypeManagement';
 import { useDispatch, useSelector } from 'react-redux';
+import Heading from '../../../../components/header/Heading';
 
 
 
@@ -137,7 +138,7 @@ function ModifyUser() {
             })
         }
     };
-    
+
     const validate = () => {
         let flag = false;
         let request = {
@@ -187,18 +188,12 @@ function ModifyUser() {
     }
 
     return (
-        <Container>
-
-
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>Modify User Detail ✨
-                </h4>
-                <div className='d-flex align-items-center'>
-                    <Link to='/operatorConfig/userTypeManagement/viewUserType'>
-                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
-                </div>
-            </div>
+        <div className='mx-3'>
+            <Heading name='Modify User'>
+                <Link to='/operatorConfig/userTypeManagement/viewUserType'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
 
 
             <div>
@@ -260,7 +255,7 @@ function ModifyUser() {
                     </div>
                 </Row>
             </div>
-        </Container>
+        </div>
     );
 
 

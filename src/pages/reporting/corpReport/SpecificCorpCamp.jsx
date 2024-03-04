@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import BarGraph from '../../../component/graph/BarGraph';
-import PieCircleGraph from '../../../component/graph/PieCircleGraph';
 import { useDispatch, useSelector } from 'react-redux';
-import { specficCorpId } from './CorpList';
 import { getCorpReportBySpecificId, getCorpSummaryReports } from './slice/ReportCorp';
-import CommanButton from '../../../component/CommanButton';
 import { useSignal } from '@preact/signals-react';
-import Loader from '../../../component/loader/Loader';
 import { Col, Row } from 'react-bootstrap';
-import ErrorPage from '../../../component/error/ErrorPage';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import CommanButton from '../../../components/CommanButton';
+import PieCircleGraph from '../../../components/graph/PieCircleGraph';
+import BarGraph from '../../../components/graph/BarGraph';
 
 export default function SpecificCorpCamp() {
     const { id } = useParams()
@@ -90,7 +89,7 @@ export default function SpecificCorpCamp() {
     } else {
         return (
             <>
-                <div className='container fs-6 fw-medium w-50 '>
+                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2 bg-body-tertiary rounded border border-2'>
                     <Row className='text-left'>
                         <Col>Service</Col>
                         <Col className='text-center'>:</Col>

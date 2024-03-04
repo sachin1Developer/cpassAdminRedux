@@ -7,6 +7,8 @@ import CommanButton from '../../../components/CommanButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSubscriberRange, viewSubscriberRange } from './slice/SubscriberRange';
 import BackDropLoader from '../../../components/loader/BackDropLoader';
+import Heading from '../../../components/header/Heading';
+import Loader from '../../../components/loader/Loader';
 
 
 const nameRId = "nameId";
@@ -25,13 +27,14 @@ function AddSubsRange() {
     const [endRange, setEndRange] = useState("")
     const [rangeData, setRangeData] = useState("");
     const [existRange, setExistRange] = useState()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [backdrop, setBackdrop] = useState(false)
 
-    useEffect(() => {
+    let getRangeNumber = () => {
         setLoading(true)
         dispatch(viewSubscriberRange(token))
             .then((resp) => {
+                console.log(resp)
                 if (resp?.payload?.status === 200) {
                     setExistRange(resp?.payload?.data);
                     setLoading(false);
@@ -45,6 +48,10 @@ function AddSubsRange() {
                 setLoading(false);
                 toast.error('Error while fetching subscriber range list');
             });
+    }
+
+    useEffect(() => {
+        getRangeNumber()
     }, [])
 
 
@@ -74,7 +81,7 @@ function AddSubsRange() {
 
     const onSubmit = () => {
         checkRange();
-        setBackdrop(true)
+        
         let responce = {
             "startsAt": startRange,
             "endsAt": endRange,
@@ -99,6 +106,7 @@ function AddSubsRange() {
                     })
                     if (flag === false) {
                         setRangeName(rangeName)
+                        setBackdrop(true)
                         dispatch(addSubscriberRange({ token: token, data: responce }))
                             .then((resp) => {
                                 if (resp?.payload?.data === 'Operator saved successfully') {
@@ -214,55 +222,40 @@ function AddSubsRange() {
         setEndRange("");
     }
 
-
-    return (
-        <div className='container'>
-            {/* {
-                rangeData === "Operator saved successfully" &&
-                <Redirect to="/operatorConfig/viewSubscriberRange" />
-            } */}
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Add Range ✨
-                    </h4>
-                    <div className='mx-2'>
-                        <Link to='/operatorConfig/viewSubscriberRange' style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className='mx-3'>
+                <Heading name='Add Range' >
+                    <Link to='/operatorConfig/viewSubscriberRange' style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </Heading>
+                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
+                    <div className='d-flex my-2'>
+                        <TextField id="outlined-basic" type='text' className='mx-4' label="Range Name" variant="outlined" autoFocus='true' value={rangeName} onChange={handleRangeName} />
+                        {/* {currencies.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))} 
+                                </TextField>*/}
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
+                    </div>
+                    <div className='my-3 d-flex'>
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRange} />
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
+                    </div>
+                    <div className='d-flex justify-content-around my-3'>
+                        <CommanButton className='btnSend mx-4' onClick={onSubmit} >Add Range</CommanButton>
+                        <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
                     </div>
                 </div>
-                <div className='container fs-6 fw-medium w-50'>
-                    <div className='text-left row'>
-                        <div className='my-3 col'>
-                            <TextField id="outlined-basic" type='text' label="Range Name" variant="outlined" autoFocus='true' value={rangeName} onChange={handleRangeName} />
-                            {/* {currencies.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))} 
-                            </TextField>*/}
-                        </div>
-                        <div className='my-3 col'>
-                            <TextField id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
-                        </div>
-                    </div>
-                    <div className='text-left row'>
-                        <div className='my-3 col'>
-                            <TextField id="outlined-basic" type='number' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRange} />
-                        </div>
-                        <div className='my-3 col'>
-                            <TextField id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
-                        </div>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={onSubmit} >Add Range</CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
-                </div>
+                <BackDropLoader opener={backdrop} />
             </div>
-            <BackDropLoader opener={backdrop} />
-        </div>
-    );
+        );
+    }
 
 
 }

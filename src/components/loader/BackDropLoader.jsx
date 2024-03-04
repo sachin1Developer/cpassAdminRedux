@@ -8,7 +8,7 @@ export default function BackDropLoader({ opener }) {
             open={opener}
         // onClick={}
         >
-            <CircularProgress color="inherit" />
+            <CircularProgress color="inherit"/>
         </Backdrop>
     )
 }

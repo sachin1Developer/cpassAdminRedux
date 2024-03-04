@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import { Button, Col, Container, Input, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { toast } from 'react-toastify';
 import AddIcon from '@mui/icons-material/Add';
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
@@ -12,6 +12,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CommanButton from '../../../components/CommanButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRoleTypeManagement, viewRoleTypeManagement } from './slice/RoleTypeManagement';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
+import Loader from '../../../components/loader/Loader';
 
 
 
@@ -19,10 +22,13 @@ import { deleteRoleTypeManagement, viewRoleTypeManagement } from './slice/RoleTy
 function ViewRoleType() {
     const dispatch = useDispatch()
     const [roleView, setRoleView] = useState([]);
-    const [deleteResp, setDeleteResp] = useState("");
     let token = useSelector(state => state.token?.data?.token)
+    const [loading, setloading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const perPage = 10;
 
     const getRoles = () => {
+        setloading(true)
         dispatch(viewRoleTypeManagement(token))
             .then((resp) => {
                 if (resp?.payload?.status) {
@@ -30,10 +36,11 @@ function ViewRoleType() {
                 } else {
                     toast.error('Internal server error')
                 }
-                // setLoading(false);
+                setloading(false);
             })
             .catch((error) => {
                 console.error(error);
+                setloading(false)
                 toast.error('Error while fetching subscriber range list');
             });
     }
@@ -49,7 +56,6 @@ function ViewRoleType() {
                 // console.log(res?.payload?.data)
                 if (res?.payload?.status === 200) {
                     toast.success('Deleted successfully');
-                    setDeleteResp(res?.payload?.data)
                     getRoles();
                 } else {
                     toast.error('Internal server error')
@@ -61,44 +67,55 @@ function ViewRoleType() {
     }
 
 
+    let indexofLast = currentPage * perPage
+    let indexofFirst = indexofLast - perPage
+    let activePage = roleView?.slice(indexofFirst, indexofLast)
+
+    if (loading) {
+        return <Loader />
+    } else
     return (
-        <Container>
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>View Role ✨
-                    </h4>
-                    <div>
-                        <Link to='/operatorConfig/addRoleType'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Role</CommanButton>
-                        </Link>
-                    </div>
-                </div>
-                <div className='my-4 ' id='search'>
-                    <TableContainer >
+        <div className='mx-3'>
+            <Heading name='View Role'>
+                <Link to='/operatorConfig/addRoleType'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Role</CommanButton>
+                </Link>
+            </Heading>
+            {
+                roleView?.length === 0
+                    ?
+                    <Empty name='Template Not Found' />
+                    :
+                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded"  >
                         <Table sx={{}} aria-label="simple table">
-                            <TableHead>
+                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
                                 <TableRow className='bodyColor'>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Serial No.</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Role Name</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Description</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> View</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Modify</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Delete</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Serial No.</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Role Name</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Description</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > View</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Modify</TableCell>
+                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Delete</TableCell>
                                 </TableRow>
                             </TableHead>
-                            {roleView.map((roles, index) => (
-                                <ViewRoles
-                                    key={index}
-                                    index={index}
-                                    list={roles}
-                                    remove={onDelete}
-                                />
-                            ))}
+                            <TableBody>
+                                {
+                                    activePage?.map((roles, index) => (
+                                        <ViewRoles key={index} index={index} list={roles} remove={onDelete} />
+                                    ))
+                                }
+                            </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
-            </div>
-        </Container >
+            }
+            {
+                    roleView?.length > perPage
+                    &&
+                    <div className='d-flex justify-content-center my-4'>
+                        <Pagination count={Math.ceil(roleView?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
+                    </div>
+                }
+        </div>
     );
 
 
@@ -120,50 +137,48 @@ const ViewRoles = ({ index, list, remove }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell align="center" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {index + 1}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.roleName}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.description}
-                </TableCell>
-                <TableCell align="center" >
-                    <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/viewDetailsRole/${data.roleId}`}
-                        state={{ data: data }}>
-                        <VisibilityOutlinedIcon />
+        <TableRow >
+            <TableCell className="border border-2" align="center" >
+                {index + 1}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: '#6366f1', fontWeight: '600' }} >
+                {data.roleName}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.description}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/viewDetailsRole/${data.roleId}`}
+                    state={{ data: data }}>
+                    <VisibilityOutlinedIcon style={{color:'black'}} />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.roleId === 1 ? <EditNoteSharpIcon style={{ color: 'rgb(100,116,139)' }} />
+                    : <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/modifyRoleType/${data.roleId}`} >
+                        <EditNoteSharpIcon style={{color:'black'}} />
                     </Link>
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    {data.roleId === 1 ? <EditNoteSharpIcon style={{ color: 'rgb(100,116,139)' }} />
-                        : <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/modifyRoleType/${data.roleId}`} >
-                            <EditNoteSharpIcon />
-                        </Link>
-                    }
-                </TableCell>
-                <TableCell align="center">
-                    {data.roleId === 1 ? <DeleteForeverIcon style={{ color: 'red' }} />
-                        : <button className="border-0" onClick={() => { setModal(!modal) }}>
-                            <DeleteForeverIcon style={{ color: 'red' }} />
-                        </button>
-                    }
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.roleName} ?</Modal.Body>
-                        <Modal.Footer>
-                            <Button className='btn btn-danger' onClick={() => { remove(data.roleId); setModal(false) }}>
-                                Delete
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody>
+                }
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                {data.roleId === 1 ? <DeleteForeverIcon style={{ color: 'rgb(100,116,139)' }} />
+                    : <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                        <DeleteForeverIcon style={{ color: 'red' }} />
+                    </button>
+                }
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.roleName} ?</Modal.Body>
+                    <Modal.Footer>
+                        <Button className='btn btn-danger' onClick={() => { remove(data.roleId); setModal(false) }}>
+                            Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }
 

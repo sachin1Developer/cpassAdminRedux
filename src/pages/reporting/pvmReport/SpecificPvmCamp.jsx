@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import BarGraph from '../../../component/graph/BarGraph';
-import PieCircleGraph from '../../../component/graph/PieCircleGraph';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPvmReportBySpecificId } from '../../../redux/slice/ReportPvmBySpecificId';
-import Loader from '../../../component/loader/Loader';
-import ErrorPage from '../../../component/error/ErrorPage';
-import { getPvmSummaryReports } from '../../../redux/slice/PvmSummaryReports';
-import CommanButton from '../../../component/CommanButton';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useSignal } from '@preact/signals-react';
+import { getPvmReportBySpecificId } from './slice/ReportPvmBySpecificId';
+import { getPvmSummaryReports } from './slice/PvmSummaryReports';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import CommanButton from '../../../components/CommanButton';
+import BarGraph from '../../../components/graph/BarGraph';
+import PieCircleGraph from '../../../components/graph/PieCircleGraph';
 
 export default function SpecificPvmCamp() {
     const { id } = useParams()
@@ -80,7 +80,7 @@ export default function SpecificPvmCamp() {
     } else {
         return (
             <Container>
-                <div className='container fs-6 fw-medium w-50'>
+                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2 bg-body-tertiary rounded border border-2'>
                     <Row className='text-left'>
                         <Col>Service</Col>
                         <Col className='text-center' >:</Col>

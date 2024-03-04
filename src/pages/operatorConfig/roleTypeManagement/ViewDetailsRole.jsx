@@ -9,6 +9,7 @@ import CancelPresentationOutlinedIcon from '@mui/icons-material/CancelPresentati
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllHttpLinks, getRoleDetailsById } from './slice/RoleTypeManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 function ViewDetailsRole() {
@@ -17,14 +18,14 @@ function ViewDetailsRole() {
     const navigate = useNavigate()
     let token = useSelector(state => state.token?.data?.token)
 
-    if((id === null)|| (id === undefined)){
+    if ((id === null) || (id === undefined)) {
         navigate('/operatorConfig/viewRoleType')
     }
 
     const [httpLinks, setHttpLinks] = useState([]);
     const [dataWithoutDuplicat, setDataWithoutDuplicat] = useState([]);
-    const [roleName, setRoleName] = useState();
     const [detailsData, setDetailsData] = useState([]);
+    
 
 
     const getRoleDetails = () => {
@@ -91,17 +92,10 @@ function ViewDetailsRole() {
     //   *************************************************************************************
 
     let renderData = dataWithoutDuplicat?.map((data, index) => {
-        return (<div className='' >
-            <Chip label={data?.description} icon={detailsData?.httpLinkslst?.some(list => list?.linkId === data?.linkId) ? <CheckBoxOutlinedIcon style={{ color: 'green' }} /> : <CancelPresentationOutlinedIcon style={{ color: 'red' }} />} variant="outlined" style={{ width: "100%", justifyContent: 'flex-start', padding: "10px" }} />
-        </div>
-            // <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            //     <TableCell component="th" align="left" scope="row" style={{ fontWeight: '600', fontSize: '12px' }}>
-            //         {data?.description}
-            //     </TableCell>
-            //     <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px' }}>
-            //         {detailsData.some(list => list?.linkId === data?.linkId) ? <CheckBoxOutlinedIcon style={{ color: 'green' }} /> : <CancelPresentationOutlinedIcon style={{ color: 'red' }} />}
-            //     </TableCell>
-            // </TableRow>
+        return (
+            <div key={index} >
+                <Chip label={data?.description} icon={detailsData?.httpLinkslst?.some(list => list?.linkId === data?.linkId) ? <CheckBoxOutlinedIcon style={{ color: 'green' }} /> : <CancelPresentationOutlinedIcon style={{ color: 'red' }} />} variant="outlined" style={{ width: "100%", justifyContent: 'flex-start', padding: "10px" }} />
+            </div>
         );
     });
 
@@ -109,28 +103,18 @@ function ViewDetailsRole() {
 
 
     return (
-        <Container>
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>View Role Detail ✨
-                    </h4>
-                    <div className='my-2'>
-                        <Link to='/operatorConfig/viewRoleType'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
+        <div className='mx-3'>
+            <Heading name='View Role Detail'>
+                <Link to='/operatorConfig/viewRoleType'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
             <div className='d-flex justify-content-center '>
-                <TableContainer className=' border border-secondary rounded' style={{ backgroundColor: '', width: '25%' }} >
-                    <Table className='' aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)' }}>Role Name </TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)' }}> : </TableCell>
-                                <TableCell align="left" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)' }}>{detailsData?.roleName}</TableCell>
-                            </TableRow>
-                        </TableHead>
-                    </Table>
-                </TableContainer>
+                <span className='d-flex p-2 shadow-lg bg-body-tertiary rounded'>
+                <div className='mx-2 fs-5'>Role Name</div>
+                <div className='mx-2 fs-5'>:</div>
+                <div className='mx-2 fs-5'>{detailsData?.roleName}</div>
+                </span>
             </div>
 
             <div className='d-flex justify-content-around my-4'>
@@ -141,7 +125,7 @@ function ViewDetailsRole() {
                     {renderData.slice(renderData.length / 2, renderData.length - 1)}
                 </Stack>
             </div>
-        </Container>
+        </div>
     );
 
 

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import CommanButton from '../../../components/CommanButton';
 import { modifyCampaignInventory } from './slice/Inventory';
+import Heading from '../../../components/header/Heading';
 
 
 const nameRId = "nameId";
@@ -57,9 +58,9 @@ function ModifyInventory() {
         }
         dispatch(modifyCampaignInventory({ token: token, id: Interface, data: response }))
             .then((resp) => {
-                if (resp?.payload?.data?.httpStatusCode === 200){
+                if (resp?.payload?.data?.httpStatusCode === 200) {
                     navigate('/systemConfiguration/inventoryConfiguration')
-                }else{
+                } else {
                     toast.error('Internal server error')
                 }
             })
@@ -76,52 +77,46 @@ function ModifyInventory() {
     }
 
     return (
-        <Container>
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Modify Inventory Configuration ✨</h4>
-                    <div className='mx-2'>
-                        <Link to='/systemConfiguration/inventoryConfiguration'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
+        <div className='mx-3'>
+            <Heading name='Modify Inventory Configuration'>
+                <Link to='/systemConfiguration/inventoryConfiguration'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='container fs-6 fw-medium w-50 my-4'>
+                <Row className='text-left'>
+                    <Col sm={4}> Interface</Col>
+                    <Col sm={1}>:</Col>
+                    <Col sm={6}>
+                        <p id="outlined-basic" type='text' label="Interface" variant="outlined" >{
+                            (Interface === 'S' && 'SMS' || Interface === 'O' && 'OBD' || Interface === 'F' && 'Facebook' || Interface === 'T' && 'Twitter' || Interface === 'U' && 'USSD')
+                        } </p>
+                    </Col>
 
-                <div className='container fs-6 fw-medium w-50 my-4'>
-                    <Row className='text-left'>
-                        <Col sm={4}> Interface</Col>
-                        <Col sm={1}>:</Col>
-                        <Col sm={6}>
-                            <p id="outlined-basic" type='text' label="Interface" variant="outlined" >{
-                                (Interface === 'S' && 'SMS' || Interface === 'O' && 'OBD' || Interface === 'F' && 'Facebook' || Interface === 'T' && 'Twitter' || Interface === 'U' && 'USSD')
-                            } </p>
-                        </Col>
-
-                    </Row>
-                    <Row className='text-left'>
-                        <Col sm={4}>Current Count</Col>
-                        <Col sm={1}>:</Col>
-                        <Col sm={6}>
-                            <p id="outlined-basic" type='number' label="Current Count" variant="outlined" >{currentCount} </p>
-                        </Col>
-                    </Row>
+                </Row>
+                <Row className='text-left'>
+                    <Col sm={4}>Current Count</Col>
+                    <Col sm={1}>:</Col>
+                    <Col sm={6}>
+                        <p id="outlined-basic" type='number' label="Current Count" variant="outlined" >{currentCount} </p>
+                    </Col>
+                </Row>
 
 
 
-                    <Row className='text-left '>
-                        <Col sm={4}>Total Count</Col>
-                        <Col sm={1}>:</Col>
-                        <Col sm={6}>
-                            <Input className='border-secondary' type='number' value={totalCount} onChange={handleTotalCount} />
-                        </Col>
-                    </Row>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-                </div>
+                <Row className='text-left '>
+                    <Col sm={4}>Total Count</Col>
+                    <Col sm={1}>:</Col>
+                    <Col sm={6}>
+                        <Input className='border-secondary' type='number' value={totalCount} onChange={handleTotalCount} />
+                    </Col>
+                </Row>
             </div>
-        </Container>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
+            </div>
+        </div>
     );
 
 

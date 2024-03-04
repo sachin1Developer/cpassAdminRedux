@@ -8,11 +8,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPvmReport } from '../../../redux/slice/ReportPvm';
-import Loader from '../../../component/loader/Loader';
-import ErrorPage from '../../../component/error/ErrorPage';
-import CommanButton from '../../../component/CommanButton';
 import { useSignal } from '@preact/signals-react';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import { getPvmReport } from './slice/ReportPvm';
+import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
 
 
 
@@ -23,6 +25,7 @@ function PvmList() {
     const endDate = useSignal(null)
     const token = useSelector(state => state.token?.data?.token)
     const data = useSelector(state => state.reportPvm)
+    console.log(data)
 
     useEffect(() => {
         let currentDate = new Date();
@@ -71,32 +74,27 @@ function PvmList() {
         return <ErrorPage />
     } else {
         return (
-            <div style={{ height: "-webkit-fill-available" }} >
-                <b>
-                    <h5 className='d-flex justify-content-between align-items-center text-slate-600'>PVM Campaign Summary Reports ✨
-                        <div className='d-flex align-items-center justify-content-end w-50 h-25 ' >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}  >
-                                <DemoContainer components={['DatePicker']} >
-                                    <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <CommanButton className='btnBack' onClick={submitDate}>
-                                Submit
-                            </CommanButton>
-                        </div>
-                    </h5>
-                </b>
+            <div className='mx-3' >
+                <Heading name='PVM Campaign Summary Reports'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}  >
+                        <DemoContainer components={['DatePicker']} >
+                            <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <CommanButton className='btnBack' onClick={submitDate}>
+                        Submit
+                    </CommanButton>
+
+                </Heading>
                 {
                     data?.data?.length === 0
                         ?
-                        <h4 className='d-flex justify-content-center my-4'>
-                            No record found
-                        </h4>
+                       <Empty name='No record found' />
                         :
                         <>
 
@@ -106,37 +104,36 @@ function PvmList() {
                                 </p>
                             </div>
 
-                            <div className='d-flex justify-content-center'>
-                                <TableContainer style={{ width: '550px' }}>
+                                <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded">
                                     <Table>
-                                        <TableHead>
+                                        <TableHead style={{ backgroundColor: '#d6d6f7' }}>
                                             <TableRow>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Campaign Id
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Campaign Name
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Start Date
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     End Date
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
 
                                         {/* <TableBody> */}
-                                            {
-                                                activePage.map((reportsData, index) => {
-                                                    return (
-                                                        <PvmViewList
-                                                            key={index}
-                                                            data={reportsData}
-                                                        />
-                                                    )
-                                                })
-                                            }
+                                        {
+                                            activePage?.map((reportsData, index) => {
+                                                return (
+                                                    <PvmViewList
+                                                        key={index}
+                                                        data={reportsData}
+                                                    />
+                                                )
+                                            })
+                                        }
                                         {/* </TableBody> */}
 
                                     </Table>
@@ -148,7 +145,6 @@ function PvmList() {
                                         </div>
                                     }
                                 </TableContainer>
-                            </div>
                         </>
                 }
             </div >

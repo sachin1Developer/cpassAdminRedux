@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserbyName } from '../slice/UserTypeManagement';
 import { toast } from 'react-toastify';
 import CommanButton from '../../../../components/CommanButton';
+import Loader from '../../../../components/loader/Loader';
+import Heading from '../../../../components/header/Heading';
 
 
 function ViewDetailsUser() {
@@ -17,13 +19,14 @@ function ViewDetailsUser() {
     const [data, setData] = useState({})
     const [limit, setlimit] = useState()
     const [status, setstatus] = useState()
-
+    const [loading, setloading] = useState(true)
 
     if ((name === null) || (name === undefined)) {
         navigate('/operatorConfig/userTypeManagement/viewUserType')
     }
 
     useEffect(() => {
+        setloading(true)
         dispatch(getUserbyName({ name: name, token: token }))
             .then((resp) => {
                 if (resp?.payload?.data?.httpStatusCode === 200) {
@@ -33,70 +36,71 @@ function ViewDetailsUser() {
                 } else {
                     toast.error('Internal server error')
                 }
+                setloading(false)
             }).catch((err) => {
                 console.log(err)
+                setloading(false)
             })
     }, [])
 
 
 
-
-    return (
-        <Container>
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>View User Detail ✨
-                </h4>
-                <div className='d-flex align-items-center'>
-                    <Link to='/operatorConfig/userTypeManagement/viewUserType'>
-                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className='mx-3'>
+                <Heading name='View User Detail'>
+                        <Link to='/operatorConfig/userTypeManagement/viewUserType'>
+                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                        </Link>
+                </Heading>
+                <div className='mb-5' style={{ display: 'flex', justifyContent: 'center' }}>
+                    <table>
+                        <thead>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    UserName
+                                </td>
+                                <td className='px-5 py-3'> {data?.USERNAME}</td>
+                            </tr>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3'
+                                    style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    Role Type
+                                </td>
+                                <td className='px-5 py-3'>{data?.ROLE_ID}</td>
+                            </tr>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3 ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    OBD Limit
+                                </td>
+                                <td className='px-5 py-3'>{limit} </td>
+                            </tr>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    OBD Status
+                                </td>
+                                <td className='px-5 py-3'>{status}</td>
+                            </tr>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    Email Id
+                                </td>
+                                <td className='px-5 py-3'>{data?.EMAIL}</td>
+                            </tr>
+                            <tr style={{ border: '1px solid #c1bbbb' }}>
+                                <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
+                                    Mobile No.
+                                </td>
+                                <td className='px-5 py-3'> {data?.MOBILE_NUM}</td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-            <div className='mb-5' style={{ display: 'flex', justifyContent: 'center' }}>
-                <table>
-                    <thead>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                UserName
-                            </td>
-                            <td className='px-5 py-3'> {data?.USERNAME}</td>
-                        </tr>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3'
-                                style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                Role Type
-                            </td>
-                            <td className='px-5 py-3'>{data?.ROLE_ID}</td>
-                        </tr>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3 ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                OBD Limit
-                            </td>
-                            <td className='px-5 py-3'>{limit} </td>
-                        </tr>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                OBD Status
-                            </td>
-                            <td className='px-5 py-3'>{status}</td>
-                        </tr>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                Email Id
-                            </td>
-                            <td className='px-5 py-3'>{data?.EMAIL}</td>
-                        </tr>
-                        <tr style={{ border: '1px solid #c1bbbb' }}>
-                            <td className='px-5 py-3  ' style={{ fontWeight: 'bold', border: '1px solid #c1bbbb' }}>
-                                Mobile No.
-                            </td>
-                            <td className='px-5 py-3'> {data?.MOBILE_NUM}</td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </Container>
-    );
+        );
+    }
 
 
 }

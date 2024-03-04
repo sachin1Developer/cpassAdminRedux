@@ -7,6 +7,8 @@ import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Outlined
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppParam } from './slice/AppConfigParam';
+import Heading from '../../../components/header/Heading';
+import CommanButton from '../../../components/CommanButton';
 
 
 
@@ -75,98 +77,87 @@ function ModifyParam() {
     }
 
     return (
-        <Container>
-            {/* {
-                responseData === "SUCCESS" &&
-                <Redirect to="/systemConfiguration/appConfigParam" />
-            } */}
-            <div>
-                <div>
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>Modify Param ✨
-                            <div className='d-flex align-items-center '>
-                                <Link to='/systemConfiguration/appConfigParam' style={{ textDecoration: 'none' }}>
-                                    <Button type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</Button>
-                                </Link>
-                            </div>
-                        </h3>
-                    </b>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Param Tag" variant="outlined" autoFocus='true' value={paramTag} />
-                        </Col>
-                        <Col sm={4}>
-                            <FormControl fullWidth className='my-2'>
-                                <InputLabel id="demo-simple-select-label">Param Type</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={paramType}
-                                    label="Param Type"
-                                    MenuProps={MenuProps}
-                                >
-                                    <MenuItem value={"STRING"}>String</MenuItem>
-                                    <MenuItem value={"BOOL"}>Boolean</MenuItem>
-                                    <MenuItem value={"INT"}>Integer</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Col>
 
-                    </Row>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            <TextField className='my-2 w-100' id="outlined-basic" type='text' label="Remarks" variant="outlined" value={remarks} />
-                        </Col>
-                        <Col sm={4}>
-                            <FormControl fullWidth className='my-2'>
-                                <InputLabel id="demo-simple-select-label">Owner</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={owner}
-                                    label="Owner"
-                                    MenuProps={MenuProps} >
-                                    <MenuItem value={"SYSTEM"}>SYSTEM</MenuItem>
-                                    <MenuItem value={"OPERATOR"}>OPERATOR</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Col>
-                    </Row>
-                </div>
-                <div>
-                    <Row className='d-flex justify-content-center'>
-                        <Col sm={4}>
-                            {paramType === "BOOL" ? <FormControl fullWidth className='my-2'>
-                                <InputLabel id="demo-simple-select-label">Param Value</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={paramValue}
-                                    label="Param Value"
-                                    MenuProps={MenuProps}
-                                    onChange={(e) => { setParamValue(e.target.value) }} >
-                                    {/* {roleView?.map((listRole) => {
+        <div>
+            <Heading name='Modify Param'>
+                <Link to='/systemConfiguration/appConfigParam' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Param Tag" variant="outlined" autoFocus='true' value={paramTag} />
+                    </Col>
+                    <Col sm={4}>
+                        <FormControl fullWidth className='my-2'>
+                            <InputLabel id="demo-simple-select-label">Param Type</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={paramType}
+                                label="Param Type"
+                                MenuProps={MenuProps}
+                            >
+                                <MenuItem value={"STRING"}>String</MenuItem>
+                                <MenuItem value={"BOOL"}>Boolean</MenuItem>
+                                <MenuItem value={"INT"}>Integer</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Col>
+
+                </Row>
+            </div>
+            <div>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        <TextField className='my-2 w-100' id="outlined-basic" type='text' label="Remarks" variant="outlined" value={remarks} />
+                    </Col>
+                    <Col sm={4}>
+                        <FormControl fullWidth className='my-2'>
+                            <InputLabel id="demo-simple-select-label">Owner</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={owner}
+                                label="Owner"
+                                MenuProps={MenuProps} >
+                                <MenuItem value={"SYSTEM"}>SYSTEM</MenuItem>
+                                <MenuItem value={"OPERATOR"}>OPERATOR</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Col>
+                </Row>
+            </div>
+            <div>
+                <Row className='d-flex justify-content-center'>
+                    <Col sm={4}>
+                        {paramType === "BOOL" ? <FormControl fullWidth className='my-2'>
+                            <InputLabel id="demo-simple-select-label">Param Value</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={paramValue}
+                                label="Param Value"
+                                MenuProps={MenuProps}
+                                onChange={(e) => { setParamValue(e.target.value) }} >
+                                {/* {roleView?.map((listRole) => {
                                         return <MenuItem value={listRole?.roleId}>{listRole?.roleName}</MenuItem>
                                     })} */}
-                                    <MenuItem value={"Y"}>Y</MenuItem>
-                                    <MenuItem value={"N"}>N</MenuItem>
-                                </Select>
-                            </FormControl> : <TextField className='my-2 w-100' id="outlined-basic" type='number' label="Param Value" variant="outlined" value={paramValue} onChange={(e) => { setParamValue(e.target.value) }} />}
-                        </Col>
-                        <Col sm={4}>
-                        </Col>
-                    </Row>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <Button className='btnSend mx-4' onClick={onSubmit}>Submit </Button>
-                    <Button className='btnSend mx-4' onClick={clearText}>Clear</Button>
-                </div>
+                                <MenuItem value={"Y"}>Y</MenuItem>
+                                <MenuItem value={"N"}>N</MenuItem>
+                            </Select>
+                        </FormControl> : <TextField className='my-2 w-100' id="outlined-basic" type='number' label="Param Value" variant="outlined" value={paramValue} onChange={(e) => { setParamValue(e.target.value) }} />}
+                    </Col>
+                    <Col sm={4}>
+                    </Col>
+                </Row>
             </div>
-        </Container >
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={onSubmit}>Submit </CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
+            </div>
+        </div>
     );
 
 

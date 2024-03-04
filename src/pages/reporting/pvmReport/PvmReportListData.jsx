@@ -23,37 +23,33 @@ function PvmReportListData(props) {
         exportFromJSON({ data, fileName, exportType })
     };
     return (
-        <>
-            <TableBody key={props.key}>
-                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} className='reportsList' >
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} className='reportsList' >
 
-                    <TableCell component="th" scope="row" align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.date?.slice(0, 10)} </TableCell>
+            <TableCell align="center" className="border border-2">
+                {props.date?.slice(0, 10)} </TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{props.totalNoOfCalls}</TableCell>
+            <TableCell align="center" className="border border-2">{props.totalNoOfCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{props.completedCalls}</TableCell>
+            <TableCell align="center" className="border border-2">{props.completedCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.unansweredCalls}</TableCell>
+            <TableCell align="center" className="border border-2">
+                {props.unansweredCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{props.interruptedCalls}</TableCell>
+            <TableCell align="center" className="border border-2">{props.interruptedCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{props.invalidNumbers}</TableCell>
+            <TableCell align="center" className="border border-2">{props.invalidNumbers}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.interactions}
-                    </TableCell>
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        <Tooltip title="Download per day csv file" >
-                            <button onClick={() => { exportCsvForPerDay(props.date?.slice(0, 10), props.data) }} style={{ border: 'none', textDecoration: 'underLine', color: '#6366f1', fontWeight: '700', backgroundColor: 'transparent' }}>
-                                <DownloadIcon />
-                            </button>
-                        </Tooltip>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </>
+            <TableCell align="center" className="border border-2">
+                {props.interactions}
+            </TableCell>
+            <TableCell align="center" className="border border-2">
+                <Tooltip title="Download per day csv file" >
+                    <button onClick={() => { exportCsvForPerDay(props.date?.slice(0, 10), props.data) }} style={{ border: 'none', textDecoration: 'underLine', color: '#6366f1', fontWeight: '700', backgroundColor: 'transparent' }}>
+                        <DownloadIcon />
+                    </button>
+                </Tooltip>
+            </TableCell>
+        </TableRow>
     );
 }
 

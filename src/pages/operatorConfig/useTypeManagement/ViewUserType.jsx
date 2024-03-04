@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import ViewUser from './user/ViewUser';
 import ViewVendor from './vendor/ViewVendor';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -60,13 +61,8 @@ function ViewUserType() {
 
     return (
         <div className='mx-3'>
-            <div>
-                <b>
-                    <h3 className='pvmHeading text-slate-800'>User Type Management ✨
-                    </h3>
-                </b>
-            </div>
-            <div className='d-flex container '>
+            <Heading name='User Type Management'></Heading>
+            <div className='d-flex'>
                 <Box sx={{ width: '100%' }} >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>
                         <Tabs value={tabsValue} onChange={handleTabs} aria-label="basic tabs example">
@@ -74,12 +70,8 @@ function ViewUserType() {
                             <Tab style={{ fontWeight: '700' }} label="View Vendor" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
-                    <CustomTabPanel value={tabsValue} index={0} className='d-flex justify-content-center' >
-                        <ViewUser />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={tabsValue} index={1} className='d-flex justify-content-center' >
-                        <ViewVendor />
-                    </CustomTabPanel>
+                    <CustomTabPanel value={tabsValue} index={0} className='d-flex justify-content-center' children={<ViewUser />} />
+                    <CustomTabPanel value={tabsValue} index={1} className='d-flex justify-content-center' children={<ViewVendor />} />  
                 </Box>
 
             </div>

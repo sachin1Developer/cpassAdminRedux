@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 function VIewPolicyDetails() {
@@ -10,17 +11,13 @@ function VIewPolicyDetails() {
     console.log(location.state.data)
 
     return (
-        <div className='container'>
+        <div className='mx-3'>
 
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>View Policy Detail ✨
-                    </h4>
-                    <div className='mx-2'>
-                        <Link to='/operatorConfig/viewPolicy' style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
+            <Heading name='View Policy Detail'>
+                <Link to='/operatorConfig/viewPolicy' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
             <div className='mb-5' style={{ display: 'flex', justifyContent: 'center' }}>
                 <table>
                     <thead>

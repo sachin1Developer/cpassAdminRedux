@@ -8,6 +8,7 @@ import CommanButton from '../../../components/CommanButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPolicyManagement } from './slice/PolicyManagement';
 import BackDropLoader from '../../../components/loader/BackDropLoader';
+import Heading from '../../../components/header/Heading';
 
 
 const namePId = "nameId";
@@ -314,157 +315,146 @@ function AddPolicy() {
 
     return (
         <div className='mx-3'>
-            {/* {
-                policyResp === "Policy saved successfully" &&
-                <Redirect to="/operatorConfig/viewPolicy" />
-            } */}
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Add Policy ✨
-                    </h4>
-                    <div className='mx-2'>
-                        <Link to='/operatorConfig/viewPolicy'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
+            <Heading name='Add Policy'>
+                <Link to='/operatorConfig/viewPolicy'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='container'>
+                <div className=' d-flex justify-content-center flex-column' style={{ color: 'black' }} >
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> Policy Name</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <input className='border border-1 rounded border-dark w-100' placeholder='Policy Name' type='text' value={policyName} onChange={handlePolicyName} />
+                        </div>
                     </div>
-                </div>
-
-                <div className='container'>
-                    <div className=' d-flex justify-content-center flex-column' style={{ color: 'black' }} >
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> Policy Name</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <input className='border border-1 rounded border-dark w-100' placeholder='Policy Name' type='text' value={policyName} onChange={handlePolicyName} />
-                            </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> SMS Count</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total SMS Sent to a number in Below Defined SMS Days"}>
+                                <input className='border border-1 rounded border-dark w-100' placeholder='SMS Count' type='number' max={3} value={smsCount} onChange={handleSmsCount} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> SMS Count</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total SMS Sent to a number in Below Defined SMS Days"}>
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='SMS Count' type='number' max={3} value={smsCount} onChange={handleSmsCount} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center justify-content-center'>
+                        <div className='col'> SMS Days</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total Days In Which Above Specified Total SMS Are sent"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='SMS Days' type='number' max={3} value={smsDays} onChange={handleSmsDays} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center justify-content-center'>
-                            <div className='col'> SMS Days</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total Days In Which Above Specified Total SMS Are sent"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='SMS Days' type='number' max={3} value={smsDays} onChange={handleSmsDays} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> SMS DIFF</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"SMS Differnce After One SMS Sent"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='SMS DIFF' type='number' max={3} value={smsDiff} onChange={handleSmsDiff} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> SMS DIFF</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"SMS Differnce After One SMS Sent"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='SMS DIFF' type='number' max={3} value={smsDiff} onChange={handleSmsDiff} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> OBD Count</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total OBD Sent To A Number In Below Defined OBD Days"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='OBD Count' max={3} value={obdCount} type='number' onChange={handleObdCount} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> OBD Count</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total OBD Sent To A Number In Below Defined OBD Days"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='OBD Count' max={3} value={obdCount} type='number' onChange={handleObdCount} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> OBD Days</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total Days In Which Above Specified Total OBD Are Sent"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='OBD Days' max={3} value={obdDays} type='number' onChange={handleObdDays} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> OBD Days</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total Days In Which Above Specified Total OBD Are Sent"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='OBD Days' max={3} value={obdDays} type='number' onChange={handleObdDays} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> OBD DIFF</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"OBD Difference after one obd sent"}  >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='OBD DIFF' max={3} value={obdDiff} type='number' onChange={handleObdDiff} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> OBD DIFF</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"OBD Difference after one obd sent"}  >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='OBD DIFF' max={3} value={obdDiff} type='number' onChange={handleObdDiff} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> Total Count</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total SMS/OBD Sent to a number in Below Defined Total Days"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='Total Count' max={3} value={totalCount} type='number' onChange={handleTotalCount} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> Total Count</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total SMS/OBD Sent to a number in Below Defined Total Days"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='Total Count' max={3} value={totalCount} type='number' onChange={handleTotalCount} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> Total Days</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"Total Days in which above specified Total SMS/OBD are sent"}  >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='Total Days' max={3} value={totalDays} type='number' onChange={handleTotalDays} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> Total Days</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"Total Days in which above specified Total SMS/OBD are sent"}  >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='Total Days' max={3} value={totalDays} type='number' onChange={handleTotalDays} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'> Promo DIFF</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <Tooltip title={"OBD Difference after one obd sent"} >
+                                <input className='border border-1 rounded border-dark w-100' placeholder='Promo DIFF' max={3} value={promoDiff} type='number' onChange={handlePromoDiff} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
+                            </Tooltip>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'> Promo DIFF</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <Tooltip title={"OBD Difference after one obd sent"} >
-                                    <input className='border border-1 rounded border-dark w-100' placeholder='Promo DIFF' max={3} value={promoDiff} type='number' onChange={handlePromoDiff} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter-1 For Unlimit</label>
-                                </Tooltip>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'>Override Policy</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <select className='border border-1 rounded border-dark w-100' value={overridePolicy} style={{ color: 'black' }} onChange={handleOverridePolicy}>
+                                <option>Select</option>
+                                <option value="SYSTEM">No</option>
+                                <option value="OPERATOR">Yes</option>
+                            </select>
+                            <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> For Unlimited,Please Select Yes</label>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'>Override Policy</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <select className='border border-1 rounded border-dark w-100' value={overridePolicy} style={{ color: 'black' }} onChange={handleOverridePolicy}>
-                                    <option>Select</option>
-                                    <option value="SYSTEM">No</option>
-                                    <option value="OPERATOR">Yes</option>
-                                </select>
-                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> For Unlimited,Please Select Yes</label>
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'>Policy Status</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <select className='border border-1 rounded border-dark w-100' value={policyStatus} style={{ color: 'black' }} onChange={handlePolicyStatus} >
+                                <option>Select</option>
+                                <option value='Y'>Active</option>
+                                <option value='N'>Inactive</option>
+                            </select>
                         </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'>Policy Status</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <select className='border border-1 rounded border-dark w-100' value={policyStatus} style={{ color: 'black' }} onChange={handlePolicyStatus} >
-                                    <option>Select</option>
-                                    <option value='Y'>Active</option>
-                                    <option value='N'>Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className='row d-flex align-items-center my-2 justify-content-center'>
-                            <div className='col'>Description</div>
-                            <div className='col'>:</div>
-                            <div className='col' >
-                                <textarea className='border border-1 rounded border-dark w-100' rows={4} type='text' value={description} style={{ color: 'black' }} onChange={handleDescription} />
-                            </div>
+                    </div>
+                    <div className='row d-flex align-items-center my-2 justify-content-center'>
+                        <div className='col'>Description</div>
+                        <div className='col'>:</div>
+                        <div className='col' >
+                            <textarea className='border border-1 rounded border-dark w-100' rows={4} type='text' value={description} style={{ color: 'black' }} onChange={handleDescription} />
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={onSubmit} >Add Policy</CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-                </div>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={onSubmit} >Add Policy</CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
             </div>
             <BackDropLoader opener={loading} />
         </div>

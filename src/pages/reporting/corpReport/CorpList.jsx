@@ -7,12 +7,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../../component/loader/Loader';
-import ErrorPage from '../../../component/error/ErrorPage';
-import CommanButton from '../../../component/CommanButton';
 import { signal, useSignal } from '@preact/signals-react';
 import { useNavigate } from 'react-router-dom';
 import { getCorpReport } from './slice/ReportCorp';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
 
 
 function CorpList() {
@@ -72,34 +74,27 @@ function CorpList() {
         return <ErrorPage />
     } else {
         return (
-            <div style={{ height: "-webkit-fill-available" }} >
-                <b>
-                    <h5 className='d-flex justify-content-between align-items-center text-slate-600'>Corp-RBT Reports ✨
-                        <div className='d-flex align-items-center justify-content-end w-50 h-25 ' >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}  >
-                                <DemoContainer components={['DatePicker']} >
-                                    <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <CommanButton className='btnBack' onClick={submitDate}>
-                                Submit
-                            </CommanButton>
-                        </div>
-                    </h5>
-                </b>
-
+            <div className='mx-3' >
+                <Heading name='Corp-RBT Reports'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}  >
+                        <DemoContainer components={['DatePicker']} >
+                            <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <CommanButton className='btnBack' onClick={submitDate}>
+                        Submit
+                    </CommanButton>
+                </Heading>
 
                 {
                     data?.data?.body?.length === 0
                         ?
-                        <h4 className='d-flex justify-content-center my-4'>
-                            No record found
-                        </h4>
+                        <Empty name=' No record found' />
                         :
                         <>
                             <div className='d-flex justify-content-center my-2'>
@@ -107,51 +102,49 @@ function CorpList() {
                                     This list displays all executed and ongoing campaigns. To access the report, kindly click on the corresponding Corp ID.
                                 </p>
                             </div>
-                            <div className='d-flex justify-content-center'>
-                                <TableContainer style={{ width: '550px' }}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
-                                                    Corp Id
-                                                </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
-                                                    Corp Name
-                                                </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
-                                                    Start Date
-                                                </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
-                                                    End Date
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
+                            <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded">
+                                <Table>
+                                    <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                        <TableRow>
+                                            <TableCell align="center" className="border border-2 fw-bolder fs-6">
+                                                Corp Id
+                                            </TableCell>
+                                            <TableCell align="center" className="border border-2 fw-bolder fs-6">
+                                                Corp Name
+                                            </TableCell>
+                                            <TableCell align="center" className="border border-2 fw-bolder fs-6">
+                                                Start Date
+                                            </TableCell>
+                                            <TableCell align="center" className="border border-2 fw-bolder fs-6">
+                                                End Date
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
 
 
-                                        {/* <TableBody > */}
-                                            {
-                                                activePage?.map((reportsData, index) => {
-                                                    return (
-                                                        <CorpReportListData
-                                                            key={index}
-                                                            data={reportsData}
-                                                        />
-                                                    )
-                                                })
-                                            }
+                                    <TableBody >
+                                        {
+                                            activePage?.map((reportsData, index) => {
+                                                return (
+                                                    <CorpReportListData
+                                                        key={index}
+                                                        data={reportsData}
+                                                    />
+                                                )
+                                            })
+                                        }
 
 
-                                        {/* </TableBody> */}
-                                    </Table>
-                                    {
-                                        data?.data?.body[0]?.length >
-                                        10 &&
-                                        <div className='d-flex justify-content-center my-4'>
-                                            <Pagination count={Math.ceil(data?.data?.body[0]?.length / 10)} variant="outlined" shape="rounded" onChange={(e, p) => currentPage.value = p} />
-                                        </div>
-                                    }
-                                </TableContainer>
-                            </div>
+                                    </TableBody>
+                                </Table>
+                                {
+                                    data?.data?.body[0]?.length >
+                                    10 &&
+                                    <div className='d-flex justify-content-center my-4'>
+                                        <Pagination count={Math.ceil(data?.data?.body[0]?.length / 10)} variant="outlined" shape="rounded" onChange={(e, p) => currentPage.value = p} />
+                                    </div>
+                                }
+                            </TableContainer>
                         </>
                 }
             </div >
@@ -189,10 +182,10 @@ function CorpReportListData({ data, key }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <TableCell align="center" style={{ color: '#6366f1', fontWeight: '700', fontSize: '12px', height: '4em' }}>{data?.corp_ID}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.template_name}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.start_date?.slice(0, 10)}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.end_date?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.corp_ID}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.template_name}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.start_date?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.end_date?.slice(0, 10)}</TableCell>
         </TableRow>
     )
 }

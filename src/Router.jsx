@@ -46,6 +46,15 @@ import AddVoice from "./pages/systemConfiguration/voiceConfig/AddVoice";
 import ModifyVoice from "./pages/systemConfiguration/voiceConfig/ModifyVoice";
 import InventoryConfig from "./pages/systemConfiguration/inventory/InventoryConfig";
 import ModifyInventory from "./pages/systemConfiguration/inventory/ModifyInventory";
+import PvmList from "./pages/reporting/pvmReport/PvmList";
+import SpecificPvmCamp from "./pages/reporting/pvmReport/SpecificPvmCamp";
+import GeneratedReport from "./pages/reporting/pvmReport/GeneratedReport";
+import CorpList from "./pages/reporting/corpReport/CorpList";
+import SpecificCorpCamp from "./pages/reporting/corpReport/SpecificCorpCamp";
+import CorpGeneratedReport from "./pages/reporting/corpReport/CorpGeneratedReport";
+import AdList from './pages/reporting/adReport/AdList'
+import SpecificAdCamp from "./pages/reporting/adReport/SpecificAdCamp";
+import AdGeneratedReport from "./pages/reporting/adReport/AdGeneratedReport";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
@@ -134,6 +143,20 @@ const Router = createBrowserRouter(
                 <Route path="/systemConfiguration/voiceConfiguration" element={<ViewVoice />} />
                 <Route path="/systemConfiguration/AddVoiceConfiguration" element={<AddVoice />} />
                 <Route path="/systemConfiguration/modifyVoiceConfiguration" element={<ModifyVoice />} />
+
+
+                {/* Reporting section */}
+                <Route path="pvmReport" element={<PvmList />} />
+                <Route path="graphPvmReport/:id" element={<SpecificPvmCamp />} />
+                <Route path="generatePvmReport/:id" element={<GeneratedReport />} />
+
+                <Route path="corpReport" element={<CorpList />} />
+                <Route path="graphCorpReport/:id" element={<SpecificCorpCamp />} />
+                <Route path="generateCorpReport/:id" element={<CorpGeneratedReport />} />
+
+                <Route path="adReport" element={<AdList />} />
+                <Route path="graphAdReport/:id" element={<SpecificAdCamp />} />
+                <Route path="generateAdReport/:id" element={<AdGeneratedReport />} />
 
             </Route>
         </>

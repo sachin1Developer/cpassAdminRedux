@@ -8,6 +8,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { createVendor } from '../slice/UserTypeManagement';
 import { useDispatch, useSelector } from 'react-redux';
 import CommanButton from '../../../../components/CommanButton';
+import Heading from '../../../../components/header/Heading';
 
 
 
@@ -249,143 +250,135 @@ function AddVendor() {
 
 
     return (
-        <Container>
-
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>Add Vendor ✨
-                </h4>
-                <div className='d-flex align-items-center'>
-                    <Link to='/operatorConfig/userTypeManagement/viewUserType' state={{value:'1'}} style={{ textDecoration: 'none' }} >
-                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
-                </div>
-            </div>
+        <div className='mx-3'>
+            <Heading name='Add Vendor'>
+                <Link to='/operatorConfig/userTypeManagement/viewUserType' state={{ value: '1' }} style={{ textDecoration: 'none' }} >
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
 
 
-            <div>
-                <Container>
-                    <div className='d-flex justify-content-center flex-column mx-5 my-4'>
-                        <Box maxWidth={980}>
-                            <Row className='my-2'>
-                                <Col md={4}>
-                                    <TextField type='text' label="User Name" variant="outlined" autoFocus='true' value={userName} onChange={handleUserName} />
-                                    {/* <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}>*Username must be unique</label> */}
-                                </Col>
-                                <Col md={4}>
-                                    <FormControl variant="outlined" style={{ width: '82%' }}>
-                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-password"
-                                            type={showPassword ? 'text' : 'password'}
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={() => { setShowPassword(true) }}
-                                                        onMouseDown={() => { setShowPassword(false) }}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                            label="Password"
-                                            value={password}
-                                            onChange={(e) => { setPassword(e.target.value) }}
-                                            error={password.length !== 0 && (password.length < 6)} />
-                                        <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}>
-                                            *Password should be minimum 6 characters</label>
-                                    </FormControl>
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='password' label="Confirm Password" variant="outlined" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} error={confirmPassword !== password} helperText={(confirmPassword !== password) && 'password not match'} />
-                                </Col>
-                            </Row>
-                            <Row className='my-3'>
-                                <Col md={4}>
-                                    <TextField type='text' label="Person_Contact Name" variant="outlined" value={personContact} onChange={(e) => { setPersonContact(e.target.value) }} error={personContact.length !== 0 && (personContact.length === 0)} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='text' label="Position" variant="outlined" value={position} onChange={(e) => { setPosition(e.target.value) }} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='number' label="Mobile No." variant="outlined" value={mobileNo} onChange={(e) => { setMobileNo(e.target.value) }} error={mobileNo.length !== 0 && (mobileNo.length < 12)} />
-                                </Col>
-                            </Row>
-                            <Row className='my-3'>
-                                <Col md={4}>
-                                    <TextField type='email' label="Email Id" variant="outlined" value={email} onChange={(e) => { setEmail(e.target.value) }} error={email.length !== 0 && (!email.endsWith('@gmail.com'))} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='number' label="Comp_phone" variant="outlined" value={compPhone} onChange={(e) => { setCompPhone(e.target.value) }} error={compPhone.length !== 0 && compPhone.length < 12} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='text' label="Ext." variant="outlined" value={ext} onChange={(e) => { setExt(e.target.value) }} />
+                <div className='d-flex justify-content-center flex-column mx-5 my-4 align-items-center'>
+                    <Box maxWidth={980}>
+                        <Row className='my-2'>
+                            <Col md={4}>
+                                <TextField type='text' label="User Name" variant="outlined" autoFocus='true' value={userName} onChange={handleUserName} />
+                                {/* <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}>*Username must be unique</label> */}
+                            </Col>
+                            <Col md={4}>
+                                <FormControl variant="outlined" style={{ width: '82%' }}>
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => { setShowPassword(true) }}
+                                                    onMouseDown={() => { setShowPassword(false) }}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                        value={password}
+                                        onChange={(e) => { setPassword(e.target.value) }}
+                                        error={password.length !== 0 && (password.length < 6)} />
+                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}>
+                                        *Password should be minimum 6 characters</label>
+                                </FormControl>
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='password' label="Confirm Password" variant="outlined" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} error={confirmPassword !== password} helperText={(confirmPassword !== password) && 'password not match'} />
+                            </Col>
+                        </Row>
+                        <Row className='my-3'>
+                            <Col md={4}>
+                                <TextField type='text' label="Person_Contact Name" variant="outlined" value={personContact} onChange={(e) => { setPersonContact(e.target.value) }} error={personContact.length !== 0 && (personContact.length === 0)} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='text' label="Position" variant="outlined" value={position} onChange={(e) => { setPosition(e.target.value) }} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='number' label="Mobile No." variant="outlined" value={mobileNo} onChange={(e) => { setMobileNo(e.target.value) }} error={mobileNo.length !== 0 && (mobileNo.length < 12)} />
+                            </Col>
+                        </Row>
+                        <Row className='my-3'>
+                            <Col md={4}>
+                                <TextField type='email' label="Email Id" variant="outlined" value={email} onChange={(e) => { setEmail(e.target.value) }} error={email.length !== 0 && (!email.endsWith('@gmail.com'))} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='number' label="Comp_phone" variant="outlined" value={compPhone} onChange={(e) => { setCompPhone(e.target.value) }} error={compPhone.length !== 0 && compPhone.length < 12} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='text' label="Ext." variant="outlined" value={ext} onChange={(e) => { setExt(e.target.value) }} />
 
-                                </Col>
-                            </Row>
-                            <Row className='my-3'>
-                                <Col md={4}>
-                                    <TextField type='text' label="Sales_Resp" variant="outlined" value={'Admin'} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='email' label="Sales_Email" variant="outlined" value={salesMail} onChange={(e) => { setSalesMail(e.target.value) }} error={salesMail.length !== 0 && salesMail.length < 12} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='number' label="Sales_Mobile" variant="outlined" value={salesMobile} onChange={(e) => { setSalesMobile(e.target.value) }} error={salesMobile.length !== 0 && salesMobile.length < 12} />
-                                </Col>
-                            </Row>
-                            <Row className='my-3'>
-                                <Col md={4}>
-                                    <TextField type='number' label="Billing Number" variant="outlined" value={billingNumber} onChange={(e) => { setBillingNumber(e.target.value) }} />
+                            </Col>
+                        </Row>
+                        <Row className='my-3'>
+                            <Col md={4}>
+                                <TextField type='text' label="Sales_Resp" variant="outlined" value={'Admin'} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='email' label="Sales_Email" variant="outlined" value={salesMail} onChange={(e) => { setSalesMail(e.target.value) }} error={salesMail.length !== 0 && salesMail.length < 12} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='number' label="Sales_Mobile" variant="outlined" value={salesMobile} onChange={(e) => { setSalesMobile(e.target.value) }} error={salesMobile.length !== 0 && salesMobile.length < 12} />
+                            </Col>
+                        </Row>
+                        <Row className='my-3'>
+                            <Col md={4}>
+                                <TextField type='number' label="Billing Number" variant="outlined" value={billingNumber} onChange={(e) => { setBillingNumber(e.target.value) }} />
 
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='number' label="Country Code" variant="outlined" value={countryCode} onChange={(e) => { setCountryCode(e.target.value) }} />
-                                </Col>
-                                <Col md={4}>
-                                    <FormControl fullWidth style={{ width: '82%' }}>
-                                        <InputLabel id="demo-simple-select-label">Select Role Type</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={roleType}
-                                            error={(roleType.length !== 0) && (roleType.length < 5)}
-                                            label="Select Role Type"
-                                            onChange={(e) => { setRoleType(e.target.value) }}
-                                            MenuProps={MenuProps} >
-                                            <MenuItem value={1}>Admin</MenuItem>
-                                            <MenuItem value={2}>Client</MenuItem>
-                                            <MenuItem value={3}>Corporate</MenuItem>
-                                            <MenuItem value={4}>Dynamic</MenuItem>
-                                            <MenuItem value={5}>TEST</MenuItem>
-                                            <MenuItem value={7}>Business</MenuItem>
-                                            <MenuItem value={9}>Vendor</MenuItem>
-                                            <MenuItem value={8}>Outreach</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Col>
-                            </Row>
-                            <Row className='my-3' >
-                                <Col md={4}>
-                                    <TextField type='number' label="Avail_Balance" variant="outlined" value={avalblnc} onChange={(e) => { setAvalblnc(e.target.value) }} error={avalblnc.length !== 0 && (avalblnc.length === 0)} />
-                                </Col>
-                                <Col md={4}>
-                                    <TextField type='number' label="Credit_Limit" variant="outlined" value={crdblnc} onChange={(e) => { setCrdblnc(e.target.value) }} error={crdblnc.length !== 0 && crdblnc.length === 0} />
-                                </Col>
-                                {/* <Col md={4}>
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='number' label="Country Code" variant="outlined" value={countryCode} onChange={(e) => { setCountryCode(e.target.value) }} />
+                            </Col>
+                            <Col md={4}>
+                                <FormControl fullWidth style={{ width: '82%' }}>
+                                    <InputLabel id="demo-simple-select-label">Select Role Type</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={roleType}
+                                        error={(roleType.length !== 0) && (roleType.length < 5)}
+                                        label="Select Role Type"
+                                        onChange={(e) => { setRoleType(e.target.value) }}
+                                        MenuProps={MenuProps} >
+                                        <MenuItem value={1}>Admin</MenuItem>
+                                        <MenuItem value={2}>Client</MenuItem>
+                                        <MenuItem value={3}>Corporate</MenuItem>
+                                        <MenuItem value={4}>Dynamic</MenuItem>
+                                        <MenuItem value={5}>TEST</MenuItem>
+                                        <MenuItem value={7}>Business</MenuItem>
+                                        <MenuItem value={9}>Vendor</MenuItem>
+                                        <MenuItem value={8}>Outreach</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Col>
+                        </Row>
+                        <Row className='my-3' >
+                            <Col md={4}>
+                                <TextField type='number' label="Avail_Balance" variant="outlined" value={avalblnc} onChange={(e) => { setAvalblnc(e.target.value) }} error={avalblnc.length !== 0 && (avalblnc.length === 0)} />
+                            </Col>
+                            <Col md={4}>
+                                <TextField type='number' label="Credit_Limit" variant="outlined" value={crdblnc} onChange={(e) => { setCrdblnc(e.target.value) }} error={crdblnc.length !== 0 && crdblnc.length === 0} />
+                            </Col>
+                            {/* <Col md={4}>
                                     <TextField type='number' label="OBD" variant="outlined" value={obd} onChange={handleObd} error={!validate} />
                                 </Col> */}
-                            </Row>
-                        </Box>
+                        </Row>
+                    </Box>
+                    <div className='d-flex justify-content-center my-5'>
+                        <CommanButton className='btnSend mx-4' onClick={onSubmit} >Submit </CommanButton>
+                        <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                     </div>
-                </Container>
-                <div className='d-flex justify-content-center my-5'>
-                    <CommanButton className='btnSend mx-4' onClick={onSubmit} >Submit </CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                 </div>
 
-                {/* <Row className='d-flex justify-content-center'>
+            {/* <Row className='d-flex justify-content-center'>
                     <Col sm={3} className='d-flex flex-column'>
                         <TextField className='my-2' type='text' label="User Name" variant="outlined" autoFocus='true' onChange={handleUserName} error={!validate} />
 
@@ -480,8 +473,7 @@ function AddVendor() {
                         <Button className='btnSend mx-4' onClick={clearText} >Clear</Button>
                     </div>
                 </Row> */}
-            </div>
-        </Container>
+        </div>
     );
 
 

@@ -11,6 +11,9 @@ import { Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteParams, getParamList } from './slice/AppConfigParam';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
+import Loader from '../../../components/loader/Loader';
 
 
 function ViewParam() {
@@ -23,23 +26,25 @@ function ViewParam() {
     const [loading, setLoading] = useState(true)
     let indexofLast = currentPage * perPage
     let indexofFirst = indexofLast - perPage
-    let activePage = paramList.slice(indexofFirst, indexofLast);
+    let activePage = paramList?.slice(indexofFirst, indexofLast);
 
 
 
     const getParam = () => {
+        setLoading(true)
         dispatch(getParamList(token))
             .then((resp) => {
                 if (resp?.payload?.status === 200) {
-                setParamList(resp?.payload?.data?.body);
-                }else {
+                    setParamList(resp?.payload?.data?.body);
+                } else {
                     toast.error('Intenal server error');
                 }
-                // setLoading(false);
+                setLoading(false)
                 // console.log(resp.data.body)
             })
             .catch((error) => {
                 console.error(error);
+                setLoading(false)
                 toast.error('Error while fetching list');
             });
     }
@@ -70,53 +75,59 @@ function ViewParam() {
 
 
 
-
-    return (
-        <Container>
-
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>View Param ✨
-                </h4>
-                <div className='mx-2'>
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className='mx-3'>
+                <Heading name='View Param'>
                     <Link to="/systemConfiguration/addAppConfigParam"
                         state={{ data: paramList }}
                         style={{ textDecoration: 'none' }}>
                         <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Param</CommanButton>
                     </Link>
-                </div>
+                </Heading>
+                {
+                    paramList?.length === 0
+                        ?
+                        <Empty name='Data Not Found' />
+                        :
+                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                    <TableRow className='bodyColor' >
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Param ID</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Param Tag</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Param Value</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Remarks</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Owner</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {activePage?.map((paramList, index) => (
+                                        <ViewParamList
+                                            key={index}
+                                            list={paramList}
+                                            remove={onDelete}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                }
+                {
+                    paramList?.length > perPage
+                    &&
+                    <div className='d-flex justify-content-center my-4'>
+                        <Pagination count={Math.ceil(paramList?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
+                    </div>
+                }
             </div>
+        );
 
-            <div className=''>
-                <TableContainer style={{ backgroundColor: '' }} >
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow className='bodyColor'>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Param ID</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Param Tag</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Param Value</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Remarks</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Owner</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Modify</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7', padding: 10, fontSize: '12px' }}>Delete</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        {activePage.map((paramList, index) => (
-                            <ViewParamList
-                                key={index}
-                                list={paramList}
-                                remove={onDelete}
-                            />
-                        ))}
-                    </Table>
-                </TableContainer>
-            </div>
-            <div className='d-flex justify-content-center my-4'>
-                <Pagination count={Math.ceil(paramList.length / 10)} color="primary" onChange={(e, p) => setCurrentPage(p)} />
-            </div>
-        </Container>
-    );
-
-
+    }
 }
 export default ViewParam;
 
@@ -137,48 +148,43 @@ const ViewParamList = ({ list, remove }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0, fontSize: '12px', padding: 1 } }}>
-                <TableCell component="th" align="center" scope="row" >
-                    {data?.paramId}
-                </TableCell>
-                <TableCell align="center" >
-                    {data?.paramTag}
-                </TableCell>
-                <TableCell align="center">
-                    {data?.paramValue}
-                </TableCell>
-                <TableCell align="center" >
-                    {data?.remarks}
-                </TableCell>
-                <TableCell align="center" >
-                    {data?.owner}
-                </TableCell>
-                <TableCell align="center" >
-                    <Link style={{ color: 'rgb(100,116,139)' }} to={{
-                        pathname: '/systemConfiguration/modifyAppConfigParam',
-                        state: { data: data },
-                    }}>
-                        <EditNoteSharpIcon />
-                    </Link>
-                </TableCell>
-                <TableCell align="center">
-                    <button className="border-0" onClick={() => { setModal(!modal) }}>
-                        <DeleteForeverIcon style={{ color: 'red' }} />
-                    </button>
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.paramTag} ?</Modal.Body>
-                        <Modal.Footer>
-                            <Button className='btn btn-danger' onClick={() => { remove(data.paramId); setModal(false) }}>
-                                Delete
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody>
+        <TableRow >
+            <TableCell className="border border-2" align="center"  style={{ color: 'black', fontWeight: '600' }} >
+                {data?.paramId}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: '#6366f1', fontWeight: '600' }} >
+                {data?.paramTag}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'black', fontWeight: '600' }}>
+                {data?.paramValue}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data?.remarks}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data?.owner}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'black' }} to='/systemConfiguration/modifyAppConfigParam' state={{ data: data }} >
+                    <EditNoteSharpIcon />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                    <DeleteForeverIcon style={{ color: 'red' }} />
+                </button>
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.paramTag} ?</Modal.Body>
+                    <Modal.Footer>
+                        <Button className='btn btn-danger' onClick={() => { remove(data.paramId); setModal(false) }}>
+                            Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }

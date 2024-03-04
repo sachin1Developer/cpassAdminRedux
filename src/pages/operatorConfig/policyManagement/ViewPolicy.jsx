@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link, Redirect } from 'react-router-dom';
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -11,6 +11,8 @@ import CommanButton from '../../../components/CommanButton';
 import Loader from '../../../components/loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePolicyManagement, viewPolicyManagement } from './slice/PolicyManagement';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
 
 
 function ViewPolicy() {
@@ -18,12 +20,15 @@ function ViewPolicy() {
     let token = useSelector(state => state.token?.data?.token)
     const [policyList, setPolicyList] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const perPage = 10;
 
     const getPolicy = () => {
         setLoading(true)
         dispatch(viewPolicyManagement(token))
             .then((resp) => {
-                if (resp?.payload?.status) {
+                console.log(resp)
+                if (resp?.payload?.status === 200) {
                     setPolicyList(resp.payload.data);
                     setLoading(false);
                 } else {
@@ -59,53 +64,63 @@ function ViewPolicy() {
     }, [])
 
 
-
+    let indexofLast = currentPage * perPage
+    let indexofFirst = indexofLast - perPage
+    let activePage = policyList?.slice(indexofFirst, indexofLast)
 
 
     if (loading) {
         return <Loader />
     } else {
         return (
-            <div className=''>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>View Policy ✨
-                    </h4>
-                    <div className='mx-2'>
-                        <Link to='/operatorConfig/addPolicy'
-                            state={{ data: policyList }} style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Policy</CommanButton>
-                        </Link>
-                    </div>
-                </div>
-
-                <div className=''>
-                    <TableContainer style={{ backgroundColor: '' }} >
-                        <Table >
-                            <TableHead>
-                                <TableRow className='bodyColor'>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Policy ID</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Policy Name</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Description</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Exist</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>View</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Modify</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Delete</TableCell>
-                                    {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>
+            <div className='mx-3'>
+                <Heading name='View Policy'>
+                    <Link to='/operatorConfig/addPolicy'
+                        state={{ data: policyList }} style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Policy</CommanButton>
+                    </Link>
+                </Heading>
+                {
+                    policyList?.length === 0
+                        ?
+                        <Empty name='Data Not Found' />
+                        :
+                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                            <Table >
+                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                    <TableRow className='bodyColor'>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Policy ID</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Policy Name</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Description</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Exist</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >View</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Delete</TableCell>
+                                        {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>
                                         <Input type="checkbox" style={{ borderColor: 'black' }} />
                                     </TableCell> */}
-                                </TableRow>
-                            </TableHead>
-                            {policyList?.map((listpolicy, index) => (
-                                <ViewPolicyList
-                                    key={index}
-                                    list={listpolicy}
-                                    remove={onDelete}
-                                />
-                            ))}
-                        </Table>
-                    </TableContainer>
-                </div>
-            </div >
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {activePage?.map((listpolicy, index) => (
+                                        <ViewPolicyList
+                                            key={index}
+                                            list={listpolicy}
+                                            remove={onDelete}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                }
+                {
+                    policyList?.length > perPage
+                    &&
+                    <div className='d-flex justify-content-center my-4'>
+                        <Pagination count={Math.ceil(policyList?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
+                    </div>
+                }
+            </div>
         );
     }
 
@@ -130,49 +145,47 @@ const ViewPolicyList = ({ list, remove }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600', fontSize: '15px', height: '4em' }}>
-                    {data.policyId}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    {data.policyName}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    {data.description}
-                </TableCell>
-                <TableCell align="center" style={{ color: 'blueviolet', fontWeight: 'bolder', fontSize: '15px', height: '4em' }}>
-                    {data.status}
-                </TableCell>
-                <TableCell align="center" >
-                    <Link style={{ color: 'rgb(100,116,139)' }} to='/operatorConfig/detailsPolicy'
-                        state={{ data: data }}>
-                        <VisibilityOutlinedIcon />
-                    </Link>
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    <Link style={{ color: 'rgb(100,116,139)' }} to='/operatorConfig/modifyPolicy'
-                        state={{ data: data }}>
-                        <EditNoteSharpIcon />
-                    </Link>
-                </TableCell>
-                <TableCell align="center">
-                    <button className="border-0" onClick={() => { setModal(!modal) }}>
-                        <DeleteForeverIcon style={{ color: 'red' }} />
-                    </button>
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.policyName} ?</Modal.Body>
-                        <Modal.Footer>
-                            <CommanButton className='btn btn-danger' onClick={() => { remove(data.policyId); setModal(false) }}>
-                                Delete
-                            </CommanButton>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody>
+        <TableRow >
+            <TableCell className="border border-2" align="center" >
+                {data.policyId}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'black', fontWeight: '600' }} >
+                {data.policyName}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.description}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: '#6366f1', fontWeight: '600' }} >
+                {data.status}
+            </TableCell>
+            <TableCell className="border border-2" align="center"  >
+                <Link style={{ color: 'black' }} to='/operatorConfig/detailsPolicy'
+                    state={{ data: data }}>
+                    <VisibilityOutlinedIcon />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'black' }} to='/operatorConfig/modifyPolicy'
+                    state={{ data: data }}>
+                    <EditNoteSharpIcon />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                <button className="border-0" onClick={() => { setModal(!modal) }}>
+                    <DeleteForeverIcon style={{ color: 'red' }} />
+                </button>
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.policyName} ?</Modal.Body>
+                    <Modal.Footer>
+                        <CommanButton className='btn btn-danger' onClick={() => { remove(data.policyId); setModal(false) }}>
+                            Delete
+                        </CommanButton>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }

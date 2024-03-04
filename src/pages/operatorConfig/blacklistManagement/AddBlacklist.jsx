@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addGroupBlacklistMsisdn, addRangeBlacklist, getBlacklistName } from './slice/BlacklistManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -372,57 +373,49 @@ function AddBlacklist() {
 
 
     return (
-        <Container>
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Add Blacklist ✨
-                    </h4>
-                    <div className='d-flex align-items-center'>
-                        <Link to='/operatorConfig/blacklistManagemment/manageBlacklist' style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ManageHistoryIcon />Manage Blacklist</CommanButton>
-                        </Link>
-                        <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
-                            <CommanButton type="submit" className="btnBack mb-3 mx-2  d-flex align-items-center" ><ManageSearchIcon />Search Blacklist</CommanButton>
-                        </Link>
+        <div className='mx-3'>
+            <Heading name='Add Blacklist'>
+                <Link to='/operatorConfig/blacklistManagemment/manageBlacklist' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ManageHistoryIcon />Manage Blacklist</CommanButton>
+                </Link>
+                <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
+                    <CommanButton type="submit" className="btnBack mb-3 mx-2  d-flex align-items-center" ><ManageSearchIcon />Search Blacklist</CommanButton>
+                </Link>
+            </Heading>
+            <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>
+                    <Tabs value={tabsValue} onChange={handleTabs} aria-label="basic tabs example">
+                        <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...a11yProps(0)} />
+                        <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...a11yProps(1)} />
+                    </Tabs>
+                </Box>
+                <CustomTabPanel value={tabsValue} index={0} >
+                    <Row className='d-flex justify-content-center'>
+                        <Col sm={4} className='d-flex flex-column'>
+                            <TextField className='my-2' id="outlined-basic" type='text' label="Range Name" variant="outlined" autoFocus='true' value={rangeName} onChange={handleRangeName} />
+                            <TextField className='my-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
+                        </Col>
+                        <Col sm={4}>
+                            <TextField className='my-2' id="outlined-basic" type='number' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRnage} />
+                            <TextField className='my-2' id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
+                        </Col>
+                    </Row>
+                </CustomTabPanel>
+                <CustomTabPanel value={tabsValue} index={1}>
+                    <div className='d-flex flex-column'>
+                        <TextField className='my-2' id="outlined-basic" type='text' label="Range Name" variant="outlined" autoFocus='true' value={grpName} onChange={handleGroupName} />
+                        <TextField className='my-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={grpcountryCode} onChange={handleGroupCountryCode} />
+                        <Input className='my-2' id="outlined-basic" type='file' accept='.txt' label="Range Owner" variant="standard" onChange={handleRangeFiles} />
+                        <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Extension must be .txt of Range Owner</label>
                     </div>
-                </div>
-                <div className='d-flex container '>
-                    <Box sx={{ width: '100%' }}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>
-                            <Tabs value={tabsValue} onChange={handleTabs} aria-label="basic tabs example">
-                                <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...a11yProps(0)} />
-                                <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...a11yProps(1)} />
-                            </Tabs>
-                        </Box>
-                        <CustomTabPanel value={tabsValue} index={0} >
-                            <Row className='d-flex justify-content-center'>
-                                <Col sm={4} className='d-flex flex-column'>
-                                    <TextField className='my-2' id="outlined-basic" type='text' label="Range Name" variant="outlined" autoFocus='true' value={rangeName} onChange={handleRangeName} />
-                                    <TextField className='my-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
-                                </Col>
-                                <Col sm={4}>
-                                    <TextField className='my-2' id="outlined-basic" type='number' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRnage} />
-                                    <TextField className='my-2' id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
-                                </Col>
-                            </Row>
-                        </CustomTabPanel>
-                        <CustomTabPanel value={tabsValue} index={1}>
-                            <div className='d-flex flex-column'>
-                                <TextField className='my-2' id="outlined-basic" type='text' label="Range Name" variant="outlined" autoFocus='true' value={grpName} onChange={handleGroupName} />
-                                <TextField className='my-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={grpcountryCode} onChange={handleGroupCountryCode} />
-                                <Input className='my-2' id="outlined-basic" type='file' accept='.txt' label="Range Owner" variant="standard" onChange={handleRangeFiles} />
-                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Extension must be .txt of Range Owner</label>
-                            </div>
-                        </CustomTabPanel>
-                    </Box>
+                </CustomTabPanel>
+            </Box>
 
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' onClick={() => { if (tabsValue === 0) { addBlacklistRange() } else { addGroupBlacklist() } }}>Add Range</CommanButton>
-                    <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-                </div>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' onClick={() => { if (tabsValue === 0) { addBlacklistRange() } else { addGroupBlacklist() } }}>Add Range</CommanButton>
+                <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
             </div>
-        </Container >
+        </div>
     );
 
 

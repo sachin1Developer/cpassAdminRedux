@@ -8,6 +8,7 @@ import { Textarea } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRoleTypeManagement, getAllHttpLinks, getAllRoleNameOnly } from './slice/RoleTypeManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 const nameId = "nameId"
@@ -236,29 +237,18 @@ function AddRoleType() {
 
 
     return (
-        <Container>
-            <div className='d-flex justify-content-between'>
-                <div className='d-flex'>
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>Add Role ✨</h3>
-                    </b>
-                </div>
-                <div className='d-flex'>
-                    <Link to='/operatorConfig/viewRoleType'>
-                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
-                </div>
-
-            </div>
-            <Row className='mx-5'>
-                <Col sm={4}>
-                    <TextField id="outlined-basic" type='text' label="Role Name" variant="outlined" autoFocus='true' value={roleName}
+        <div className='mx-3'>
+            <Heading name='Add Role'>
+                <Link to='/operatorConfig/viewRoleType'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='d-flex justify-content-center '>
+                    <TextField id="outlined-basic" type='text' className='mx-2' label="Role Name" variant="outlined" autoFocus='true' value={roleName}
                         onChange={handleRoleName} />
-                </Col>
-                <Col sm={6}>
-                    <Textarea id="outlined-basic" type='text' placeholder="Description" variant="outlined" minRows={3} value={description} onChange={(e) => { setDescription(e.target.value) }} />
-                </Col>
-            </Row>
+                
+                    <Textarea id="outlined-basic" type='text' className='mx-2' placeholder="Description" variant="outlined" minRows={3} value={description} onChange={(e) => { setDescription(e.target.value) }} />
+            </div>
             <div className='d-flex justify-content-center mt-4  '>
                 <Row>
                     <Col sm={9}>
@@ -289,10 +279,10 @@ function AddRoleType() {
             </div>
             <div className='d-flex justify-content-center'>
                 {/* <ViewHttpLinks /> */}
-                <Button className='btnBack my-4' onClick={addRoles}>Submit</Button>
+                <CommanButton className='btnBack my-4' onClick={addRoles}>Submit</CommanButton>
             </div>
 
-        </Container >
+        </div >
     );
 
 

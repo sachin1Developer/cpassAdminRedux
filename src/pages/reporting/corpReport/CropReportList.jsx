@@ -23,42 +23,39 @@ function CorpReportList(props) {
         exportFromJSON({ data, fileName, exportType })
     };
     return (
-        <>
-            <TableBody className=''>
-                <TableRow key={props.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} className='reportsList' >
 
-                    <TableCell align="center" style={{ fontSize: '12px', height: '4em' }}>{props.data.reportDate.slice(0, 10)}</TableCell>
+        <TableRow key={props.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} className='reportsList' >
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{props.data.newSubscriber}</TableCell>
+            <TableCell className="border border-2" align="center" >{props.data.reportDate.slice(0, 10)}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.unsubscription}</TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'green', fontWeight: '600' }} >{props.data.newSubscriber}</TableCell>
 
-                    <TableCell component="th" scope="row" align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.totalSubscriber} </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'red', fontWeight: '600' }}>
+                {props.data.unsubscription}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.totalIncomingCalls}</TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: '#6366f1', fontWeight: '600' }}>
+                {props.data.totalSubscriber} </TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.internationalCalls}</TableCell>
+            <TableCell className="border border-2" align="center" >
+                {props.data.totalIncomingCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.localCalls}</TableCell>
+            <TableCell className="border border-2" align="center" >
+                {props.data.internationalCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        {props.data.timeOfExposure}</TableCell>
+            <TableCell className="border border-2" align="center" >
+                {props.data.localCalls}</TableCell>
 
-                    <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>
-                        <Tooltip title="Download per day csv file" >
-                            <button onClick={() => { exportCsvForPerDay(props.data.reportDate.slice(0, 10), props.data) }} style={{ border: 'none', textDecoration: 'underLine', color: '#6366f1', fontWeight: '700', backgroundColor: 'transparent' }}>
-                                <DownloadIcon />
-                            </button>
-                        </Tooltip>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </>
+            <TableCell className="border border-2" align="center" >
+                {props.data.timeOfExposure}</TableCell>
+
+            <TableCell className="border border-2" align="center" >
+                <Tooltip title="Download per day csv file" >
+                    <button onClick={() => { exportCsvForPerDay(props.data.reportDate.slice(0, 10), props.data) }} style={{ border: 'none', textDecoration: 'underLine', color: '#6366f1', fontWeight: '700', backgroundColor: 'transparent' }}>
+                        <DownloadIcon />
+                    </button>
+                </Tooltip>
+            </TableCell>
+        </TableRow>
     );
 
 }

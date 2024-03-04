@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlacklistName, modifyBlacklistManagement } from './slice/BlacklistManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -197,39 +198,29 @@ function ModifyBlacklistRange() {
 
 
     return (
-        <Container>
-            <div>
+        <div className='mx-3'>
+            <Heading name='Modify Blacklist' >
+                <Link to='/operatorConfig/blacklistManagemment/manageBlacklist'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
 
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Modify Blacklist ✨
-                    </h4>
-                    <div className='d-flex align-items-center'>
-                        <Link to='/operatorConfig/blacklistManagemment/manageBlacklist'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
+            <div className='d-flex flex-column align-items-center'>
+                <div >
+                    <TextField className='m-2' aria-readonly id="outlined-basic" type='text' label="Range Name" variant="outlined" value={rangeName} />
+                    <TextField className='m-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
+                </div>
+                <div>
+                    <TextField className='m-2' id="outlined-basic" type='number' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRnage} />
+                    <TextField className='m-2' id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
                 </div>
 
-                <div className='d-flex container justify-content-center '>
-
-                    <Row>
-                        <Col sm={4} className='d-flex flex-column'>
-                            <TextField className='my-2' aria-readonly id="outlined-basic" type='text' label="Range Name" variant="outlined" value={rangeName} />
-                            <TextField className='my-2' id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
-                        </Col>
-                        <Col sm={4}>
-                            <TextField className='my-2' id="outlined-basic" type='number' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRnage} />
-                            <TextField className='my-2' id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
-                        </Col>
-                    </Row>
-
-                </div>
-                <div className='d-flex justify-content-center my-4'>
+                <div className='d-flex justify-content-around my-4'>
                     <CommanButton className='btnSend mx-4' onClick={onSubmit}>Add Range</CommanButton>
                     <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                 </div>
             </div>
-        </Container >
+        </div>
     );
 
 

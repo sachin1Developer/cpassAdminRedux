@@ -115,35 +115,34 @@ const PlayGround = () => {
     }
 
     return (
-        <div style={{ display: 'flex', height: '100%' }} >
+        <div style={{ display: 'flex', height: '100%' }} className='user-select-none' >
             <Sidebar
                 collapsed={collapsed}
-                transitionDuration={"600"}
+                transitionDuration={600}
                 toggled={toggled}
                 onBackdropClick={() => setToggled(false)}
-                breakPoint="md"
+                breakPoint="sm"
                 backgroundColor={hexToRgba(dark.sidebar.backgroundColor, 1)}
                 rootStyles={{
                     color: dark.sidebar.color,
                 }}
-                // width='280'
+                width='280px'
                 style={{ height: '100vh', position: 'sticky', top: '0', left: "0" }}
             >
-                <div className='mx-2 my-4  p-3 d-flex align-items-end justify-content-center fs-3 fw-bold rounded' >
+                <div className='mx-2 my-4  p-3 d-flex align-items-start justify-content-center fs-3 fw-bold rounded' style={{ height: '100px' }} >
                     <button id="collapse"
                         onClick={() => { setCollapsed(!collapsed) }} style={{ border: 0, background: 'transparent', color: 'white', display: 'flex', alignItems: 'center' }}><MenuOutlinedIcon />
                         {
                             !collapsed &&
-                            <div className='mx-3 fw-bold' >
+                            <div className='mx-3 fw-bold'>
                                 OUTREACH
                             </div>
+
                         }
                     </button>
-
-
                 </div>
-                <Menu menuItemStyles={menuItemStyles}>
-                    <MenuItem component={<Link to="/" />} icon={<DashboardSharpIcon style={{ color: 'white' }} />}> Dashboard </MenuItem>
+                <Menu menuItemStyles={menuItemStyles} transitionDuration={600} >
+                    <MenuItem component={<Link to="/" />} icon={<DashboardSharpIcon style={{ color: 'white' }} />}  > Dashboard </MenuItem>
                     <SubMenu label="Campaign Configuration" icon={<PermDataSettingSharpIcon style={{ color: 'white' }} />}>
                         <SubMenu label="Campaigns" icon={<CampaignSharpIcon style={{ color: 'white' }} />}>
                             <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
@@ -214,6 +213,14 @@ const PlayGround = () => {
 
 
                     </SubMenu>
+
+                    <SubMenu label="Reporting" icon={<AssessmentIcon style={{ color: 'white' }} />} >
+                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/pvmReport' />} >PVM-Report</MenuItem>
+                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/corpReport' />} >Corp-Report</MenuItem>
+                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/adReport' />} >Ad-Report</MenuItem>
+                        </SubMenu>
+
+
                     {/* <SubMenu label="Reports" className='submenu' icon={<AssessmentIcon style={{ color: 'white' }} />}>
                         <SubMenu className='submenu' label="PVM" icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} >
                             <MenuItem className='submenu' icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to="/campaignReport/reportPVM" />}> OBD Duration </MenuItem>
@@ -227,7 +234,7 @@ const PlayGround = () => {
             </Sidebar>
             <main className='w-100 container-fluid'  >
                 <HeaderComponent />
-                <hr style={{margin:0,padding:0 , marginBottom:'1em'}} />
+                <hr style={{ margin: 0, padding: 0, marginBottom: '1em' }} />
                 <Outlet />
 
             </main>

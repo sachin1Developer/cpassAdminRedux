@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container } from 'reactstrap';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { Link, useLocation } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserActivity } from './slice/UserActivityManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
 
 
 
@@ -59,11 +56,8 @@ function UserActivity() {
 
 
     return (
-        <Container>
-            <b>
-                <h3 className='pvmHeading text-slate-800'>User Activity Management ✨</h3>
-            </b>
-            <div className='d-flex align-items-center justify-content-center my-4 h-25 ' >
+        <div className='mx-3'>
+            <Heading name='User Activity Management'>
                 <div className='d-flex'>
                     <LocalizationProvider dateAdapter={AdapterDayjs}  >
                         <DemoContainer components={['DatePicker']} >
@@ -83,43 +77,43 @@ function UserActivity() {
                         Submit
                     </CommanButton>
                 </div>
-            </div>
-
-
-            {responseData !== "" &&
-                < div >
-                    {isActive &&
-                        <div className='my-4' id='search'>
-                            <TableContainer style={{ backgroundColor: '', width: '100%' }} >
-                                <Table sx={{}} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow className='bodyColor'>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Updated By</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Updated Date</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Event</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Remarks</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}> Details</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {activePage?.map((searchList, index) => (
-                                        < SearchListData
-                                            key={index}
-                                            index={index}
-                                            list={searchList}
-                                        />
-                                    ))}
-                                </Table>
-                            </TableContainer>
-                            <div className='d-flex justify-content-center my-4'>
-                                <Pagination count={Math.ceil(responseData?.length / 10)} color="primary" onChange={(e, p) => setCurrentPage(p)} />
-                            </div>
-                        </div>
-
-                    }
-                </div>
-
+            </Heading>
+            {
+                responseData?.length === 0
+                    ?
+                    <Empty name='Data Not Found' />
+                    :
+                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                        <Table >
+                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                <TableRow className='bodyColor'>
+                                    <TableCell align="center" className="border border-2 fw-bolder fs-6" > Updated By</TableCell>
+                                    <TableCell align="center" className="border border-2 fw-bolder fs-6" > Updated Date</TableCell>
+                                    <TableCell align="center" className="border border-2 fw-bolder fs-6" > Event</TableCell>
+                                    <TableCell align="center" className="border border-2 fw-bolder fs-6" > Remarks</TableCell>
+                                    <TableCell align="center" className="border border-2 fw-bolder fs-6" > Details</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {activePage?.map((searchList, index) => (
+                                    < SearchListData
+                                        key={index}
+                                        index={index}
+                                        list={searchList}
+                                    />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
             }
-        </Container >
+            {
+                responseData?.length > perPage
+                &&
+                <div className='d-flex justify-content-center my-4'>
+                    <Pagination count={Math.ceil(responseData?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
+                </div>
+            }
+        </div>
     );
 
 
@@ -138,25 +132,23 @@ const SearchListData = ({ index, list, remove }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell align="center" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data?.username}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data?.UPDATED_DATE?.slice(0, 19)}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data?.ACTION}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data?.REMARK}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data?.DETAIL}
-                </TableCell>
-            </TableRow>
-        </TableBody>
+        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align="center" className="border border-2" style={{ color: '#6366f1', fontWeight: '600' }}>
+                {data?.username}
+            </TableCell>
+            <TableCell align="center" className="border border-2">
+                {data?.UPDATED_DATE?.slice(0, 10)}
+            </TableCell>
+            <TableCell align="center" className="border border-2">
+                {data?.ACTION}
+            </TableCell>
+            <TableCell align="center" className="border border-2">
+                {data?.REMARK}
+            </TableCell>
+            <TableCell align="center" className="border border-2">
+                {data?.DETAIL}
+            </TableCell>
+        </TableRow>
     );
 }
 

@@ -1,4 +1,4 @@
-import { Pagination, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -7,12 +7,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../../component/loader/Loader';
-import ErrorPage from '../../../component/error/ErrorPage';
-import CommanButton from '../../../component/CommanButton';
 import { signal, useSignal } from '@preact/signals-react';
 import { useNavigate } from 'react-router-dom';
 import { getAdReport } from './slice/ReportAd';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import Heading from '../../../components/header/Heading';
+import CommanButton from '../../../components/CommanButton';
+import Empty from '../../../components/empty/Empty';
 
 
 
@@ -70,34 +72,28 @@ function CorpList() {
         return <ErrorPage />
     } else {
         return (
-            <div style={{ height: "-webkit-fill-available" }} >
-                <b>
-                    <h5 className='d-flex justify-content-between align-items-center text-slate-600'>Ad-RBT Reports ✨
-                        <div className='d-flex align-items-center justify-content-end w-50 h-25 ' >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}  >
-                                <DemoContainer components={['DatePicker']} >
-                                    <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                            <CommanButton className='btnBack' onClick={submitDate}>
-                                Submit
-                            </CommanButton>
-                        </div>
-                    </h5>
-                </b>
+            <div className='mx-3' >
+                <Heading name='Ad-RBT Reports'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}  >
+                        <DemoContainer components={['DatePicker']} >
+                            <DatePicker label="Select Start Date" format='YYYY-MM-DD' value={startDate.value || null} onChange={(e) => { startDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker label="Select End Date" format='YYYY-MM-DD' value={endDate.value || null} minDate={startDate.value} onChange={(e) => { endDate.value = e }} className='w-25' />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <CommanButton className='btnBack' onClick={submitDate}>
+                        Submit
+                    </CommanButton>
+                </Heading>
 
 
                 {
                     data?.data?.body?.length === 0
                         ?
-                        <h4 className='d-flex justify-content-center my-4'>
-                            No record found
-                        </h4>
+                        <Empty name='No record found' />
                         :
                         <>
                             <div className='d-flex justify-content-center my-2'>
@@ -106,47 +102,48 @@ function CorpList() {
                                 </p>
                             </div>
                             <div className='d-flex justify-content-center'>
-                                <TableContainer style={{ width: '550px' }}>
+                                <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
                                     <Table>
-                                        <TableHead>
+                                        <TableHead style={{ backgroundColor: '#d6d6f7' }} >
                                             <TableRow>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Ad-RBT Id
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Ad-RBT Name
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     Start Date
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontWeight: 'bolder' }}>
+                                                <TableCell align="center" className="border border-2 fw-bolder fs-6">
                                                     End Date
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
+                                        <TableBody>
+
+                                            {
+                                                activePage?.map((reportsData, index) => {
+                                                    return (
+                                                        <AdReportListData
+                                                            key={index}
+                                                            data={reportsData}
+                                                        />
+                                                    )
+                                                })
+                                            }
 
 
-                                        {
-                                            activePage?.map((reportsData, index) => {
-                                                return (
-                                                    <AdReportListData
-                                                        key={index}
-                                                        data={reportsData}
-                                                    />
-                                                )
-                                            })
-                                        }
-
-
+                                        </TableBody>
                                     </Table>
-                                    {
-                                        data?.data?.body[0]?.length >
-                                        10 &&
-                                        <div className='d-flex justify-content-center my-4'>
-                                            <Pagination count={Math.ceil(data?.data?.body[0]?.length / 10)} variant="outlined" shape="rounded" onChange={(e, p) => currentPage.value = p} />
-                                        </div>
-                                    }
                                 </TableContainer>
+                                {
+                                    data?.data?.body[0]?.length >
+                                    10 &&
+                                    <div className='d-flex justify-content-center my-4'>
+                                        <Pagination count={Math.ceil(data?.data?.body[0]?.length / 10)} variant="outlined" shape="rounded" onChange={(e, p) => currentPage.value = p} />
+                                    </div>
+                                }
                             </div>
                         </>
                 }
@@ -176,12 +173,12 @@ function AdReportListData({ data, key }) {
 
     return (
 
-        <TableRow key={key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} style={tableRowStyle} onClick={() => {navigate(`/graphAdReport/${data?.templateID}`)}} className='reportsList' onMouseEnter={() => setIsHovered(true)}
+        <TableRow key={key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} style={tableRowStyle} onClick={() => { navigate(`/graphAdReport/${data?.templateID}`) }} className='reportsList' onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)} >
-            <TableCell align="center" style={{ color: '#6366f1', fontWeight: '700', fontSize: '12px', height: '4em' }}>{data?.templateID}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.templatename}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.startdate?.slice(0, 10)}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.enddate?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2" style={{ color: '#6366f1', fontWeight: '600' }} >{data?.templateID}</TableCell>
+            <TableCell align="center" className="border border-2" style={{ color: 'black', fontWeight: '600' }} >{data?.templatename}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.startdate?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2" >{data?.enddate?.slice(0, 10)}</TableCell>
         </TableRow>
     )
 

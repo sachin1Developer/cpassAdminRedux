@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addGroupMsisdnToBlacklist, addMsisdnToBlacklist, deleteBlacklistGroup, deleteBlacklistRange, getBlacklistGroupName, getBlacklistRange } from './slice/BlacklistManagement';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 
@@ -174,88 +175,80 @@ function BlacklistManage() {
     }
 
     return (
-        <Container>
-            {/* {
-                rangeData === "Operator saved successfully" &&
-                <Redirect to="/operatorConfig/viewSubscriberRange" />
-            } */}
-            <div>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>Manage Blacklist ✨
-                    </h4>
-                    <div className=''>
-                        <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
-                            <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                        </Link>
-                    </div>
-                </div>
-                <div className='d-flex container '>
-                    <Box sx={{ width: '100%' }}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...tabsProps(0)} />
-                                <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...tabsProps(1)} />
-                            </Tabs>
-                        </Box>
-                        <CustomTabPanel value={value} index={0} className='d-flex justify-content-center' >
-                            <TableContainer   >
-                                <Table sx={{}} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow className='bodyColor'>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Range ID</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Range Name</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Start Range</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>End Range</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Modify</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Delete</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {blacklistRange.map((listpolicy, index) => (
-                                        <ViewBlacklistRange
-                                            key={index}
-                                            list={listpolicy}
-                                            deleteRange={deleteRange}
-
-                                        />
-                                    ))}
-                                </Table>
-                            </TableContainer>
-                        </CustomTabPanel>
-                        <CustomTabPanel value={value} index={1} className='d-flex justify-content-center' >
-                            <TableContainer  >
-                                <Table sx={{}} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow className='bodyColor'>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Range ID</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Range Name</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Total Msisdn Blacklisted</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Create Date</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Status</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Download</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>ADD</TableCell>
-                                            <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(63 72 85)', backgroundColor: '#d6d6f7' }}>Delete</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {blackgrp.map((listpolicy, index) => (
-                                        <ViewBlacklistGrp
-                                            key={index}
-                                            list={listpolicy}
-                                            addOn={onAdd}
-                                            addFile={addFile}
-                                            remove={onDelete}
-                                        />
-                                    ))}
-                                </Table>
-                            </TableContainer>
-                        </CustomTabPanel>
+        <div>
+            <Heading name='Manage Blacklist'>
+                <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
+                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='d-flex'>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...tabsProps(0)} />
+                            <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...tabsProps(1)} />
+                        </Tabs>
                     </Box>
-                </div>
-                <div className='d-flex justify-content-center my-4'>
-                    <CommanButton className='btnSend mx-4' >Delete</CommanButton>
-                    <CommanButton className='btnSend mx-4' >Clear</CommanButton>
-                </div>
+                    <CustomTabPanel value={value} index={0} className='d-flex justify-content-center' >
+                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded"  >
+                            <Table aria-label="simple table">
+                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                    <TableRow className='bodyColor'>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Start Range</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">End Range</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Modify</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        blacklistRange.map((listpolicy, index) => (
+                                            <ViewBlacklistRange
+                                                key={index}
+                                                list={listpolicy}
+                                                deleteRange={deleteRange}
+
+                                            />
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1} className='d-flex justify-content-center' >
+                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                            <Table sx={{}} aria-label="simple table">
+                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                    <TableRow className='bodyColor'>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Total Msisdn Blacklisted</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Create Date</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Status</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Download</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">ADD</TableCell>
+                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        blackgrp.map((listpolicy, index) => (
+                                            <ViewBlacklistGrp key={index} list={listpolicy} addOn={onAdd} addFile={addFile} remove={onDelete} />
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </CustomTabPanel>
+                </Box>
             </div>
-        </Container>
+            <div className='d-flex justify-content-center my-4'>
+                <CommanButton className='btnSend mx-4' >Delete</CommanButton>
+                <CommanButton className='btnSend mx-4' >Clear</CommanButton>
+            </div>
+        </div>
     );
 
 
@@ -281,45 +274,43 @@ const ViewBlacklistRange = ({ list, deleteRange }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.rangeId}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.rangeName}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.startsAt}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    {data.endsAt}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em', padding: '0' }}>
-                    <Link style={{ color: 'black' }} to='/operatorConfig/blacklistManagemment/modifyBlacklist'
-                        state={{ data: data }}
-                    >
-                        <EditNoteSharpIcon />
-                    </Link>
-                </TableCell>
-                <TableCell align="center">
-                    <button className="border-0" onClick={() => { setModal(!modal) }}>
-                        <DeleteForeverIcon style={{ color: 'red' }} />
-                    </button>
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.rangeName} ?</Modal.Body>
-                        <Modal.Footer>
-                            <CommanButton className='btn btn-danger' onClick={() => { deleteRange(data.rangeId); setModal(false) }}>
-                                Delete
-                            </CommanButton>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody>
+        <TableRow >
+            <TableCell className="border border-2" align="center" >
+                {data.rangeId}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.rangeName}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.startsAt}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.endsAt}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'black' }} to='/operatorConfig/blacklistManagemment/modifyBlacklist'
+                    state={{ data: data }}
+                >
+                    <EditNoteSharpIcon />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                    <DeleteForeverIcon style={{ color: 'red' }} />
+                </button>
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.rangeName} ?</Modal.Body>
+                    <Modal.Footer>
+                        <CommanButton className='btn btn-danger' onClick={() => { deleteRange(data.rangeId); setModal(false) }}>
+                            Delete
+                        </CommanButton>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }
 
@@ -394,31 +385,30 @@ const ViewBlacklistGrp = ({ list, addOn, remove, addFile }) => {
     }
 
     return (
-        <TableBody className="">
-            <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600', fontSize: '15px', height: '4em' }}>
-                    {data.RANGE_ID}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    {data.RANGE_NAME}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    {data.totalMsisdn}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: 'bolder', fontSize: '15px', height: '4em' }}>
-                    {data.CREATE_DATE?.slice(0, 10)}
-                </TableCell>
-                <TableCell align="center" style={{ color: 'blueviolet', fontWeight: 'bolder', fontSize: '15px', height: '4em' }}>
-                    {data.STATUS}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
-                    <Link style={{ color: 'rgb(63 72 85)' }} to='/operatorConfig/modifyPolicy'
-                        state={{ data: data }}
-                    >
-                        <FileDownloadOutlinedIcon />
-                    </Link>
-                </TableCell>
-                {/* <TableCell align="center" style={{ fontWeight: '500', fontSize: '15px', height: '4em' }}>
+        <TableRow key={data.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell className="border border-2" align="center" >
+                {data.RANGE_ID}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.RANGE_NAME}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.totalMsisdn}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.CREATE_DATE?.slice(0, 10)}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'blueviolet', fontWeight: '600' }}>
+                {data.STATUS}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'rgb(63 72 85)' }} to='/operatorConfig/modifyPolicy'
+                    state={{ data: data }}
+                >
+                    <FileDownloadOutlinedIcon />
+                </Link>
+            </TableCell>
+            {/* <TableCell className="border border-2" align="center" >
                     <Link style={{ color: 'rgb(63 72 85)' }} to={{
                         pathname: '/operatorConfig/modifyPolicy',
                         state: { data: data },
@@ -428,59 +418,58 @@ const ViewBlacklistGrp = ({ list, addOn, remove, addFile }) => {
                 </TableCell> */}
 
 
-                <TableCell align="center">
-                    <CommanButton className="border-0" onClick={() => { setAddModal(!addModal) }}>
-                        <AddIcon />
-                    </CommanButton>
-                    <Modal show={addModal} onHide={() => { setAddModal(!addModal) }}>
-                        <Modal.Header closeButton onClick={clearText}>
-                            <Modal.Title className='fw-bold d-flex justify-content-center'>Add To Blacklist Range</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            {/* <div className='d-flex container '> */}
-                            <Box sx={{ width: '100%' }}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                        <Tab style={{ fontWeight: '700' }} label="Add MSISDN To Group" {...tabsProps(0)} />
-                                        <Tab style={{ fontWeight: '700' }} label="Add File To Group" {...tabsProps(1)} />
-                                    </Tabs>
-                                </Box>
-                                <CustomTabPanel value={value} index={0} >
-                                    <TextField className='' id="outlined-basic" type='number' label="Enter MSISDN" variant="outlined" style={{ width: '350px', padding: '0px' }} onChange={handleMsisdn} />
-                                    <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter MSISDN with country code</label>
-                                </CustomTabPanel>
-                                <CustomTabPanel value={value} index={1}>
-                                    <Input className='' id="outlined-basic" type='file' accept='.txt' label="" variant="standard" style={{ padding: '0px', border: '1px ' }} onChange={handleDataFile} />
-                                </CustomTabPanel>
+            <TableCell className="border border-2" align="center">
+                <CommanButton className="border-0" onClick={() => { setAddModal(!addModal) }}>
+                    <AddIcon />
+                </CommanButton>
+                <Modal show={addModal} onHide={() => { setAddModal(!addModal) }}>
+                    <Modal.Header closeButton onClick={clearText}>
+                        <Modal.Title className='fw-bold d-flex justify-content-center'>Add To Blacklist Range</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {/* <div className='d-flex container '> */}
+                        <Box sx={{ width: '100%' }}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>
+                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                    <Tab style={{ fontWeight: '700' }} label="Add MSISDN To Group" {...tabsProps(0)} />
+                                    <Tab style={{ fontWeight: '700' }} label="Add File To Group" {...tabsProps(1)} />
+                                </Tabs>
                             </Box>
+                            <CustomTabPanel value={value} index={0} >
+                                <TextField className='' id="outlined-basic" type='number' label="Enter MSISDN" variant="outlined" style={{ width: '350px', padding: '0px' }} onChange={handleMsisdn} />
+                                <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Enter MSISDN with country code</label>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={1}>
+                                <Input className='' id="outlined-basic" type='file' accept='.txt' label="" variant="standard" style={{ padding: '0px', border: '1px ' }} onChange={handleDataFile} />
+                            </CustomTabPanel>
+                        </Box>
 
-                            {/* </div> */}
-                        </Modal.Body>
-                        <Modal.Footer style={{ padding: '0px', paddingRight: '10px', paddingBottom: '10px' }}>
-                            <CommanButton className=' btnBack' onClick={() => { if (value === 0) { addOn(data.RANGE_ID, msisdn) } else if (value === 1) { addFile(data.RANGE_ID, dataFile) }; setAddModal(!addModal) }}>
-                                Submit
-                            </CommanButton>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-                <TableCell align="center">
-                    <button className="border-0" onClick={() => { setModal(!modal) }}>
-                        <DeleteForeverIcon style={{ color: 'red' }} />
-                    </button>
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.RANGE_NAME} ?</Modal.Body>
-                        <Modal.Footer>
-                            <CommanButton className='btn btn-danger' onClick={() => { remove(data.RANGE_ID); setModal(false) }}>
-                                Delete
-                            </CommanButton>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody >
+                        {/* </div> */}
+                    </Modal.Body>
+                    <Modal.Footer style={{ padding: '0px', paddingRight: '10px', paddingBottom: '10px' }}>
+                        <CommanButton className=' btnBack' onClick={() => { if (value === 0) { addOn(data.RANGE_ID, msisdn) } else if (value === 1) { addFile(data.RANGE_ID, dataFile) }; setAddModal(!addModal) }}>
+                            Submit
+                        </CommanButton>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                    <DeleteForeverIcon style={{ color: 'red' }} />
+                </button>
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.RANGE_NAME} ?</Modal.Body>
+                    <Modal.Footer>
+                        <CommanButton className='btn btn-danger' onClick={() => { remove(data.RANGE_ID); setModal(false) }}>
+                            Delete
+                        </CommanButton>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }
 

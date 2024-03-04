@@ -30,10 +30,10 @@ function PvmViewList({ data, key }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <TableCell align="center" style={{ color: '#6366f1', fontWeight: '700', fontSize: '12px', height: '4em' }}>{data?.campaignId}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.campaignName}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.startDate?.slice(0, 10)}</TableCell>
-            <TableCell align="center" style={{ fontWeight: '500', fontSize: '12px', height: '4em' }}>{data?.endDate?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2">{data?.campaignId}</TableCell>
+            <TableCell align="center" className="border border-2">{data?.campaignName}</TableCell>
+            <TableCell align="center" className="border border-2">{data?.startDate?.slice(0, 10)}</TableCell>
+            <TableCell align="center" className="border border-2">{data?.endDate?.slice(0, 10)}</TableCell>
         </TableRow>
     )
 }

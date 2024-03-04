@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from 'react-router-dom';
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -11,6 +11,8 @@ import CommanButton from '../../../components/CommanButton';
 import { Modal } from 'react-bootstrap';
 import { deleteSubscriberRange, viewSubscriberRange } from './slice/SubscriberRange';
 import Loader from '../../../components/loader/Loader';
+import Heading from '../../../components/header/Heading';
+import Empty from '../../../components/empty/Empty';
 
 
 function ViewSubsRange() {
@@ -18,40 +20,8 @@ function ViewSubsRange() {
     let token = useSelector(state => state.token?.data?.token)
     const [subsRange, setSubsRange] = useState([]);
     const [loading, setLoading] = useState(true);
-
-
-    // const subsRange = [
-    //     {
-    //         "RangeName": "Inventory",
-    //         "StartRange": "0000000000",
-    //         "EndRange": "2999999999",
-    //         "CountryCode": "220",
-    //         "RangeOwner": "O"
-    //     },
-    //     {
-    //         "RangeName": "January",
-    //         "StartRange": "0000000000",
-    //         "EndRange": "1999999999",
-    //         "CountryCode": "221",
-    //         "RangeOwner": "O"
-    //     },
-    //     {
-    //         "RangeName": "Temp",
-    //         "StartRange": "0000000000",
-    //         "EndRange": "2000999999",
-    //         "CountryCode": "200",
-    //         "RangeOwner": "O"
-    //     },
-    //     {
-    //         "RangeName": "Test",
-    //         "StartRange": "0000000000",
-    //         "EndRange": "2000099900",
-    //         "CountryCode": "220",
-    //         "RangeOwner": "O"
-    //     }
-
-    // ]
-
+    const [currentPage, setCurrentPage] = useState(1)
+    const perPage = 10;
 
     const getSubsRange = () => {
         dispatch(viewSubscriberRange(token))
@@ -89,48 +59,59 @@ function ViewSubsRange() {
     }, [])
 
 
+    let indexofLast = currentPage * perPage
+    let indexofFirst = indexofLast - perPage
+    let activePage = subsRange?.slice(indexofFirst, indexofLast)
+
     if (loading) {
         return <Loader />
     } else {
         return (
             <div className='mx-2'>
-                <div className=' d-flex justify-content-between my-2 align-items-center'>
-                    <h4 className='fw-bold mx-2'>View Range ✨
-                    </h4>
-                    <div className='mx-2'>
-                        <Link to={{
-                            pathname: '/operatorConfig/addSubscriberRange',
-                            state: { data: subsRange },
-                        }} style={{ textDecoration: 'none' }}>
-                            <CommanButton type="submit" className="btnBack mb-3" ><AddIcon />Add Range</CommanButton>
-                        </Link>
+                <Heading name='View Range'>
+                    <Link to='/operatorConfig/addSubscriberRange' state={{ data: subsRange }} style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" ><AddIcon />Add Range</CommanButton>
+                    </Link>
+                </Heading>
+                {
+                    subsRange?.length === 0
+                        ?
+                        <Empty name='Template Not Found' />
+                        :
+                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                            <Table aria-label="simple table">
+                                <TableHead style={{ backgroundColor: '#d6d6f7' }} >
+                                    <TableRow >
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Range Name</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Start Range</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >End Range</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Country Code</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >View</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Modify</TableCell>
+                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        activePage?.map((listCamp, index) => (
+                                            <ViewCampList
+                                                key={index}
+                                                list={listCamp}
+                                                remove={onDelete}
+                                            />
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                }
+                {
+                    subsRange?.length > perPage
+                    &&
+                    <div className='d-flex justify-content-center my-4'>
+                        <Pagination count={Math.ceil(subsRange?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
                     </div>
-                </div>
-
-                <div className=''>
-                    <TableContainer  >
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow className='bodyColor'>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Range Name</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Start Range</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>End Range</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Country Code</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>View</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Modify</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Delete</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            {subsRange?.map((listCamp, index) => (
-                                <ViewCampList
-                                    key={index}
-                                    list={listCamp}
-                                    remove={onDelete}
-                                />
-                            ))}
-                        </Table>
-                    </TableContainer>
-                </div>
+                }
             </div>
         );
     }
@@ -159,47 +140,45 @@ const ViewCampList = ({ list, remove }) => {
 
 
     return (
-        <TableBody className="">
-            <TableRow key={data.key} >
-                <TableCell component="th" align="center" scope="row" style={{ fontWeight: '600' }}>
-                    {data.rangeName}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500' }}>
-                    {data.startsAt}
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500' }}>
-                    {data.endsAt}
-                </TableCell>
-                <TableCell align="center" style={{ color: 'blueviolet', fontWeight: 'bolder' }}>
-                    {data.countryCode}
-                </TableCell>
-                <TableCell align="center" >
-                    <Link to='/operatorConfig/viewDetailSubsRange' state={{ data: data }} >
-                        <VisibilityOutlinedIcon style={{ color: 'black' }} />
-                    </Link>
-                </TableCell>
-                <TableCell align="center" style={{ fontWeight: '500' }}>
-                    <Link to={'/operatorConfig/modifySubscriberRange'} state={{ data: data }} >
-                        <EditNoteSharpIcon style={{ color: 'black' }} />
-                    </Link>
-                </TableCell>
-                <TableCell align="center">
-                    <button className="border-0" onClick={() => { setModal(!modal) }}>
-                        <DeleteForeverIcon style={{ color: 'red' }} />
-                    </button>
-                    <Modal show={modal} onHide={() => { setModal(!modal) }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className='text-danger'>Delete</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure, you want to delete this {data.rangeName} ?</Modal.Body>
-                        <Modal.Footer>
-                            <CommanButton className='btn btn-danger' onClick={() => { remove(data.rangeId); setModal(false) }}>
-                                Delete
-                            </CommanButton>
-                        </Modal.Footer>
-                    </Modal>
-                </TableCell>
-            </TableRow>
-        </TableBody >
+        <TableRow key={data.key} >
+            <TableCell className="border border-2" align="center" style={{ color: '#6366f1', fontWeight: '600' }} >
+                {data.rangeName}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.startsAt}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                {data.endsAt}
+            </TableCell>
+            <TableCell className="border border-2" align="center" style={{ color: 'green', fontWeight: '600' }}>
+                {data.countryCode}
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link to='/operatorConfig/viewDetailSubsRange' state={{ data: data }} >
+                    <VisibilityOutlinedIcon style={{ color: 'black' }} />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center" >
+                <Link to={'/operatorConfig/modifySubscriberRange'} state={{ data: data }} >
+                    <EditNoteSharpIcon style={{ color: 'black' }} />
+                </Link>
+            </TableCell>
+            <TableCell className="border border-2" align="center">
+                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                    <DeleteForeverIcon style={{ color: 'red' }} />
+                </button>
+                <Modal show={modal} onHide={() => { setModal(!modal) }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='text-danger'>Delete</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure, you want to delete this {data.rangeName} ?</Modal.Body>
+                    <Modal.Footer>
+                        <CommanButton className='btn btn-danger' onClick={() => { remove(data.rangeId); setModal(false) }}>
+                            Delete
+                        </CommanButton>
+                    </Modal.Footer>
+                </Modal>
+            </TableCell>
+        </TableRow>
     );
 }

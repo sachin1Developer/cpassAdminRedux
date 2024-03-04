@@ -4,12 +4,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSignal } from '@preact/signals-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdReportBySpecificId, getAdSummaryReports } from './slice/ReportAd';
-import LineGraph from '../../../component/graph/LineGraph';
-import PieCircleGraph from '../../../component/graph/PieCircleGraph';
-import CommanButton from '../../../component/CommanButton';
-import Loader from '../../../component/loader/Loader';
 import { Col, Row } from 'react-bootstrap';
-import ErrorPage from '../../../component/error/ErrorPage';
+import Loader from '../../../components/loader/Loader';
+import ErrorPage from '../../../components/error/ErrorPage';
+import CommanButton from '../../../components/CommanButton';
+import LineGraph from '../../../components/graph/LineGraph';
+import PieCircleGraph from '../../../components/graph/PieCircleGraph';
 
 export default function SpecificAdCamp() {
     let { id } = useParams()
@@ -89,7 +89,7 @@ export default function SpecificAdCamp() {
         return (
             <>
 
-                <div className='container fs-6 fw-medium w-50'>
+                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2 bg-body-tertiary rounded border border-2'>
                     <Row className='text-left'>
                         <Col>Service</Col>
                         <Col className='text-center'>:</Col>

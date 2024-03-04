@@ -8,6 +8,8 @@ import CommanButton from '../../../components/CommanButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { modifySubscriberRange } from './slice/SubscriberRange';
 import BackDropLoader from '../../../components/loader/BackDropLoader';
+import Heading from '../../../components/header/Heading';
+import Loader from '../../../components/loader/Loader';
 
 
 const nameRId = "nameId";
@@ -111,45 +113,36 @@ function ModifySubsRange() {
         setEndRange(location.state.data?.endsAt);
     }
 
-    return (
-        <div className='container'>
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>Modify Range ✨
-                </h4>
-                <div className='mx-2'>
-                    <Link to='/operatorConfig/viewSubscriberRange'
-                        style={{ textDecoration: 'none' }}>
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className='mx-3'>
+
+                <Heading name='Modify Range' >
+                    <Link to='/operatorConfig/viewSubscriberRange' style={{ textDecoration: 'none' }}>
                         <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
                     </Link>
-                </div>
-            </div>
+                </Heading>
 
-            <div className='container fs-6 fw-medium w-50'>
-                <div className='text-left my-4 row'>
-                    <div className='col my-2'>
-                        <TextField id="outlined-basic" type='text' label="Range Name" variant="outlined" value={rangeName} onChange={handleRangeName} />
+                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
+                    <div className='d-flex my-2'>
+                        <TextField id="outlined-basic" type='text' className='mx-4' label="Range Name" variant="outlined" value={rangeName} onChange={handleRangeName} />
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
                     </div>
-                    <div className='col my-2'>
-                        <TextField id="outlined-basic" type='number' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
+                    <div className='d-flex my-2'>
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="Start Range " variant="outlined" value={startRange} onChange={handleStartRange} />
+                        <TextField id="outlined-basic" type='number' className='mx-4' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
                     </div>
-                </div>
-                <div className='text-left my-4 row'>
-                    <div className='col my-2'>
-                        <TextField id="outlined-basic" type='number' label="Start Range " variant="outlined" value={startRange} onChange={handleStartRange} />
-                    </div>
-                    <div className='col my-2'>
-                        <TextField id="outlined-basic" type='number' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
+                    <div className='d-flex justify-content-around my-3'>
+                        <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
+                        <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
                     </div>
                 </div>
-
+                <BackDropLoader opener={loading} />
             </div>
-            <div className='d-flex justify-content-center'>
-                <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
-                <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-            </div>
-            <BackDropLoader opener={loading} />
-        </div>
-    );
+        );
+    }
 
 
 }

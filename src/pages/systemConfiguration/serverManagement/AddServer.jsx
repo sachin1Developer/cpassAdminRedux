@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createServer, getServer } from './slice/Server';
 import { getSystemCountryCode } from '../countryCode/slice/CountryCode';
 import CommanButton from '../../../components/CommanButton';
+import Heading from '../../../components/header/Heading';
 
 
 const ITEM_HEIGHT = 38;
@@ -144,15 +145,12 @@ function AddServer() {
 
     return (
         <div className='mx-3' >
-            <div className=' d-flex justify-content-between my-2 align-items-center'>
-                <h4 className='fw-bold mx-2'>Add Server ✨</h4>
-                <div className='mx-2'>
-                    <Link to='/systemConfiguration/serverManagement' style={{ textDecoration: 'none' }}>
-                        <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
-                    </Link>
-                </div>
-            </div>
-            <div>
+            <Heading name='Add Server' >
+                <Link to='/systemConfiguration/serverManagement' style={{ textDecoration: 'none' }}>
+                    <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ArrowBackIosIcon />Back</CommanButton>
+                </Link>
+            </Heading>
+            <div className='d-flex justify-content-center'>
                 <Row className='d-flex justify-content-center'>
                     <Col sm={4}>
                         <TextField className='my-2 w-100' id="outlined-basic" type='text' label=" Server Name" autoFocus="true" variant="outlined" value={serverName} onChange={handleName} />
