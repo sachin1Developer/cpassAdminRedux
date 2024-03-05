@@ -35,6 +35,7 @@ const err = "error";
 function AddParam() {
     const dispatch = useDispatch()
     let token = useSelector(state => state?.token?.data?.token)
+    console.log(token)
     const navigate = useNavigate()
     const [paramType, setParamType] = useState("");
     const [paramTag, setParamTag] = useState("");
@@ -44,15 +45,7 @@ function AddParam() {
 
 
     const onSubmit = () => {
-        let request = {
-            "paramTag": paramTag,
-            "paramValue": paramValue,
-            "remarks": remarks,
-            "owner": owner,
-            "paramType": paramType,
-            "interfaceType": "NA"
-        }
-        console.log(request);
+       
         if (paramTag === "") {
             toast.error("Please Enter Param Tag");
         }
@@ -69,9 +62,19 @@ function AddParam() {
             toast.error("Please Enter Owner");
         }
         else {
+            let request = {
+                "paramTag": paramTag,
+                "paramValue": paramValue,
+                "remarks": remarks,
+                "owner": owner,
+                "paramType": paramType,
+                "interfaceType": "NA"
+            }
+            console.log(request);
             if (request !== "" && request !== null) {
                 dispatch(addAppParams({ token: token, data: request }))
                     .then((resp) => {
+                        console.log(resp)
                         if (resp?.payload?.status === 200) {
                             navigate('/systemConfiguration/appConfigParam')
                         } else {

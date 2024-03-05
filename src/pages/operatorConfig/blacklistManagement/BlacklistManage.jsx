@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addGroupMsisdnToBlacklist, addMsisdnToBlacklist, deleteBlacklistGroup, deleteBlacklistRange, getBlacklistGroupName, getBlacklistRange } from './slice/BlacklistManagement';
 import CommanButton from '../../../components/CommanButton';
 import Heading from '../../../components/header/Heading';
+import Loader from '../../../components/loader/Loader';
+import Empty from '../../../components/empty/Empty';
 
 
 
@@ -59,51 +61,47 @@ function BlacklistManage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     let token = useSelector(state => state.token?.data?.token)
-
+    const [loading, setloading] = useState(true)
+    const [blackgrp, setBlackgrp] = useState([]);
+    const [blacklistRange, setBlacklistRange] = useState([]);
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const [blackgrp, setBlackgrp] = useState([]);
-    const [blacklistRange, setBlacklistRange] = useState([]);
-
-    const getListRange = () => {
+    const getList = () => {
+        setloading(true)
         dispatch(getBlacklistRange(token))
             .then((resp) => {
                 console.log(resp)
                 if (resp?.payload?.status === 200) {
                     setBlacklistRange(resp?.payload?.data?.data);
+                    return dispatch(getBlacklistGroupName(token))
                 } else {
                     toast.error('Internal server error')
                 }
+            }).then((resp) => {
+                console.log(resp)
+                if (resp?.payload?.status === 200) {
+                    setBlackgrp(resp?.payload?.data);
+
+                } else {
+                    toast.error('Internal server error')
+                }
+                setloading(false)
             })
             .catch((error) => {
                 console.error(error);
+                setloading(false)
                 toast.error('Error while fetching blacklist list');
             });
     }
 
-    const getListGrp = () => {
-        dispatch(getBlacklistGroupName(token))
-            .then((resp) => {
-                console.log(resp)
-                if (resp?.payload?.status === 200) {
-                    setBlackgrp(resp?.payload?.data);
-                } else {
-                    toast.error('Internal server error')
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                toast.error('Error while fetching blacklist group list');
-            });
-    }
+
 
     useEffect(() => {
-        getListRange();
-        getListGrp();
+        getList();
     }, [])
 
 
@@ -114,7 +112,7 @@ function BlacklistManage() {
                 // console.log(res)
                 if (res?.payload?.status === 200) {
                     toast.success('Added successfully');
-                    getListGrp();
+                    getList();
                 } else {
                     toast.error('Error while adding');
                 }
@@ -137,7 +135,7 @@ function BlacklistManage() {
                 // console.log(res)
                 if (res?.payload?.status === 200) {
                     toast.success('Added successfully');
-                    getListGrp();
+                    getList();
                 } else {
                     toast.error('Error while adding');
                 }
@@ -151,7 +149,7 @@ function BlacklistManage() {
                 // console.log(res)
                 if (res?.payload?.status === 200) {
                     toast.success('Deleted successfully');
-                    getListGrp();
+                    getList();
                 } else {
                     toast.error('Internal server error');
                 }
@@ -167,89 +165,106 @@ function BlacklistManage() {
                 // console.log(res)
                 if (res?.payload?.status === 200) {
                     toast.success('Deleted successfully');
-                    getListRange();
+                    getList();
                 } else {
                     toast.error('Error while delete');
                 }
             });
     }
 
-    return (
-        <div>
-            <Heading name='Manage Blacklist'>
-                <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
-                    <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
-                </Link>
-            </Heading>
-            <div className='d-flex'>
-                <Box sx={{ width: '100%' }}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...tabsProps(0)} />
-                            <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...tabsProps(1)} />
-                        </Tabs>
-                    </Box>
-                    <CustomTabPanel value={value} index={0} className='d-flex justify-content-center' >
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded"  >
-                            <Table aria-label="simple table">
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                    <TableRow className='bodyColor'>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Start Range</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">End Range</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Modify</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        blacklistRange.map((listpolicy, index) => (
-                                            <ViewBlacklistRange
-                                                key={index}
-                                                list={listpolicy}
-                                                deleteRange={deleteRange}
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className='mx-3'>
+                <Heading name='Manage Blacklist'>
+                    <Link to='/operatorConfig/blacklistManagemment/addBlacklist'>
+                        <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
+                </Heading>
+                <div className='d-flex'>
+                    <Box sx={{ width: '100%' }}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab style={{ fontWeight: '700' }} label="Blacklist Range" {...tabsProps(0)} />
+                                <Tab style={{ fontWeight: '700' }} label="Blacklist Group" {...tabsProps(1)} />
+                            </Tabs>
+                        </Box>
+                        <CustomTabPanel value={value} index={0} className='d-flex justify-content-center' >
+                            {
+                                blacklistRange?.length === 0
+                                    ?
+                                    <Empty name='Data Not Found' />
+                                    :
+                                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded"  >
+                                        <Table aria-label="simple table">
+                                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                                <TableRow className='bodyColor'>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Start Range</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">End Range</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Modify</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    blacklistRange?.map((listpolicy, index) => (
+                                                        <ViewBlacklistRange
+                                                            key={index}
+                                                            list={listpolicy}
+                                                            deleteRange={deleteRange}
 
-                                            />
-                                        ))
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={1} className='d-flex justify-content-center' >
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table sx={{}} aria-label="simple table">
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                    <TableRow className='bodyColor'>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Total Msisdn Blacklisted</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Create Date</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Status</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Download</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">ADD</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        blackgrp.map((listpolicy, index) => (
-                                            <ViewBlacklistGrp key={index} list={listpolicy} addOn={onAdd} addFile={addFile} remove={onDelete} />
-                                        ))
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </CustomTabPanel>
-                </Box>
+                                                        />
+                                                    ))
+                                                }
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                            }
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1} className='d-flex justify-content-center' >
+                            {
+                                blackgrp?.length === 0
+                                    ?
+                                    <Empty name='Data Not Found' />
+                                    :
+                                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
+                                        <Table sx={{}} aria-label="simple table">
+                                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
+                                                <TableRow className='bodyColor'>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Total Msisdn Blacklisted</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Create Date</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Status</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Download</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">ADD</TableCell>
+                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    blackgrp?.map((listpolicy, index) => (
+                                                        <ViewBlacklistGrp key={index} list={listpolicy} addOn={onAdd} addFile={addFile} remove={onDelete} />
+                                                    ))
+                                                }
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                            }
+                        </CustomTabPanel>
+                    </Box>
+                </div>
+                <div className='d-flex justify-content-center my-4'>
+                    <CommanButton className='btnSend mx-4' >Delete</CommanButton>
+                    <CommanButton className='btnSend mx-4' >Clear</CommanButton>
+                </div>
             </div>
-            <div className='d-flex justify-content-center my-4'>
-                <CommanButton className='btnSend mx-4' >Delete</CommanButton>
-                <CommanButton className='btnSend mx-4' >Clear</CommanButton>
-            </div>
-        </div>
-    );
+        );
+    }
+
 
 
 }
@@ -295,7 +310,7 @@ const ViewBlacklistRange = ({ list, deleteRange }) => {
                 </Link>
             </TableCell>
             <TableCell className="border border-2" align="center">
-                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                <button className="border-0" style={{ background: 'transparent' }} onClick={() => { setModal(!modal) }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />
                 </button>
                 <Modal show={modal} onHide={() => { setModal(!modal) }}>
@@ -454,7 +469,7 @@ const ViewBlacklistGrp = ({ list, addOn, remove, addFile }) => {
                 </Modal>
             </TableCell>
             <TableCell className="border border-2" align="center">
-                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                <button className="border-0" style={{ background: 'transparent' }} onClick={() => { setModal(!modal) }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />
                 </button>
                 <Modal show={modal} onHide={() => { setModal(!modal) }}>

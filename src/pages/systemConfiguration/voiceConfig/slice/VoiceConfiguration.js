@@ -17,7 +17,7 @@ export const getSystemVoiceList = createAsyncThunk("getSystemVoiceList", async (
 export  const addVoice = createAsyncThunk("addVoice", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}//SystemConfig/saveVoiceinMaster`,
+        url: `${process.env.REACT_APP_API_URL}/SystemConfig/saveVoiceinMaster`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`

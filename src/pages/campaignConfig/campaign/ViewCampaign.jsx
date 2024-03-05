@@ -120,7 +120,7 @@ function ViewCampaign() {
                                         <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Name</TableCell>
                                         <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Status</TableCell>
                                         <TableCell className="border border-2 fw-bolder fs-6" align="center" >View</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Modify</TableCell>
+                                        {/* <TableCell className="border border-2 fw-bolder fs-6" align="center" >Modify</TableCell> */}
                                         <TableCell className="border border-2 fw-bolder fs-6" align="center" >Delete</TableCell>
                                         {/* <TableCell className="border border-2 fw-bolder" align="center" ><Input type="checkbox" style={{ borderColor: 'black' }} /></TableCell> */}
                                     </TableRow>
@@ -214,11 +214,11 @@ const ViewCampList = ({ list, remove }) => {
                     <VisibilityOutlinedIcon style={{color:'black'}} />
                 </Link>
             </TableCell>
-            <TableCell className="border border-2" align="center" >
-                {/* <Link to='/campaign/modifyCampaign' state={{ data: data.CAMPAIGN_ID }}> */}
+            {/* <TableCell className="border border-2" align="center" >
+                <Link to='/campaign/modifyCampaign' state={{ data: data.CAMPAIGN_ID }}>
                     <EditNoteSharpIcon style={{color:'black'}} />
-                {/* </Link> */}
-            </TableCell>
+                </Link>
+            </TableCell> */}
             <TableCell className="border border-2" align="center" >
                 <button className="border-0" onClick={showModal} style={{ background: 'transparent' }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />

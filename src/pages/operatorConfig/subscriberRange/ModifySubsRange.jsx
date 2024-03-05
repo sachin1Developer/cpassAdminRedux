@@ -125,19 +125,19 @@ function ModifySubsRange() {
                     </Link>
                 </Heading>
 
-                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
-                    <div className='d-flex my-2'>
+                <div className='m-auto fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
+                    <div className='d-flex justify-content-center my-2'>
                         <TextField id="outlined-basic" type='text' className='mx-4' label="Range Name" variant="outlined" value={rangeName} onChange={handleRangeName} />
                         <TextField id="outlined-basic" type='number' className='mx-4' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
                     </div>
-                    <div className='d-flex my-2'>
+                    <div className='d-flex justify-content-center my-2'>
                         <TextField id="outlined-basic" type='number' className='mx-4' label="Start Range " variant="outlined" value={startRange} onChange={handleStartRange} />
                         <TextField id="outlined-basic" type='number' className='mx-4' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
                     </div>
-                    <div className='d-flex justify-content-around my-3'>
+                    <span className='d-flex justify-content-center  m-3'>
                         <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
                         <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
-                    </div>
+                    </span>
                 </div>
                 <BackDropLoader opener={loading} />
             </div>

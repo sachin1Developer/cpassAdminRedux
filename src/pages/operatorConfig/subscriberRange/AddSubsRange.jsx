@@ -232,8 +232,8 @@ function AddSubsRange() {
                         <CommanButton type="submit" className="btnBack mb-3" ><ArrowBackIosIcon />Back</CommanButton>
                     </Link>
                 </Heading>
-                <div className='container fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
-                    <div className='d-flex my-2'>
+                <div className='m-auto fs-6 fw-medium w-50 p-2 shadow-lg mb-2  bg-body-tertiary rounded'>
+                    <div className='d-flex justify-content-center my-2'>
                         <TextField id="outlined-basic" type='text' className='mx-4' label="Range Name" variant="outlined" autoFocus='true' value={rangeName} onChange={handleRangeName} />
                         {/* {currencies.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -243,11 +243,11 @@ function AddSubsRange() {
                                 </TextField>*/}
                         <TextField id="outlined-basic" type='number' className='mx-4' label="Country Code" variant="outlined" value={countryCode} onChange={handleCountryCode} />
                     </div>
-                    <div className='my-3 d-flex'>
+                    <div className='my-3 d-flex justify-content-center'>
                         <TextField id="outlined-basic" type='number' className='mx-4' label="Start Range" variant="outlined" value={startRange} onChange={handleStartRange} />
                         <TextField id="outlined-basic" type='number' className='mx-4' label="End Range" variant="outlined" value={endRange} onChange={handleEndRange} />
                     </div>
-                    <div className='d-flex justify-content-around my-3'>
+                    <div className='d-flex justify-content-center my-3'>
                         <CommanButton className='btnSend mx-4' onClick={onSubmit} >Add Range</CommanButton>
                         <CommanButton className='btnSend mx-4' onClick={clearText}>Clear</CommanButton>
                     </div>

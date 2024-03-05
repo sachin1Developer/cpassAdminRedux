@@ -5,12 +5,17 @@ import { TextField, Tooltip } from '@mui/material';
 import { toast } from 'react-toastify';
 import CommanButton from '../../../components/CommanButton';
 import Heading from '../../../components/header/Heading';
+import { useDispatch, useSelector } from 'react-redux';
+import { modifyPolicyManagement } from './slice/PolicyManagement';
+import BackDropLoader from '../../../components/loader/BackDropLoader';
 
 
 function ModifyPolicy() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const location = useLocation();
-    // console.log(location.state.data)
+    let token = useSelector(state => state.token?.data?.token)
+    console.log(location.state.data)
 
 
     const [policyName, setPolicyName] = useState(location.state.data?.policyName);
@@ -26,11 +31,7 @@ function ModifyPolicy() {
     const [overridePolicy, setOverridePolicy] = useState();
     const [policyStatus, setPolicyStatus] = useState(location.state.data?.status);
     const [description, setDescription] = useState(location.state.data?.description);
-
-
-    const [policyResp, setPolicyResp] = useState([]);           //API response
-
-
+    const [loading, setloading] = useState(false)
 
     const handlePolicyName = (e) => {
         setPolicyName(e.target.value)
@@ -145,15 +146,23 @@ function ModifyPolicy() {
             "smsPromoDifference": smsDiff,
             "obdPromoDifference": obdDiff
         }
-        // callApi.updatePolicy(policyId, response)
-        //     .then((resp) => {
-        //         setPolicyResp(resp.status);
-        //         console.log(resp.status)
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         toast.error('Error while submiting subscriber range');
-        //     });
+        setloading(true)
+
+        dispatch(modifyPolicyManagement({ id: policyId, data: response, token: token }))
+            .then((resp) => {
+                if(resp?.payload?.status === 200 ){
+                    toast.success("Policy updated")
+                    navigate('/operatorConfig/viewPolicy')
+                }else{
+                    toast.error("Internal server error")
+                }
+                setloading(false)
+            })
+            .catch((error) => {
+                console.error(error);
+                setloading(false)
+                toast.error('Error while submiting subscriber range');
+            });
     }
 
     const clearText = () => {
@@ -318,6 +327,7 @@ function ModifyPolicy() {
                 <CommanButton className='btnSend mx-4' onClick={onsubmit} >Modify Range</CommanButton>
                 <CommanButton className='btnSend mx-4' onClick={clearText} >Clear</CommanButton>
             </div>
+            <BackDropLoader opener={loading} />
         </div>
     );
 

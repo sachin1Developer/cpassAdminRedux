@@ -28,6 +28,8 @@ function ModifyRole() {
 
     const [detailsData, setDetailsData] = useState([]);
 
+    const [loading, setloading] = useState(false)
+
     if ((id === null) || (id === undefined) || (parseInt(id) === 1)) {
         navigate('/operatorConfig/viewRoleType')
     }
@@ -75,19 +77,23 @@ function ModifyRole() {
             "httpLinkslst": val
         }
         console.log(request)
+        setloading(true)
         dispatch(modifyRoleTypeManagement({ token: token, data: request }))
             .then((resp) => {
                 console.log(resp?.payload?.data?.message)
                 if (resp?.payload?.data?.httpStatusCode === 200) {
-                    setRolesCreateResponse(resp?.payload?.data?.message);
+                    // setRolesCreateResponse(resp?.payload?.data?.message);
                     toast.success(resp?.payload?.data?.message);
+                    navigate('/operatorConfig/viewRoleType')
                 } else {
                     toast.error('Interval server error')
                 }
+                setloading(false)
             })
             .catch((error) => {
                 console.error(error);
                 toast.error("error while updating");
+                setloading(false)
             });
     }
 

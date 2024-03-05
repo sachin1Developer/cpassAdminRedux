@@ -17,7 +17,7 @@ export const getParamList = createAsyncThunk("getParamList", async (token) => {
 export  const addAppParams = createAsyncThunk("addAppParams", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}//SystemConfig/saveAppConfigParams`,
+        url: `${process.env.REACT_APP_API_URL}/SystemConfig/saveAppConfigParams`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
