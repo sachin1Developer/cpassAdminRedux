@@ -77,9 +77,9 @@ function ViewVendor() {
         return (
             <div className='mx-3'>
                 <Heading name='View Vendor'>
-                    <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
+                    {/* <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
                         <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add Vendor</CommanButton>
-                    </Link>
+                    </Link> */}
                 </Heading>
 
                 {
@@ -97,7 +97,7 @@ function ViewVendor() {
                                         <TableCell align="center" className="border border-2 fw-bolder fs-6" >Postion</TableCell>
                                         <TableCell align="center" className="border border-2 fw-bolder fs-6" >Mobile</TableCell>
                                         <TableCell align="center" className="border border-2 fw-bolder fs-6" >View</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell>
+                                        {/* <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell> */}
                                         <TableCell align="center" className="border border-2 fw-bolder fs-6" >Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -166,12 +166,12 @@ const ViewVendorTypeList = ({ list, remove }) => {
                     <VisibilityOutlinedIcon />
                 </Link>
             </TableCell>
-            <TableCell className="border border-2" align="center" >
+            {/* <TableCell className="border border-2" align="center" >
                 <Link style={{ color: 'black' }} to='/operatorConfig/userTypeManagement/modifyVendor'
                     state={{ data: data }} >
                     <EditNoteSharpIcon />
                 </Link>
-            </TableCell>
+            </TableCell> */}
             <TableCell className="border border-2" align="center">
                 <button className="border-0" style={{ background: 'transparent' }} onClick={() => { setModal(!modal) }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />

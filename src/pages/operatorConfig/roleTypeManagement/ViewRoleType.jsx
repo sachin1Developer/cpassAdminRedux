@@ -94,7 +94,7 @@ function ViewRoleType() {
                                     <TableCell className="border border-2 fw-bolder fs-6" align="center" > Role Name</TableCell>
                                     <TableCell className="border border-2 fw-bolder fs-6" align="center" > Description</TableCell>
                                     <TableCell className="border border-2 fw-bolder fs-6" align="center" > View</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" > Modify</TableCell>
+                                    {/* <TableCell className="border border-2 fw-bolder fs-6" align="center" > Modify</TableCell> */}
                                     <TableCell className="border border-2 fw-bolder fs-6" align="center" > Delete</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -153,13 +153,13 @@ const ViewRoles = ({ index, list, remove }) => {
                     <VisibilityOutlinedIcon style={{color:'black'}} />
                 </Link>
             </TableCell>
-            <TableCell className="border border-2" align="center" >
+            {/* <TableCell className="border border-2" align="center" >
                 {data.roleId === 1 ? <EditNoteSharpIcon style={{ color: 'rgb(100,116,139)' }} />
                     : <Link style={{ color: 'rgb(100,116,139)' }} to={`/operatorConfig/modifyRoleType/${data.roleId}`} >
                         <EditNoteSharpIcon style={{color:'black'}} />
                     </Link>
                 }
-            </TableCell>
+            </TableCell> */}
             <TableCell className="border border-2" align="center">
                 {data.roleId === 1 ? <DeleteForeverIcon style={{ color: 'rgb(100,116,139)' }} />
                     : <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
