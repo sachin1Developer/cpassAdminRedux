@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Input, Row } from 'reactstrap';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Col, Input, Row } from 'reactstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import CommanButton from '../../../components/CommanButton';
 import { modifyCampaignInventory } from './slice/Inventory';
 import Heading from '../../../components/header/Heading';
-
-
-const nameRId = "nameId";
-const countryCId = "ccId";
-const startRId = "startRId";
-const endsRId = "endsRId";
 
 function ModifyInventory() {
     const dispatch = useDispatch()
@@ -27,9 +19,6 @@ function ModifyInventory() {
     const [Interface, setInterface] = useState(location.state.data?.interface);
     const [totalCount, settotalCount] = useState(location.state.data?.total_COUNT);
     const [currentCount, setcurrentCount] = useState(location.state.data?.current_COUNT);
-
-
-    const [rangeData, setRangeData] = useState([]);
 
     // const handleInterface = (e) => {
     //     const maxlength = 15;
@@ -51,7 +40,6 @@ function ModifyInventory() {
 
 
     const onsubmit = () => {
-        let rangeId = location.state.data?.rangeId;
         let response = {
             "total_COUNT": totalCount,
             "current_COUNT": currentCount
@@ -89,7 +77,7 @@ function ModifyInventory() {
                     <Col sm={1}>:</Col>
                     <Col sm={6}>
                         <p id="outlined-basic" type='text' label="Interface" variant="outlined" >{
-                            (Interface === 'S' && 'SMS' || Interface === 'O' && 'OBD' || Interface === 'F' && 'Facebook' || Interface === 'T' && 'Twitter' || Interface === 'U' && 'USSD')
+                            ((Interface === 'S' && 'SMS') || (Interface === 'O' && 'OBD') || (Interface === 'F' && 'Facebook') || (Interface === 'T' && 'Twitter') || (Interface === 'U' && 'USSD'))
                         } </p>
                     </Col>
 

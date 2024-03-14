@@ -17,6 +17,7 @@ import Heading from "../../../components/header/Heading";
 import Empty from "../../../components/empty/Empty";
 import Loader from "../../../components/loader/Loader";
 import BackDropLoader from "../../../components/loader/BackDropLoader";
+import DynamicTable from "../../../components/table/DynamicTable";
 
 
 function ViewCampaign() {
@@ -34,9 +35,9 @@ function ViewCampaign() {
         setloading(true)
         dispatch(getCampaignByDistinct(token))
             .then((resp) => {
-                if(resp?.payload?.status === 200){
+                if (resp?.payload?.status === 200) {
                     setCampList(resp?.payload?.data);
-                }else{
+                } else {
                     toast.error("Internal server error")
                 }
                 setloading(false)
@@ -70,6 +71,8 @@ function ViewCampaign() {
                 toast.error('Error While Deleting');
             });
     }
+
+    const headers = ['Campaign Id', 'Campaign Name', 'Campaign Status', 'View', 'Delete ']
 
     let indexofLast = currentPage * perPage
     let indexofFirst = indexofLast - perPage
@@ -112,30 +115,13 @@ function ViewCampaign() {
                         ?
                         <Empty name='Template Not Found' />
                         :
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table >
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                    <TableRow >
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Id</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Name</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Status</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >View</TableCell>
-                                        {/* <TableCell className="border border-2 fw-bolder fs-6" align="center" >Modify</TableCell> */}
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Delete</TableCell>
-                                        {/* <TableCell className="border border-2 fw-bolder" align="center" ><Input type="checkbox" style={{ borderColor: 'black' }} /></TableCell> */}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {activePage.map((listCamp) => (
-                                        <ViewCampList
-                                            key={listCamp.CAMPAIGN_ID}
-                                            list={listCamp}
-                                            remove={onDelete}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <DynamicTable data={headers} >
+                            {
+                                activePage?.map((each, index) => {
+                                   return <ViewCampList key={index} list={each} remove={onDelete} />
+                                })
+                            }
+                        </DynamicTable>
                 }
                 {
                     campList?.length > perPage
@@ -144,7 +130,7 @@ function ViewCampaign() {
                         <Pagination count={Math.ceil(campList?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
                     </div>
                 }
-                <BackDropLoader opener={backdrop}/>
+                <BackDropLoader opener={backdrop} />
             </div>
         );
     }
@@ -211,7 +197,7 @@ const ViewCampList = ({ list, remove }) => {
             </TableCell>
             <TableCell className="border border-2" align="center" >
                 <Link to='/camapign/viewCampDetails' state={{ data: data }}>
-                    <VisibilityOutlinedIcon style={{color:'black'}} />
+                    <VisibilityOutlinedIcon style={{ color: 'black' }} />
                 </Link>
             </TableCell>
             {/* <TableCell className="border border-2" align="center" >

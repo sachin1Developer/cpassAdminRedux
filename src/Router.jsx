@@ -55,6 +55,7 @@ import CorpGeneratedReport from "./pages/reporting/corpReport/CorpGeneratedRepor
 import AdList from './pages/reporting/adReport/AdList'
 import SpecificAdCamp from "./pages/reporting/adReport/SpecificAdCamp";
 import AdGeneratedReport from "./pages/reporting/adReport/AdGeneratedReport";
+import AddChannel from "./pages/systemConfiguration/cicConfig/AddChannel";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
@@ -118,14 +119,21 @@ const Router = createBrowserRouter(
                 <Route path="/operatorConfig/userTypeManagement/modifyUserType" element={<ModifyUser />} />
                 <Route path="/operatorConfig/userTypeManagement/addVendor" element={<AddVendor />} />
                 <Route path="/operatorConfig/userTypeManagement/viewVendorDetail/:id" element={<ViewDetailsVendor />} />
-                <Route path="/operatorConfig/userTypeManagement/modifyVendor" element={<ModifyVendor />} />
+                <Route path="/operatorConfig/userTypeManagement/modifyVendor/:id" element={<ModifyVendor />} />
                 <Route path="/operatorConfig/userActivityManagement" element={<UserActivity />} />
+
+
+                {/* CIC  */}
+                <Route path="/systemConfiguration/appChannel" element={<AddChannel />} />
 
 
                 {/* App Params */}
                 <Route path="/systemConfiguration/appConfigParam" element={<ViewParam />} />
                 <Route path="/systemConfiguration/addAppConfigParam" element={<AddParam />} />
                 <Route path="/systemConfiguration/modifyAppConfigParam" element={<ModifyParam />} />
+
+
+                
 
                 {/* Country code   */}
                 <Route path="/systemConfiguration/countryCodeManagement" element={<ViewCountryCode />} />

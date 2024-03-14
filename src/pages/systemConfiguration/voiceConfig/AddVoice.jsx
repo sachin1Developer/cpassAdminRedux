@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'reactstrap';
+import React, { useState } from 'react';
+import { Col, Row } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { TextField } from '@mui/material';
@@ -21,12 +21,11 @@ function AddVoice() {
     const [awsName, setAwsName] = useState("");
     const [country, setCountry] = useState("");
     const [status, setStatus] = useState("");
-    const [responseData, setResponseData] = useState([]);
     const maxLength = "15";
 
     const handleVoiceName = (e) => {
         setVoiceName(e.target.value)
-        if (e.target.value != "") {
+        if (e.target.value !== "") {
             if (e.target.value.length >= maxLength) {
                 toast.error("The max length is 15 ", {
                     toastId: voicename
@@ -46,7 +45,7 @@ function AddVoice() {
 
     const handleAwsName = (e) => {
         // setAwsName(e.target.value)
-        if (e.target.value != "") {
+        if (e.target.value !== "") {
             if (e.target.value.length >= maxLength) {
                 toast.error("The max length is 15 ", {
                     toastId: voicename
@@ -65,7 +64,7 @@ function AddVoice() {
 
     const handleCountry = (e) => {
         // setCountry(e.target.value)
-        if (e.target.value != "") {
+        if (e.target.value !== "") {
             if (e.target.value.length >= maxLength) {
                 toast.error("The max length is 15 ", {
                     toastId: voicename
@@ -84,7 +83,7 @@ function AddVoice() {
 
     const handleStatus = (e) => {
         // setStatus(e.target.value)
-        if (e.target.value != "") {
+        if (e.target.value !== "") {
             if (e.target.value.length >= maxLength) {
                 toast.error("The max length is 15 ", {
                     toastId: voicename

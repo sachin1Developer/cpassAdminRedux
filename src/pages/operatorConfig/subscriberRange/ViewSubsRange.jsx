@@ -13,6 +13,7 @@ import { deleteSubscriberRange, viewSubscriberRange } from './slice/SubscriberRa
 import Loader from '../../../components/loader/Loader';
 import Heading from '../../../components/header/Heading';
 import Empty from '../../../components/empty/Empty';
+import DynamicTable from '../../../components/table/DynamicTable';
 
 
 function ViewSubsRange() {
@@ -63,6 +64,8 @@ function ViewSubsRange() {
     let indexofFirst = indexofLast - perPage
     let activePage = subsRange?.slice(indexofFirst, indexofLast)
 
+    const headers = ['Range Name', 'Start Range', 'End Range', 'Country Code', 'View', 'Modify', 'Delete']
+
     if (loading) {
         return <Loader />
     } else {
@@ -78,32 +81,17 @@ function ViewSubsRange() {
                         ?
                         <Empty name='Template Not Found' />
                         :
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table aria-label="simple table">
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }} >
-                                    <TableRow >
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Range Name</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Start Range</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >End Range</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Country Code</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >View</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Modify</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Delete</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        activePage?.map((listCamp, index) => (
-                                            <ViewCampList
-                                                key={index}
-                                                list={listCamp}
-                                                remove={onDelete}
-                                            />
-                                        ))
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <DynamicTable data={headers} >
+                            {
+                                activePage?.map((listCamp, index) => (
+                                    <ViewCampList
+                                        key={index}
+                                        list={listCamp}
+                                        remove={onDelete}
+                                    />
+                                ))
+                            }
+                        </DynamicTable>
                 }
                 {
                     subsRange?.length > perPage
@@ -130,10 +118,6 @@ const ViewCampList = ({ list, remove }) => {
         setData(list);
         // console.log(list)
     }, [list]);
-
-    const showModal = () => {
-        setModal(!modal);
-    }
 
     const token = localStorage.getItem("Bearer");
 
@@ -164,7 +148,7 @@ const ViewCampList = ({ list, remove }) => {
                 </Link>
             </TableCell>
             <TableCell className="border border-2" align="center">
-                <button className="border-0" style={{background:'transparent'}} onClick={() => { setModal(!modal) }}>
+                <button className="border-0" style={{ background: 'transparent' }} onClick={() => { setModal(!modal) }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />
                 </button>
                 <Modal show={modal} onHide={() => { setModal(!modal) }}>

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
 import Heading from "../../../components/header/Heading";
 import Empty from "../../../components/empty/Empty";
+import DynamicTable from "../../../components/table/DynamicTable";
 
 function ViewTemplate() {
     const dispatch = useDispatch()
@@ -43,6 +44,8 @@ function ViewTemplate() {
     let indexofFirst = indexofLast - perPage
     let activePage = data?.slice(indexofFirst, indexofLast)
 
+    const headers = ['Id', 'Name', 'Description', 'Message', 'Language Id', 'Created By', 'Type']
+
     if (loading) {
         return <Loader />
     } else {
@@ -58,28 +61,13 @@ function ViewTemplate() {
                         ?
                         <Empty name='Template Not Found' />
                         :
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table aria-label="simple table">
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                    <TableRow>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" > Id</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" > Name</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Description</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Message</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Language Id</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" >Created By</TableCell>
-                                        <TableCell className="border border-2 fw-bolder fs-6" align="center" > Type</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody >
-                                    {
-                                        activePage?.map((each, index) => {
-                                            return <ViewTemplateList data={each} key={index} />
-                                        })
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <DynamicTable data={headers}>
+                            {
+                                activePage?.map((each, index) => {
+                                    return <ViewTemplateList data={each} key={index} />
+                                })
+                            }
+                        </DynamicTable>
                 }
                 {
                     data?.length > perPage

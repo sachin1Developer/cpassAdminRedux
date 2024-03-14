@@ -12,6 +12,7 @@ import Empty from "../../../components/empty/Empty";
 import CommanButton from "../../../components/CommanButton";
 import Loader from "../../../components/loader/Loader";
 import BackDropLoader from "../../../components/loader/BackDropLoader";
+import DynamicTable from "../../../components/table/DynamicTable";
 
 function CampaignApproval() {
     const dispatch = useDispatch()
@@ -62,6 +63,8 @@ function CampaignApproval() {
             });
     }
 
+    const headers = ['Campaign Name', 'Start Date', 'End Date', 'Message/Flow', 'Status', 'Action']
+
 
     useEffect(() => {
         getCampList();
@@ -103,29 +106,15 @@ function CampaignApproval() {
                     ?
                     <Empty name='Template Not Found' />
                     :
-                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                        <Table aria-label="simple table">
-                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                <TableRow className='bodyColor'>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" >Campaign Name</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" >Start Date</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" >End Date</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" >Message/Flow</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" >Status</TableCell>
-                                    <TableCell className="border border-2 fw-bolder fs-6" align="center" colSpan={3}>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {activePage.map((camp, index) => (
-                                    <ViewCampApproval
-                                        key={index}
-                                        list={camp}
-                                        approval={campaignApproval}
-                                    />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <DynamicTable data={headers}>
+                        {activePage.map((camp, index) => (
+                            <ViewCampApproval
+                                key={index}
+                                list={camp}
+                                approval={campaignApproval}
+                            />
+                        ))}
+                    </DynamicTable>
             }
 
             {
@@ -285,13 +274,9 @@ const ViewCampApproval = ({ list, approval }) => {
                         </CommanButton>
                     </Modal.Footer>
                 </Modal>
-            </TableCell>
-            <TableCell className="border border-2" align="center" >
                 <button className="border-0" style={{ background: 'transparent' }} onClick={() => approval('A', data.CAMPAIGN_ID)} >
                     <p style={{ color: 'green', fontWeight: 'bolder' }}>Approve</p>
                 </button>
-            </TableCell>
-            <TableCell className="border border-2" align="center" >
                 <button className="border-0" style={{ background: 'transparent' }} >
                     <p style={{ color: 'red', fontWeight: 'bolder' }}>Reject</p>
                 </button>

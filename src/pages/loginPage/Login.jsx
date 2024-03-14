@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { TextField } from '@mui/material';
@@ -41,7 +41,7 @@ const Login = () => {
     const navigate = useNavigate()
     const username = useSignal('');
     const password = useSignal('');
-    const loading = useSignal(false);
+    const [loading, setloading] = useState(false);
     const firstElement = useRef("");
     const lastElement = useRef("");
 
@@ -52,7 +52,7 @@ const Login = () => {
                 password: password.value
             };
             let url = `${process.env.REACT_APP_API_URL}/signin`
-            loading.value = true;
+            setloading(true)
             axios.post(url, response)
                 .then((resp) => {
                     const redirectStatus = resp.data.httpStatusCode;
@@ -75,19 +75,19 @@ const Login = () => {
 
                             navigate('/')
                         } else {
-                            loading.value = false
+                            setloading(false)
                             toast.error("Invalid user", { position: "top-center", toastId: invalidToastId });
                             firstElement.current.children[1].children[0].focus()
                         }
 
                     } else {
-                        loading.value = false
+                        setloading(false)
                         toast.error("Invalid credentail", { position: "top-center", toastId: invalidToastId });
                         firstElement.current.children[1].children[0].focus()
                     }
                 })
                 .catch((error) => {
-                    loading.value = false
+                    setloading(false)
                     console.log(error);
                 });
         } else {
@@ -102,7 +102,7 @@ const Login = () => {
         firstElement.current.children[1].children[0].focus()
     }, [])
 
-    if (loading.value) {
+    if (loading) {
         return (
             <div style={{ height: '100vh' }}>
                 <Loader />

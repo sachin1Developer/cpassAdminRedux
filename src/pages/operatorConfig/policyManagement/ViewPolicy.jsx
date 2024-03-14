@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deletePolicyManagement, viewPolicyManagement } from './slice/PolicyManagement';
 import Heading from '../../../components/header/Heading';
 import Empty from '../../../components/empty/Empty';
+import DynamicTable from '../../../components/table/DynamicTable';
 
 
 function ViewPolicy() {
@@ -68,6 +69,7 @@ function ViewPolicy() {
     let indexofFirst = indexofLast - perPage
     let activePage = policyList?.slice(indexofFirst, indexofLast)
 
+const headers = ['Policy Id','Policy Name','Description','Exist','View','Modify','Delete']
 
     if (loading) {
         return <Loader />
@@ -85,33 +87,15 @@ function ViewPolicy() {
                         ?
                         <Empty name='Data Not Found' />
                         :
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table >
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                    <TableRow className='bodyColor'>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Policy ID</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Policy Name</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Description</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Exist</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >View</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Delete</TableCell>
-                                        {/* <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>
-                                        <Input type="checkbox" style={{ borderColor: 'black' }} />
-                                    </TableCell> */}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {activePage?.map((listpolicy, index) => (
+                        <DynamicTable data={headers} >
+                            {activePage?.map((listpolicy, index) => (
                                         <ViewPolicyList
                                             key={index}
                                             list={listpolicy}
                                             remove={onDelete}
                                         />
                                     ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        </DynamicTable>
                 }
                 {
                     policyList?.length > perPage

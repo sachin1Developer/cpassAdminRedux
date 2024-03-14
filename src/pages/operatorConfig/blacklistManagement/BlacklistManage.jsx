@@ -18,6 +18,7 @@ import CommanButton from '../../../components/CommanButton';
 import Heading from '../../../components/header/Heading';
 import Loader from '../../../components/loader/Loader';
 import Empty from '../../../components/empty/Empty';
+import DynamicTable from '../../../components/table/DynamicTable';
 
 
 
@@ -172,6 +173,9 @@ function BlacklistManage() {
             });
     }
 
+    const headersBlackListRange = ['Range Id', 'Range Name', 'Start Range', 'End Range', 'Modify', 'Delete']
+    const headersBlackListGroup = ['Range Id', 'Range Name', 'Total Msisdn Blacklisted', 'Create Date', 'Status', 'Download', 'Add', 'Delete']
+
     if (loading) {
         return <Loader />
     } else {
@@ -196,32 +200,18 @@ function BlacklistManage() {
                                     ?
                                     <Empty name='Data Not Found' />
                                     :
-                                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded"  >
-                                        <Table aria-label="simple table">
-                                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                                <TableRow className='bodyColor'>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Start Range</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">End Range</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Modify</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {
-                                                    blacklistRange?.map((listpolicy, index) => (
-                                                        <ViewBlacklistRange
-                                                            key={index}
-                                                            list={listpolicy}
-                                                            deleteRange={deleteRange}
+                                    <DynamicTable data={headersBlackListRange} >
+                                        {
+                                            blacklistRange?.map((listpolicy, index) => (
+                                                <ViewBlacklistRange
+                                                    key={index}
+                                                    list={listpolicy}
+                                                    deleteRange={deleteRange}
 
-                                                        />
-                                                    ))
-                                                }
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
+                                                />
+                                            ))
+                                        }
+                                    </DynamicTable>
                             }
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1} className='d-flex justify-content-center' >
@@ -230,29 +220,13 @@ function BlacklistManage() {
                                     ?
                                     <Empty name='Data Not Found' />
                                     :
-                                    <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                                        <Table sx={{}} aria-label="simple table">
-                                            <TableHead style={{ backgroundColor: '#d6d6f7' }}>
-                                                <TableRow className='bodyColor'>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range ID</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Range Name</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Total Msisdn Blacklisted</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Create Date</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Status</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Download</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">ADD</TableCell>
-                                                    <TableCell align="center" className="border border-2 fw-bolder fs-6">Delete</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {
-                                                    blackgrp?.map((listpolicy, index) => (
-                                                        <ViewBlacklistGrp key={index} list={listpolicy} addOn={onAdd} addFile={addFile} remove={onDelete} />
-                                                    ))
-                                                }
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
+                                    <DynamicTable data={headersBlackListGroup}>
+                                        {
+                                            blackgrp?.map((listpolicy, index) => (
+                                                <ViewBlacklistGrp key={index} list={listpolicy} addOn={onAdd} addFile={addFile} remove={onDelete} />
+                                            ))
+                                        }
+                                    </DynamicTable>
                             }
                         </CustomTabPanel>
                     </Box>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Pagination, TableCell, TableRow } from "@mui/material";
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Modal } from 'react-bootstrap';
@@ -14,6 +14,7 @@ import CommanButton from '../../../../components/CommanButton';
 import Heading from '../../../../components/header/Heading';
 import Empty from '../../../../components/empty/Empty';
 import Loader from '../../../../components/loader/Loader';
+import DynamicTable from '../../../../components/table/DynamicTable';
 
 
 function ViewVendor() {
@@ -28,9 +29,9 @@ function ViewVendor() {
         setloading(true)
         dispatch(getVendorList(token))
             .then((resp) => {
-                // console.log(resp.data)
-                if (resp?.payload?.status === 200) {
-                    setVendorList(resp?.payload?.data);
+                console.log(resp)
+                if (resp?.payload?.data?.httpStatusCode === 200) {
+                    setVendorList(resp?.payload?.data?.body);
                 } else {
                     toast.error('Internal server error');
                 }
@@ -47,7 +48,7 @@ function ViewVendor() {
     const deleteVendorData = (id) => {
         dispatch(deleteVendorById({ id: id, token: token }))
             .then((resp) => {
-                if (resp?.payload?.status === 200) {
+                if (resp?.payload?.data?.httpStatusCode === 200) {
                     toast.success('Deleted successfully');
                     getVendorData();
                 } else {
@@ -66,6 +67,8 @@ function ViewVendor() {
         getVendorData();
     }, [])
 
+    const headers = ['User ID', 'User Name', 'Person Contact', 'Position', 'Mobile', 'View', 'Modify', 'Delete'];
+
 
     let indexofLast = currentPage * perPage
     let indexofFirst = indexofLast - perPage
@@ -77,9 +80,9 @@ function ViewVendor() {
         return (
             <div className='mx-3'>
                 <Heading name='View Vendor'>
-                    {/* <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
+                    <Link style={{ textDecoration: 'none' }} to='/operatorConfig/userTypeManagement/addVendor'>
                         <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><AddIcon />Add Vendor</CommanButton>
-                    </Link> */}
+                    </Link>
                 </Heading>
 
                 {
@@ -87,31 +90,15 @@ function ViewVendor() {
                         ?
                         <Empty name='Template Not Found' />
                         :
-                        <TableContainer className="p-2 shadow-lg mb-2 bg-body-tertiary rounded" >
-                            <Table aria-label="simple table">
-                                <TableHead style={{ backgroundColor: '#d6d6f7' }} >
-                                    <TableRow className='bodyColor'>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >User ID</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >User Name</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Person Contact</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Postion</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Mobile</TableCell>
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >View</TableCell>
-                                        {/* <TableCell align="center" className="border border-2 fw-bolder fs-6" >Modify</TableCell> */}
-                                        <TableCell align="center" className="border border-2 fw-bolder fs-6" >Delete</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {activePage?.map((userList, index) => (
-                                        <ViewVendorTypeList
-                                            key={index}
-                                            list={userList}
-                                            remove={deleteVendorData}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <DynamicTable data={headers} >
+                            {activePage?.map((userList, index) => (
+                                <ViewVendorTypeList
+                                    key={index}
+                                    list={userList}
+                                    remove={deleteVendorData}
+                                />
+                            ))}
+                        </DynamicTable>
                 }
                 {
                     vendorList?.length > perPage
@@ -166,12 +153,12 @@ const ViewVendorTypeList = ({ list, remove }) => {
                     <VisibilityOutlinedIcon />
                 </Link>
             </TableCell>
-            {/* <TableCell className="border border-2" align="center" >
-                <Link style={{ color: 'black' }} to='/operatorConfig/userTypeManagement/modifyVendor'
+            <TableCell className="border border-2" align="center" >
+                <Link style={{ color: 'black' }} to={`/operatorConfig/userTypeManagement/modifyVendor/${data.userid}`}
                     state={{ data: data }} >
                     <EditNoteSharpIcon />
                 </Link>
-            </TableCell> */}
+            </TableCell>
             <TableCell className="border border-2" align="center">
                 <button className="border-0" style={{ background: 'transparent' }} onClick={() => { setModal(!modal) }}>
                     <DeleteForeverIcon style={{ color: 'red' }} />

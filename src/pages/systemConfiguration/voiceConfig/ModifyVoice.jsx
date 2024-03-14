@@ -18,13 +18,11 @@ function ModifyVoice() {
     const location = useLocation()
     console.log(location.state.data);
     // const voiceId = location.state.data.id;
-    const [voiceId, setVoiceId] = useState(location.state.data?.id);
+    const voiceId = location.state.data?.id
     const [voiceName, setVoiceName] = useState(location.state.data?.name);
     const [awsName, setAwsName] = useState(location.state.data?.aws_name);
     const [country, setCountry] = useState(location.state.data?.country);
     const [status, setStatus] = useState(location.state.data?.status);
-    const [responseData, setResponseData] = useState([]);
-
 
 
     const onSubmit = () => {

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Button, Col, Container, Input, Row } from 'reactstrap';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
@@ -42,6 +40,7 @@ function SearchBlacklist() {
         console.log(msisdn)
         dispatch(searchSpecificMsisdninBlacklist({ token: token, id: msisdn }))
             .then((res) => {
+                console.log(res)
                 if (res?.payload?.status === 200) {
                     setSearchData(res?.payload?.data);
                 }

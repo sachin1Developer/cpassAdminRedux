@@ -130,7 +130,20 @@ export  const createVendor = createAsyncThunk("createVendor", async (data) => {
 export  const getVendorById = createAsyncThunk("getVendorById", async (data) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getVendorById/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/getVendor/${data.id}`,
+        headers: {
+            "Authorization": `Bearer ${data.token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
+
+export  const modifyVendor = createAsyncThunk("modifyVendor", async (data) => {
+    const response = axios({
+        method: 'put',
+        url: `${process.env.REACT_APP_API_URL}/updateVendor/${data.id}`,
+        data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },

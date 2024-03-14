@@ -40,6 +40,7 @@ import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import DnsIcon from '@mui/icons-material/Dns';
 import LanguageIcon from '@mui/icons-material/Language';
 import AppsOutageIcon from '@mui/icons-material/AppsOutage';
+import Footer from '../footer/Footer';
 
 
 const dark = {
@@ -215,10 +216,10 @@ const PlayGround = () => {
                     </SubMenu>
 
                     <SubMenu label="Reporting" icon={<AssessmentIcon style={{ color: 'white' }} />} >
-                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/pvmReport' />} >PVM-Report</MenuItem>
-                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/corpReport' />} >Corp-Report</MenuItem>
-                            <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/adReport' />} >Ad-Report</MenuItem>
-                        </SubMenu>
+                        <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/pvmReport' />} >PVM-Report</MenuItem>
+                        <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/corpReport' />} >Corp-Report</MenuItem>
+                        <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/adReport' />} >Ad-Report</MenuItem>
+                    </SubMenu>
 
 
                     {/* <SubMenu label="Reports" className='submenu' icon={<AssessmentIcon style={{ color: 'white' }} />}>
@@ -232,11 +233,17 @@ const PlayGround = () => {
                     </SubMenu> */}
                 </Menu>
             </Sidebar>
-            <main className='w-100 container-fluid'  >
-                <HeaderComponent />
-                <hr style={{ margin: 0, padding: 0, marginBottom: '1em' }} />
+            <main className='w-100 container-fluid' style={{ minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                <div className='border-bottom border-black' style={{ position: 'sticky', top: '0', backgroundColor: 'white' }}>
+                    <HeaderComponent />
+                </div>
+                {/* <hr style={{ margin: 0, padding: 0, marginBottom: '1em' }} /> */}
+
                 <Outlet />
 
+                <div className='border-top shadow-lg bg-body-tertiary rounded'  style={{ marginTop: 'auto', position: 'sticky', bottom: '0' , right:'0', backgroundColor: 'white' }}>
+                    <Footer />
+                </div>
             </main>
         </div>
     );
