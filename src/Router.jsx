@@ -55,7 +55,10 @@ import CorpGeneratedReport from "./pages/reporting/corpReport/CorpGeneratedRepor
 import AdList from './pages/reporting/adReport/AdList'
 import SpecificAdCamp from "./pages/reporting/adReport/SpecificAdCamp";
 import AdGeneratedReport from "./pages/reporting/adReport/AdGeneratedReport";
-import AddChannel from "./pages/systemConfiguration/cicConfig/AddChannel";
+import ModifyChannel from "./pages/systemConfiguration/cicConfig/ModifyChannel";
+import ViewChannel from "./pages/systemConfiguration/cicConfig/ViewChannel";
+import ModifyTemplate from "./pages/campaignConfig/templates/ModifyTemplate";
+import CreateCampaign from "./pages/campaignConfig/campaign/CreateCampaign";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
@@ -68,8 +71,8 @@ const Router = createBrowserRouter(
                 {/* Campaign */}
                 <Route exact path="/camapign/viewCamapign" element={<ViewCampaign />} />
                 <Route path="/camapign/viewCampDetails" element={<CampViewDetails />} />
-                {/* <Route path="/campaign/createCampaign" element={<CreateCamp />} />
-                <Route path="/campaign/modifyCampaign" element={<CreateCamp />} /> */}
+                <Route path="/campaign/createCampaign" element={<CreateCampaign />} />
+                {/* <Route path="/campaign/modifyCampaign" element={<CreateCamp />} /> */}
                 <Route path="/camapign/campaignStatus" element={<CampaignStatus />} />
                 <Route path="/camapign/campaignApproval" element={<CampaignApproval />} />
 
@@ -77,6 +80,7 @@ const Router = createBrowserRouter(
                 {/* Templates */}
                 <Route path="/templates/viewTemplates" element={<ViewTemplate />} />
                 <Route path="/templates/addTemplates" element={<AddTemplate />} />
+                <Route path="/templates/modifyTemplates/:id" element={<ModifyTemplate />} />
 
 
                 {/* Campaign Inventory */}
@@ -124,7 +128,8 @@ const Router = createBrowserRouter(
 
 
                 {/* CIC  */}
-                <Route path="/systemConfiguration/appChannel" element={<AddChannel />} />
+                <Route path="/systemConfiguration/viewChannel" element={<ViewChannel />} />
+                <Route path="/systemConfiguration/modifyChannel" element={<ModifyChannel />} />
 
 
                 {/* App Params */}

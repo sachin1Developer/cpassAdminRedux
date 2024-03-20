@@ -169,9 +169,9 @@ const ViewVendorTypeList = ({ list, remove }) => {
                     </Modal.Header>
                     <Modal.Body>Are you sure, you want to delete this {data.username} ?</Modal.Body>
                     <Modal.Footer>
-                        <Button className='btn btn-danger' onClick={() => { remove(data.userid); setModal(false) }}>
+                        <CommanButton className='btn btn-danger' onClick={() => { remove(data.userid); setModal(false) }}>
                             Delete
-                        </Button>
+                        </CommanButton>
                     </Modal.Footer>
                 </Modal>
             </TableCell>

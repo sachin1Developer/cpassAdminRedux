@@ -7,7 +7,7 @@ function DynamicTable({ data, children }) {
             <Table aria-label="simple table">
                 <TableHead style={{ backgroundColor: '#d6d6f7' }}>
                     <TableRow className='bodyColor'>
-                        {data.map((header, index) => (
+                        {data?.map((header, index) => (
                             <TableCell key={index} align="center" className="border border-2 fw-bolder fs-6">
                                 {header}
                             </TableCell>

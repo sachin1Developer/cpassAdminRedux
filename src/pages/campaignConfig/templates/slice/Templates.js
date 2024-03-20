@@ -14,10 +14,23 @@ export const getLbsTemplates = createAsyncThunk("getLbsTemplates", async (token)
     return response;
 })
 
-export  const addPolicyManagement = createAsyncThunk("addPolicyManagement", async (data) => {
+export  const addLbsTemplate = createAsyncThunk("addLbsTemplate", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/savePolicy`,
+        url: `${process.env.REACT_APP_API_URL}/createLbsTemplate`,
+        data: data.data,
+        headers: {
+            "Authorization": `Bearer ${data.token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
+
+export  const addLbsTemplateById = createAsyncThunk("addLbsTemplateById", async (data) => {
+    const response = axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/getLbsTemplates/${data.id}`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -28,10 +41,10 @@ export  const addPolicyManagement = createAsyncThunk("addPolicyManagement", asyn
 })
 
 
-export  const modifyPolicyManagement = createAsyncThunk("modifyPolicyManagement", async (data) => {
+export  const modifyLbsTemplate = createAsyncThunk("modifyLbsTemplate", async (data) => {
     const response = axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}/updatePolicy/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/updateLbsTemplate`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -42,10 +55,10 @@ export  const modifyPolicyManagement = createAsyncThunk("modifyPolicyManagement"
 })
 
 
-export  const deletePolicyManagement = createAsyncThunk("deletePolicyManagement", async (data) => {
+export  const deleteLbsTemplate = createAsyncThunk("deleteLbsTemplate", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deletePolicy/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/deletelbs_template/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },

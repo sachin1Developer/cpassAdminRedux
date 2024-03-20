@@ -12,9 +12,14 @@ import CommanButton from '../../../components/CommanButton';
 import { toast } from 'react-toastify';
 import Loader from '../../../components/loader/Loader';
 import BackDropLoader from '../../../components/loader/BackDropLoader';
+import DynamicTable from '../../../components/table/DynamicTable';
+import { TableCell, TableRow } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Link } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-
-function AddChannel() {
+function ModifyChannel() {
     const dispatch = useDispatch()
     const token = useSelector(state => state?.token?.data?.token)
     const [tableData, settableData] = useState([])
@@ -32,7 +37,7 @@ function AddChannel() {
         setloading(true)
         dispatch(createChannelandServerID(token))
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 if (response?.payload?.data?.httpStatusCode === 200) {
                     settableData(response?.payload?.data?.body)
                     return dispatch(getServersWithIds(token))
@@ -125,20 +130,33 @@ function AddChannel() {
         }
     }
 
+    const headers = ['Server Id','Server Name','Channels','Enter Number of Channels','Add','Delete']
+
     if (loading) {
         return <Loader />
     } else {
         return (
             <div className='mx-3'>
-                <Heading name='Add Channel' >
-
+                <Heading name='Modify Channel' >
+                <Link to="/systemConfiguration/viewChannel" style={{ textDecoration: 'none' }}>
+                        <CommanButton type="submit" className="btnBack " ><ArrowBackIosIcon />Back</CommanButton>
+                    </Link>
                 </Heading>
+                {/* <>
+                <DynamicTable data={headers} >
+                    {
+                        tableData?.map((each,index)=>{
+                            return <ModifyChannel key={index} data={each} />
+                        })
+                    }
+                </DynamicTable>
+                </> */}
                 <>
                     <div className='container-fluid fs-6 fw-medium w-75 p-2 shadow-lg mb-2 bg-body-tertiary rounded border border-2'>
                         {
-                            tableData?.map((each) => {
+                            tableData?.map((each,index) => {
                                 return (
-                                    <Row className='text-left'>
+                                    <Row className='text-left' key={index}>
                                         <Col className='text-center' >Server - {each?.serverName}[{each?.serverId}]</Col>
                                         {/* <Col className='text-center'>:</Col> */}
                                         <Col className='text-center' >Count - {each?.Count}</Col>
@@ -203,4 +221,18 @@ function AddChannel() {
 
 }
 
-export default AddChannel;
+export default ModifyChannel;
+
+
+// const ModifyChannel = ({data}) => {
+//     return (
+//         <TableRow>
+//             <TableCell className="border border-2" align="center" >{data?.serverId}</TableCell>
+//             <TableCell className="border border-2" align="center" style={{color:'#6163f1',fontWeight:'600'}} >{data?.serverName}</TableCell>
+//             <TableCell className="border border-2" align="center" >{data?.Count}</TableCell>
+//             <TableCell className="border border-2" align="center" ><input /></TableCell>
+//             <TableCell className="border border-2" align="center" ><AddIcon style={{color:'green'}} /></TableCell>
+//             <TableCell className="border border-2" align="center" ><DeleteForeverIcon style={{color:'red'}} /></TableCell>
+//         </TableRow>
+//     )
+// }

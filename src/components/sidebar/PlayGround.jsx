@@ -147,7 +147,7 @@ const PlayGround = () => {
                     <SubMenu label="Campaign Configuration" icon={<PermDataSettingSharpIcon style={{ color: 'white' }} />}>
                         <SubMenu label="Campaigns" icon={<CampaignSharpIcon style={{ color: 'white' }} />}>
                             <MenuItem icon={<TableViewSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/viewCamapign" />}> View Campaign </MenuItem>
-                            {/* <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem> */}
+                            <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignStatus" />}> Campaign Status </MenuItem>
                             <MenuItem icon={<ApprovalSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignApproval" />}> Campaign Approval </MenuItem>
                             {/* <MenuItem icon={<QueryStatsSharpIcon style={{ color: 'white' }} />} component={<Link to="/camapign/campaignAnalytics" />}> Campaign Analytics </MenuItem> */}
                         </SubMenu>
@@ -202,7 +202,7 @@ const PlayGround = () => {
                         <MenuItem icon={<InventoryIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/inventoryConfiguration" />}> Inventory Configuration </MenuItem>
 
 
-                        {/* <MenuItem icon={<WifiChannelIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/viewCICConfiguration" />} >CIC Configuration </MenuItem> */}
+                        <MenuItem icon={<WifiChannelIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/viewChannel" />} >CIC Configuration </MenuItem>
 
                         <MenuItem icon={<AppsOutageIcon style={{ color: 'white' }} />} component={<Link to="/systemConfiguration/appConfigParam" />}> App Config Param </MenuItem>
 

@@ -80,3 +80,30 @@ export const getAllCampaign = createAsyncThunk("getAllCampaign", async (token) =
     // console.log(response)
     return response;
 })
+
+
+export const getOriginationNumber = createAsyncThunk("getOriginationNumber", async (token) => {
+    const response = axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/getAllOriginationNUmber`,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
+
+export const createPvm = createAsyncThunk("createPvm", async (data) => {
+    const response = axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_API_URL}/saveCampaign`,
+        data: data.data,
+        headers: {
+            "Authorization": `Bearer ${data.token}`
+        },
+    })
+    // console.log(response)
+    return response
+
+})

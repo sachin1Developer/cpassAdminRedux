@@ -50,3 +50,27 @@ export const deleteChannel = createAsyncThunk("deleteChannel", async (data) => {
     // console.log(response)
     return response;
 })
+
+export const ViewServersAndCICs = createAsyncThunk("ViewServersAndCICs", async (token) => {
+    const response = axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/SystemConfig/serversAndCICs`,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})
+
+export const getServersAndCICsList = createAsyncThunk("getServersAndCICsList", async (token) => {
+    const response = axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/SystemConfig/serversAndCICsSpecificPortioon`,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    })
+    // console.log(response)
+    return response;
+})

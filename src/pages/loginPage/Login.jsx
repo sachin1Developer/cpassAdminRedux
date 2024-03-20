@@ -46,7 +46,7 @@ const Login = () => {
     const lastElement = useRef("");
 
     const loginApi = () => {
-        if (username.length !== 0 && password.length !== 0) {
+        if (username.value?.length !== 0 && password.value?.length !== 0) {
             let response = {
                 username: username.value,
                 password: password.value
@@ -55,6 +55,7 @@ const Login = () => {
             setloading(true)
             axios.post(url, response)
                 .then((resp) => {
+                    console.log(resp)
                     const redirectStatus = resp.data.httpStatusCode;
 
                     if (redirectStatus === 200) {
@@ -88,6 +89,7 @@ const Login = () => {
                 })
                 .catch((error) => {
                     setloading(false)
+                    toast.error('Internal server error', { position: "top-center", toastId: invalidToastId })
                     console.log(error);
                 });
         } else {
