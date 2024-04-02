@@ -59,6 +59,7 @@ import ModifyChannel from "./pages/systemConfiguration/cicConfig/ModifyChannel";
 import ViewChannel from "./pages/systemConfiguration/cicConfig/ViewChannel";
 import ModifyTemplate from "./pages/campaignConfig/templates/ModifyTemplate";
 import CreateCampaign from "./pages/campaignConfig/campaign/CreateCampaign";
+import CreateCamp from "./pages/campaignConfig/campaign/CreateCamp";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
@@ -72,7 +73,7 @@ const Router = createBrowserRouter(
                 <Route exact path="/camapign/viewCamapign" element={<ViewCampaign />} />
                 <Route path="/camapign/viewCampDetails" element={<CampViewDetails />} />
                 <Route path="/campaign/createCampaign" element={<CreateCampaign />} />
-                {/* <Route path="/campaign/modifyCampaign" element={<CreateCamp />} /> */}
+                {/* <Route path="/campaign/createCampaign" element={<CreateCamp />} /> */}
                 <Route path="/camapign/campaignStatus" element={<CampaignStatus />} />
                 <Route path="/camapign/campaignApproval" element={<CampaignApproval />} />
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class SelectInput extends Component {
     render() {
         const selectInner = {
-            margin: '4px 6px', padding: '2px'
+            margin: '0 2px', padding: '2px'
         }
         return (
             <div>

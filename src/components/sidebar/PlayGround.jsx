@@ -128,7 +128,7 @@ const PlayGround = () => {
                     color: dark.sidebar.color,
                 }}
                 width='280px'
-                style={{ height: '100vh', position: 'sticky', top: '0', left: "0" }}
+                style={{ height: '100vh', position: 'sticky', top: '0', left: "0" ,zIndex:'2'}}
             >
                 <div className='mx-2 my-4  p-3 d-flex align-items-start justify-content-center fs-3 fw-bold rounded' style={{ height: '100px' }} >
                     <button id="collapse"
@@ -215,11 +215,11 @@ const PlayGround = () => {
 
                     </SubMenu>
 
-                    <SubMenu label="Reporting" icon={<AssessmentIcon style={{ color: 'white' }} />} >
+                    {/* <SubMenu label="Reporting" icon={<AssessmentIcon style={{ color: 'white' }} />} >
                         <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/pvmReport' />} >PVM-Report</MenuItem>
                         <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/corpReport' />} >Corp-Report</MenuItem>
                         <MenuItem icon={<SummarizeOutlinedIcon style={{ color: 'white' }} />} component={<Link to='/adReport' />} >Ad-Report</MenuItem>
-                    </SubMenu>
+                    </SubMenu> */}
 
 
                     {/* <SubMenu label="Reports" className='submenu' icon={<AssessmentIcon style={{ color: 'white' }} />}>
@@ -234,14 +234,14 @@ const PlayGround = () => {
                 </Menu>
             </Sidebar>
             <main className='w-100 container-fluid' style={{ minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                <div className='border-bottom border-black' style={{ position: 'sticky', top: '0', backgroundColor: 'white' }}>
+                <div className='border-bottom border-black' style={{ position: 'sticky', top: '0', backgroundColor: 'white' ,zIndex:'1'}}>
                     <HeaderComponent />
                 </div>
                 {/* <hr style={{ margin: 0, padding: 0, marginBottom: '1em' }} /> */}
 
                 <Outlet />
 
-                <div className='border-top shadow-lg bg-body-tertiary rounded'  style={{ marginTop: 'auto', position: 'sticky', bottom: '0' , right:'0', backgroundColor: 'white' }}>
+                <div className='border-top shadow-lg bg-body-tertiary rounded'  style={{ marginTop: 'auto', position: 'sticky', bottom: '0' , right:'0', backgroundColor: 'white',zIndex:'1' }}>
                     <Footer />
                 </div>
             </main>

@@ -1,202 +1,229 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Input } from "reactstrap";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
-import { Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { Box } from "@mui/material";
-import { LinearProgress } from "@mui/material";
-// import { ProgressBar } from "react-bootstrap";
-import ProgressBar from "@ramonak/react-progress-bar";
-import CampaignSharpIcon from '@mui/icons-material/CampaignSharp';
+import React, { useEffect, useState } from "react";
+import Heading from "../../../components/header/Heading";
+import { useDispatch, useSelector } from "react-redux";
+import { getCampaignStatusByFilter, getCampaignStatusfor15Days, getCampaignStatusforDateWise } from "./slice/Campaign";
+import { toast } from "react-toastify";
+import DynamicTable from "../../../components/table/DynamicTable";
+import { Chip, Pagination, Stack, TableCell, TableRow } from "@mui/material";
+import Empty from "../../../components/empty/Empty";
+import Loader from "../../../components/loader/Loader";
 import CommanButton from "../../../components/CommanButton";
+import dayjs from "dayjs";
+import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
+import MessageIcon from '@mui/icons-material/Message';
+
 
 function CampaignStatus() {
+    const dispatch = useDispatch()
+    const [campData, setcampData] = useState([])
+    const [campStatus, setcampStatus] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
+    const [loading, setLoading] = useState(true)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setendDate] = useState('')
+    const [date, setdate] = useState(false)
+    const perPage = 10;
+    const token = useSelector(state => state?.token?.data?.token)
 
-    const [campFilter, setCampFilter] = useState(false)
-    // const [campStatus, setCampStatus] = useState([]);
-    let progress = ""
 
-    const campStatus = [
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "20000",
-            "Processed": "15000",
-            "PerDayLimit": "15", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "O",
-            "Status": "N",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25000",
-            "PerDayLimit": "25", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "O",
-            "Status": "R",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25675",
-            "PerDayLimit": "25", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "S",
-            "Status": "E",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25675",
-            "PerDayLimit": "25", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "U",
-            "Status": "C",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25675",
-            "PerDayLimit": "55", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "U",
-            "Status": "P",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25675",
-            "PerDayLimit": "35", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "U",
-            "Status": "A",
-            "Progress": "",  // {(Processed/total)*100}
-        },
-        {
-            "name": "abs",
-            "group": "grp-1",
-            "total": "25675",
-            "Processed": "25675",
-            "PerDayLimit": "25", // if dailylimit === -1 ==> UNLIMITED elseif dailylimit !== -1 ==> dailylimit
-            "LastUpdate": "Nov-20-2023",
-            "TodaySent": "10",
-            "Interface": "U",
-            "Status": "T",
-            "Progress": "",  // {(Processed/total)*100}
+    const getCampStatusbyFilter = (status) => {
+        setLoading(true)
+        dispatch(getCampaignStatusByFilter({ token: token, status: status }))
+            .then((response) => {
+                if (response?.payload?.data?.httpStatusCode === 200) {
+                    setcampStatus(status)
+                    setdate(false)
+                    setcampData(response?.payload?.data?.body)
+                } else {
+                    toast.error("Internal error server")
+                }
+                setLoading(false)
+            }).catch((err) => {
+                console.log(err)
+                setLoading(false)
+                toast.error('Error while list')
+            })
+    }
+
+    const getCampStatusfor15Days = () => {
+        setcampStatus('')
+        setLoading(true)
+        dispatch(getCampaignStatusfor15Days(token))
+            .then((response) => {
+                if (response?.payload?.data?.httpStatusCode === 200) {
+                    setdate(false)
+                    setcampData(response?.payload?.data?.body)
+                } else {
+                    toast.error("Internal error server")
+                }
+                setLoading(false)
+            }).catch((err) => {
+                console.log(err)
+                setLoading(false)
+                toast.error('Error while list')
+            })
+    }
+
+    const getCampStatusforDateWise = () => {
+        if (startDate?.length === 0) {
+            toast.error('Please Enter Start Date')
+        } else if (endDate?.length === 0) {
+            toast.error('Please Enter End Date')
+        } else {
+            setLoading(true)
+            dispatch(getCampaignStatusforDateWise({ token: token, start: startDate, end: endDate }))
+                .then((response) => {
+                    if (response?.payload?.data?.httpStatusCode === 200) {
+                        setcampData(response?.payload?.data?.body)
+                        setcampStatus('DW')
+                    } else {
+                        toast.error("Internal error server")
+                    }
+                    setLoading(false)
+                }).catch((err) => {
+                    console.log(err)
+                    setLoading(false)
+                    toast.error('Error while list')
+                })
         }
-    ]
+    }
+
+    useEffect(() => {
+        getCampStatusfor15Days()
+    }, [])
+
+    const headers = ['Name', 'Group', 'Total', 'Processed', 'Per Day Limit', 'Last Update', 'Today Sent', 'Interface', 'Status']
 
 
-    return (
-        // progress = Math.round((statusCamp.Processed / statusCamp.total) * 100)
-        < div className='d-flex' >
-            <div className='container '>
-                <div className="">
-                    {/* <Link style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5>
-                            Campaign Filter
-                        </h5>
-                    </Link> */}
-                    {/* <b>
-                        <h5 className='campFilter '> Campaign Filter
-                            <div className=''>
-                                <CommanButton style={{ border: 'none', textDecoration: 'none', backgroundColor: 'transparent', }} onClick={() => { setCampFilter(!campFilter) }}>
-                                    {campFilter ?
-                                        <div className="btnBack mb-3" ><IndeterminateCheckBoxIcon /></div>
-                                        :
-                                        <div className="btnBack mb-3" ><AddBoxIcon /></div>
-                                    }
-                                </CommanButton>
-                            </div>
-                        </h5>
-                    </b>
-                    {
-                        campFilter &&
+    let indexofLast = currentPage * perPage
+    let indexofFirst = indexofLast - perPage
+    let activePage = campData?.slice(indexofFirst, indexofLast)
 
-                        <div className="d-flex justify-content-end mx-2 " style={{ fontSize: '13px' }}>
-                            New | Running | Approve | Paused | Completed | Reject | All | Date Wise
-                        </div>
-                    } */}
+    let today = dayjs().format('YYYY-MM-DD')
+    console.log(today)
 
-                    <b>
-                        <h3 className='pvmHeading text-slate-800'>View Campaign Status ✨ </h3>
-                    </b>
+    if (loading) {
+        return <Loader />
+    } else {
+        return (
+            <div className="mx-3"    >
+                <Heading name='Campaign Status'>
+
+                </Heading>
+                <div className="d-flex flex-column align-items-end">
+                    <Stack direction="row" spacing={1}>
+                        <Chip label="New" variant="outlined" clickable sx={campStatus === 'N' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('N') }} />
+                        <Chip label="Running" variant="outlined" clickable sx={campStatus === 'R' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('R') }} />
+                        <Chip label="Approve" variant="outlined" clickable sx={campStatus === 'A' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('A') }} />
+                        <Chip label="Paused" variant="outlined" clickable sx={campStatus === 'P' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('P') }} />
+                        <Chip label="Completed" variant="outlined" sx={campStatus === 'C' && { backgroundColor: 'grey' }} clickable onClick={() => { getCampStatusbyFilter('C') }} />
+                        <Chip label="Reject" variant="outlined" clickable sx={campStatus === 'E' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('E') }} />
+                        <Chip label="All" variant="outlined" clickable sx={campStatus === 'ALL' && { backgroundColor: 'grey' }} onClick={() => { getCampStatusbyFilter('ALL') }} />
+                        <Chip label="Datewise" variant="outlined" clickable sx={campStatus === 'DW' && { backgroundColor: 'grey' }} onClick={() => { setdate((prev) => !prev) }} />
+                    </Stack>
                 </div>
+                {
+                    date &&
+                    <div className="d-flex m-3 flex-wrap justify-content-around ">
+                        <div className="mx-3 align-self-center">
+                            <label htmlFor="">Start Date </label>
+                            <input type="date" className="p-1" value={startDate} onChange={(event) => { setStartDate(event.target.value) }} max={today} />
+                        </div>
+                        <div className="mx-3 align-self-center">
+                            <label htmlFor="">End Date </label>
+                            <input type="date" className="p-1" value={endDate} onChange={(event) => { setendDate(event.target.value) }} min={startDate} max={today} disabled={startDate?.length === 0} />
+                        </div>
+                        <CommanButton onClick={getCampStatusforDateWise} >Submit</CommanButton>
+                    </div>
+                }
+                {
+                    campData?.length === 0
+                        ?
+                        <Empty name='Data Not Found' />
+                        :
+                        <DynamicTable data={headers}>
+                            {
+                                activePage?.map((each) => {
+                                    return (
+                                        <TableRow>
+                                            <TableCell className="border border-2" align="center">{each.campaign_name}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.GROUP_ID}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.END_SEQUENCE_ID}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.CURRENT_SEQUENCE_ID}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.SMS_MAX_LIMIT === -1 ? 'Unlimited' : each.SMS_MAX_LIMIT}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.LAST_UPDATE_DATE?.slice(0, 10)}</TableCell>
+                                            <TableCell className="border border-2" align="center">{each.TODAY_COUNT}</TableCell>
+                                            <TableCell className="border border-2" align="center">{(each.INTERFACE === 'O' && <PhoneForwardedIcon style={{color:'red'}} /> ) || (each.INTERFACE === 'S' && <MessageIcon style={{color:'green'}} /> )  } {(each.INTERFACE === 'O' && 'OBD') || (each.INTERFACE === 'S' && 'SMS')  } </TableCell>
+                                            <TableCell className="border border-2" align="center">{each.CAMP_STATUS === 'N' && "New" || each.CAMP_STATUS === 'E' && "Reject" || each.CAMP_STATUS === 'R' && "Running" || each.CAMP_STATUS === 'C' && "Completed" || each.CAMP_STATUS === 'A' && "Active" || each.CAMP_STATUS === 'P' && "Pending" || each.CAMP_STATUS === 'T' && "Tested"}</TableCell>
+                                            {/* <TableCell className="border border-2" align="center">{each.INTERFACE}</TableCell> */}
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </DynamicTable>
+                }
+                {
+                    campData?.length > perPage
+                    &&
+                    <div className='d-flex justify-content-center my-4'>
+                        <Pagination count={Math.ceil(campData?.length / perPage)} variant="outlined" shape="rounded" onChange={(e, p) => setCurrentPage(p)} />
+                    </div>
+                }
 
-                <TableContainer style={{ backgroundColor: '' }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow className='bodyColor'>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Name</TableCell>
-                                <TableCell align="left" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Group</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Total</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Processed</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Per Day Limit</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Last Update</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}> Today Sent</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}> Interface</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Status</TableCell>
-                                <TableCell align="center" style={{ fontWeight: 'bolder', color: 'rgb(100,116,139)', backgroundColor: '#d6d6f7' }}>Progress</TableCell>
-
-                            </TableRow>
-                        </TableHead>
-                        {campStatus.map((statusCamp, index) => (
-                            <TableRow>
-                                <TableCell align="center">{statusCamp.name}</TableCell>
-                                <TableCell align="center">{statusCamp.group}</TableCell>
-                                <TableCell align="center">{statusCamp.total}</TableCell>
-                                <TableCell align="center">{statusCamp.Processed}</TableCell>
-                                <TableCell align="center">{statusCamp.PerDayLimit}</TableCell>
-                                <TableCell align="center">{statusCamp.LastUpdate}</TableCell>
-                                <TableCell align="center">{statusCamp.TodaySent}</TableCell>
-                                <TableCell align="center">
-                                    {statusCamp.Interface === 'S' && "SMS" || statusCamp.Interface === 'U' && "USSD" || statusCamp.Interface === 'T' && "Twiter" || statusCamp.Interface === 'F' && "Fecebook" || statusCamp.Interface === 'O' && "OBD" || statusCamp.Interface}
-                                </TableCell>
-                                <TableCell align="center">{statusCamp.Status === 'N' && "New" || statusCamp.Status === 'E' && "Reject" || statusCamp.Status === 'R' && "Running" || statusCamp.Status === 'C' && "Completed" || statusCamp.Status === 'A' && "Active" || statusCamp.Status === 'P' && "Pending" || statusCamp.Status === 'T' && "Tested"}</TableCell>
-                                <TableCell align="center">
-                                    {/* <Box sx={{ width: '100%' }}> */}
-                                    {
-
-                                    }
-                                    <ProgressBar completed={Math.round((statusCamp.Processed / statusCamp.total) * 100)} bgColor="#6366f1" height="" labelSize="10px" />
-                                    {/* <ProgressBar completed={progress} bgColor="#6366f1" height="" labelSize="10px" /> */}
-                                    {/* </Box> */}
-
-                                </TableCell>
-                            </TableRow>
-
-
-
-                            // <ViewCampList
-                            //     key={statusCamp.index}
-                            //     list={listCamp}
-                            //     remove={onDelete}
-                            // />
-                        ))}
-                    </Table>
-                </TableContainer>
             </div>
-        </div >
-    );
+        )
+    }
 }
 
 
 export default CampaignStatus;
+
+
+
+// {
+//     "CAMPAIGN_ID": 487945,
+//     "GROUP_TYPE": 0,
+//     "START_SEQUENCE_ID": 0,
+//     "LAST_UPDATE_DATE": "2024-03-22T10:25:00.000+00:00",
+//     "PRODUCT_NAME": "-1",
+//     "GROUP_ID": 2098,
+//     "campaign_name": "moto",
+//     "STATUS": "N",
+//     "CREATE_DATE": "2024-03-21T10:37:00.000+00:00",
+//     "CURRENT_SEQUENCE_ID": 0,
+//     "END_SEQUENCE_ID": 1,
+//     "INTERFACE": "O",
+//     "CAMP_STATUS": "N",
+//     "TODAY_COUNT": 0,
+//     "SMS_MAX_LIMIT": -1
+// }
+
+
+
+
+
+
+
+// <TableRow>
+//                                 <TableCell align="center">{statusCamp.name}</TableCell>
+//                                 <TableCell align="center">{statusCamp.group}</TableCell>
+//                                 <TableCell align="center">{statusCamp.total}</TableCell>
+//                                 <TableCell align="center">{statusCamp.Processed}</TableCell>
+//                                 <TableCell align="center">{statusCamp.PerDayLimit}</TableCell>
+//                                 <TableCell align="center">{statusCamp.LastUpdate}</TableCell>
+//                                 <TableCell align="center">{statusCamp.TodaySent}</TableCell>
+//                                 <TableCell align="center">
+//                                     {statusCamp.Interface === 'S' && "SMS" || statusCamp.Interface === 'U' && "USSD" || statusCamp.Interface === 'T' && "Twiter" || statusCamp.Interface === 'F' && "Fecebook" || statusCamp.Interface === 'O' && "OBD" || statusCamp.Interface}
+//                                 </TableCell>
+//                                 <TableCell align="center">{statusCamp.Status === 'N' && "New" || statusCamp.Status === 'E' && "Reject" || statusCamp.Status === 'R' && "Running" || statusCamp.Status === 'C' && "Completed" || statusCamp.Status === 'A' && "Active" || statusCamp.Status === 'P' && "Pending" || statusCamp.Status === 'T' && "Tested"}</TableCell>
+//                                 <TableCell align="center">
+//                                     {/* <Box sx={{ width: '100%' }}> */}
+//                                     {
+
+//                                     }
+//                                     <ProgressBar completed={Math.round((statusCamp.Processed / statusCamp.total) * 100)} bgColor="#6366f1" height="" labelSize="10px" />
+//                                     {/* <ProgressBar completed={progress} bgColor="#6366f1" height="" labelSize="10px" /> */}
+//                                     {/* </Box> */}
+
+//                                 </TableCell>
+//                             </TableRow>
