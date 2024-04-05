@@ -15,7 +15,7 @@ export const getProfileData = createAsyncThunk("getProfileData", async (data) =>
             "Authorization": `Bearer ${data.token}`
         },
     })
-    // console.log(response)
+    console.log(response)
     return response;
 })
 
@@ -24,7 +24,7 @@ export const ProfileSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
         builder.addCase(getProfileData.fulfilled, (state, action) => {
-            state.data = action.payload.data
+            state.data = action.payload?.data?.body[0]
             state.error = false
             state.isLoading = false
         })

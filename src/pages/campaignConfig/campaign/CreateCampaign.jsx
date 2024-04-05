@@ -330,8 +330,6 @@ const CreateCampaign = () => {
         }
     }
 
-
-
     const getFormData = () => {
 
         console.log(p1, p2, p3, p4, p5, p6, p7, p8)
@@ -407,7 +405,7 @@ const CreateCampaign = () => {
                 formData.append('saveCampaign', JSON.stringify(data))
 
             }
-            else if (messageRadio === 1) {
+            else if (messageRadio === 1 ) {
                 formData = new FormData();
                 let data = {
                     "campaign_name": templateName,
@@ -424,6 +422,39 @@ const CreateCampaign = () => {
                     "admin_msisdn": "7070270313",
                     "promptType": "none",
                     "interfacee": campType,
+                    "sms_origination_num": originNo,
+                    "obd_app": "-1",
+                    "status": "N",
+                    "balance": "5000",
+                    "priority": "1",
+                    "day_of_week": days,
+                    "camp_recycle": "1",
+                    "policy_id": "-99"
+                }
+
+
+                formData.append('audioFile', null);
+                formData.append('uploadList', listTxt)
+                formData.append('saveCampaign', JSON.stringify(data))
+
+            }
+            else if (audioRadio === 'text') {
+                formData = new FormData();
+                let data = {
+                    "campaign_name": templateName,
+                    "startdate": `${dayjs(scheduleFrom).format('YYYY-MM-DD')} ${dayjs(startTime).format('HH:mm')}:00`,
+                    "persanolized": personalized === 'yes' ? "On" : "Off",
+                    "enddate": `${dayjs(scheduleTo).format('YYYY-MM-DD')} ${dayjs(lastTime).format('HH:mm')}:00`,
+                    "startHour": `${dayjs(startTime).format('HHmm')}`,
+                    "endHour": `${dayjs(lastTime).format('HHmm')}`,
+                    "userId": userId,
+                    "campaign_message": ttsTextArea,
+                    "voiceTone": ttsVoiceTone,
+                    "voiceSpeed": ttsVoiceSpeed,
+                    "created_by": userName,
+                    "admin_msisdn": "7070270313",
+                    "promptType": "none",
+                    "interfacee": 'O',
                     "sms_origination_num": originNo,
                     "obd_app": "-1",
                     "status": "N",
@@ -638,6 +669,7 @@ const CreateCampaign = () => {
 
                 <div className='my-2 container' >
 
+                    <OuterBox value="1" able='false' >
                         <div className="my-2 w-100" >
                             <label htmlFor="templateName" className="form-label fw-semibold formLabel">Name your PVM campaign. &nbsp;
                                 <span className="form-text">This name identifies your campaign so you can re-use it in future. Type your campaign name below - </span></label>
@@ -658,12 +690,10 @@ const CreateCampaign = () => {
                                 </div>
                             </div>
                         </div>
-                    {/* <OuterBox value="1" able='false' >
-                    </OuterBox> */}
+                    </OuterBox>
 
 
-                    {/* <OuterBox value="2" able={p1 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="2" able={p1 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Customer Interaction. &nbsp;
                                 <span className="form-text">By activating this feature, you
@@ -691,10 +721,10 @@ const CreateCampaign = () => {
                                 </ToggleButtonGroup>
                             </div>
                         </div>
+                    </OuterBox>
 
 
-                    {/* <OuterBox value="3" able={p2 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="3" able={p2 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Personalization.&nbsp;
                                 <span className="form-text">This feature allows you to personalize each message. Make certain that you include variables in your list in step 6. </span></label>
@@ -719,10 +749,10 @@ const CreateCampaign = () => {
                                 </ToggleButtonGroup>
                             </div>
                         </div>
+                    </OuterBox>
 
 
-                    {/* <OuterBox value="4" able={p3 === 'active' ? true : false}>
-                    </OuterBox> */}
+                    <OuterBox value="4" able={p3 === 'active' ? true : false}>
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Select type of message. &nbsp;
                                 <span className="form-text">Please tell us if your message will be personalized per number. If this feature is off it means you will have 1 unique message to many.</span></label>
@@ -731,12 +761,12 @@ const CreateCampaign = () => {
                                     <Box sx={{ width: '100%' }}>
                                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                             <Tabs value={messageRadio} onChange={(event, newValue) => { setmessageRadio(newValue); newValue === 0 ? setcampType('O') : setcampType('S') }} aria-label="basic tabs example">
-                                                <Tab label="OBD" {...a11yProps(0)}  />
+                                                <Tab label="OBD" {...a11yProps(0)} />
                                                 <Tab label="SMS" {...a11yProps(1)} />
                                             </Tabs>
                                         </Box>
                                         <CustomTabPanel value={messageRadio} index={0}>
-                                        {/* <div className="form-check m-2">
+                                            {/* <div className="form-check m-2">
                                                 <div className='d-flex align-items-center'>
 
                                                     <div className='d-flex justify-content-around'>
@@ -879,7 +909,7 @@ const CreateCampaign = () => {
                                                                         <div className='d-flex justify-content-between'>
                                                                             <label className="form-check-label mt-1 " htmlFor="">Welcome file</label>
                                                                             <div className="mx-2">
-                                                                                <input type="file" accept='.wav' className="form-control border-secondary" id="welcomeFile" onChange={(e) => { (e.target.files[0].size <= 2000000) ? setwelcomeFile(e.target.files[0])  : toast.error("file must be less than 2MB") }} disabled={(audioRadio === 'text' ? true : false) || (p3 === 'active' ? true : false)} />
+                                                                                <input type="file" accept='.wav' className="form-control border-secondary" id="welcomeFile" onChange={(e) => { (e.target.files[0].size <= 2000000) ? setwelcomeFile(e.target.files[0]) : toast.error("file must be less than 2MB") }} disabled={(audioRadio === 'text' ? true : false) || (p3 === 'active' ? true : false)} />
                                                                                 <label style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '0.7rem', color: '#ff0202c7' }}> *Extension Must be .wav file(maxsize-2mb)</label>
                                                                             </div>
                                                                             <div className="col-auto">
@@ -925,10 +955,10 @@ const CreateCampaign = () => {
                                                         <label className="form-check-label m-2" htmlFor="flexRadioDefault1">
                                                             Text to Speech – TTS tool
                                                         </label>
-                                                        <CommanButton type="submit" className="btnBack mx-3" onClick={() => { setmodal(!modal)}} disabled={(audioRadio === 'audio' ? true : false) || (p3 === 'active' ? true : false)} >Add Template</CommanButton>
+                                                        <CommanButton type="submit" className="btnBack mx-3" onClick={() => { setmodal(!modal) }} disabled={(audioRadio === 'audio' ? true : false) || (p3 === 'active' ? true : false)} >Add Template</CommanButton>
 
                                                     </div>
-                                                    <Modal show={modal} onHide={() => {setmodal(!modal) }} aria-labelledby="contained-modal-title-vcenter">
+                                                    <Modal show={modal} onHide={() => { setmodal(!modal) }} aria-labelledby="contained-modal-title-vcenter">
                                                         <Modal.Header closeButton>
                                                             <Modal.Title id="contained-modal-title-vcenter">
                                                                 Select message
@@ -1143,10 +1173,10 @@ const CreateCampaign = () => {
                                 </div>
                             </div>
                         </div>
+                    </OuterBox>
 
 
-                    {/* <OuterBox value="5" able={p4 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="5" able={p4 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Origination Number. &nbsp;
                                 <span className="form-text">Origin of a communication, such as a phone call or text message</span></label>
@@ -1171,10 +1201,10 @@ const CreateCampaign = () => {
                                 </div>
                             </div>
                         </div>
+                    </OuterBox>
 
 
-                    {/* <OuterBox value="6" able={p5 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="6" able={p5 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Upload your list . &nbsp;
                                 <span className="form-text">Your list must include personalization variables in the text file. </span></label>
@@ -1209,9 +1239,9 @@ const CreateCampaign = () => {
 
                             </div>
                         </div>
+                    </OuterBox>
 
-                    {/* <OuterBox value="7" able={p6 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="7" able={p6 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="" className="form-label fw-semibold formLabel">Schedule. &nbsp;
                                 <span id="" className="form-text" >Set up days and time at which your campaign will run. Please notice that the platform does not make any call on sunday.</span></label>
@@ -1307,6 +1337,7 @@ const CreateCampaign = () => {
 
                             </div>
                         </div>
+                    </OuterBox>
 
 
                     {/* <OuterBox value="8" able={p7 === 'active' ? true : false} >
@@ -1328,8 +1359,7 @@ const CreateCampaign = () => {
                         </div>
                     </OuterBox> */}
 
-                    {/* <OuterBox value="8" able={p7 === 'active' ? true : false} >
-                    </OuterBox> */}
+                    <OuterBox value="8" able={p7 === 'active' ? true : false} >
                         <div className="my-2 w-100" >
                             <label htmlFor="exampleInputEmail1" className="form-label fw-semibold formLabel">Review. &nbsp;
                                 <span id="emailHelp" className="form-text">Confirm that all the information has been filled correctly.</span></label>
@@ -1343,6 +1373,7 @@ const CreateCampaign = () => {
                                 </div>
                             </div>
                         </div>
+                    </OuterBox>
 
 
                 </div>
