@@ -378,9 +378,9 @@ function AddBlacklist() {
                 <Link to='/operatorConfig/blacklistManagemment/manageBlacklist' style={{ textDecoration: 'none' }}>
                     <CommanButton type="submit" className="btnBack mb-3 d-flex align-items-center"  ><ManageHistoryIcon />Manage Blacklist</CommanButton>
                 </Link>
-                <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
+                {/* <Link to='/operatorConfig/blacklistManagemment/searchBlacklist' style={{ textDecoration: 'none' }} >
                     <CommanButton type="submit" className="btnBack mb-3 mx-2  d-flex align-items-center" ><ManageSearchIcon />Search Blacklist</CommanButton>
-                </Link>
+                </Link> */}
             </Heading>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', fontWeight: '800' }}>

@@ -5,7 +5,7 @@ import axios from "axios";
 export const viewBlacklistManagement = createAsyncThunk("viewBlacklistManagement", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getAllPolices`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getAllPolices`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -17,7 +17,7 @@ export const viewBlacklistManagement = createAsyncThunk("viewBlacklistManagement
 export  const addMsisdnToBlacklist= createAsyncThunk("addMsisdnToBlacklist", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}//updateBlacklistMsisdn?rangeId=${data.id}&msisdn=${data.msisdn}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/updateBlacklistMsisdn?rangeId=${data.id}&msisdn=${data.msisdn}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
@@ -29,7 +29,7 @@ export  const addMsisdnToBlacklist= createAsyncThunk("addMsisdnToBlacklist", asy
 export  const addGroupMsisdnToBlacklist = createAsyncThunk("addGroupMsisdnToBlacklist", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/uploadBlacklistMsisdnByFile`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/uploadBlacklistMsisdnByFile`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -43,7 +43,7 @@ export  const addGroupMsisdnToBlacklist = createAsyncThunk("addGroupMsisdnToBlac
 export  const modifyBlacklistManagement = createAsyncThunk("modifyBlacklistManagement", async (data) => {
     const response = axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}/updateBlackListRange/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/updateBlackListRange/${data.id}`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -57,7 +57,7 @@ export  const modifyBlacklistManagement = createAsyncThunk("modifyBlacklistManag
 export  const deleteBlacklistGroup = createAsyncThunk("deleteBlacklistGroup", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deleteBlackListManagerGroup/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/deleteBlackListManagerGroup/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
@@ -70,7 +70,7 @@ export  const deleteBlacklistGroup = createAsyncThunk("deleteBlacklistGroup", as
 export  const deleteBlacklistRange = createAsyncThunk("deleteBlacklistRange", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deleteBlackListRange/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/deleteBlackListRange/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
@@ -82,7 +82,7 @@ export  const deleteBlacklistRange = createAsyncThunk("deleteBlacklistRange", as
 export  const getBlacklistName = createAsyncThunk("getBlacklistName", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/rangeNamesOnlyFromBlkackListRanges`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/rangeNamesOnlyFromBlkackListRanges`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -95,7 +95,7 @@ export  const getBlacklistName = createAsyncThunk("getBlacklistName", async (tok
 export  const addRangeBlacklist = createAsyncThunk("addRangeBlacklist", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/rangeNamesOnlyFromBlkackListRanges`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/rangeNamesOnlyFromBlkackListRanges`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -109,7 +109,7 @@ export  const addRangeBlacklist = createAsyncThunk("addRangeBlacklist", async (d
 export  const addGroupBlacklistMsisdn = createAsyncThunk("addGroupBlacklist", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/uploadBlacklistMsisdn`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/uploadBlacklistMsisdn`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -123,7 +123,7 @@ export  const addGroupBlacklistMsisdn = createAsyncThunk("addGroupBlacklist", as
 export const getBlacklistRange = createAsyncThunk("getBlacklistRange", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getBlackListRange`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getBlackListRange`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -135,7 +135,7 @@ export const getBlacklistRange = createAsyncThunk("getBlacklistRange", async (to
 export const getBlacklistGroupName  = createAsyncThunk("getBlacklistGroupName", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getCountAndDetailsByRangeId`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getCountAndDetailsByRangeId`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -148,7 +148,7 @@ export const getBlacklistGroupName  = createAsyncThunk("getBlacklistGroupName", 
 export const searchSpecificMsisdninBlacklist  = createAsyncThunk("searchSpecificMsisdninBlacklist", async (data) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getBlackListGroupForSpecificMsisdn/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getBlackListGroupForSpecificMsisdn/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
@@ -161,7 +161,7 @@ export const searchSpecificMsisdninBlacklist  = createAsyncThunk("searchSpecific
 export  const deleteBlacklistManagerGroup = createAsyncThunk("deleteBlacklistManagerGroup", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deleteBlackListManagerGroup/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/deleteBlackListManagerGroup/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },

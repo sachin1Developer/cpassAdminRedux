@@ -5,7 +5,7 @@ import axios from "axios";
 export const viewSubscriberRange = createAsyncThunk("viewSubscriberRange", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getOperatorSubscriber`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getOperatorSubscriber`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -17,7 +17,7 @@ export const viewSubscriberRange = createAsyncThunk("viewSubscriberRange", async
 export  const addSubscriberRange = createAsyncThunk("addSubscriberRange", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/saveOperatorSubscriber`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/saveOperatorSubscriber`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -31,7 +31,7 @@ export  const addSubscriberRange = createAsyncThunk("addSubscriberRange", async 
 export  const modifySubscriberRange = createAsyncThunk("modifySubscriberRange", async (data) => {
     const response = axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}/updateOperatorSubscriber/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/updateOperatorSubscriber/${data.id}`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -45,7 +45,7 @@ export  const modifySubscriberRange = createAsyncThunk("modifySubscriberRange", 
 export  const deleteSubscriberRange = createAsyncThunk("deleteSubscriberRange", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deleteOperatorSubscriber/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/deleteOperatorSubscriber/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },

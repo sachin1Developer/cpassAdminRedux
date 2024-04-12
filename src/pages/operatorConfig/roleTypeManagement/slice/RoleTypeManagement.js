@@ -5,7 +5,7 @@ import axios from "axios";
 export const viewRoleTypeManagement = createAsyncThunk("viewRoleTypeManagement", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/allRoles`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/allRoles`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -17,7 +17,7 @@ export const viewRoleTypeManagement = createAsyncThunk("viewRoleTypeManagement",
 export const getAllHttpLinks = createAsyncThunk("getAllHttpLinks", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/allHttpLinks`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/allHttpLinks`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -30,7 +30,7 @@ export const getAllHttpLinks = createAsyncThunk("getAllHttpLinks", async (token)
 export const getAllRoleNameOnly = createAsyncThunk("getAllRoleNameOnly", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/ftechRolesName`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/ftechRolesName`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -42,7 +42,7 @@ export const getAllRoleNameOnly = createAsyncThunk("getAllRoleNameOnly", async (
 export const getRoleDetailsById = createAsyncThunk("getRoleDetailsById", async (data) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/findRole/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/findRole/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
@@ -54,7 +54,7 @@ export const getRoleDetailsById = createAsyncThunk("getRoleDetailsById", async (
 export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/createRole`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/createRole`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -68,7 +68,7 @@ export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", 
 export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagement", async (data) => {
     const response = axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}/updateRole`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/updateRole`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -82,7 +82,7 @@ export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagem
 export  const deleteRoleTypeManagement = createAsyncThunk("deleteRoleTypeManagement", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/DeleteRole/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/DeleteRole/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },

@@ -47,12 +47,12 @@ function CampaignApproval() {
         setbackdrop(true)
         dispatch(getCampaignApproval({ token: token, status: status, campId: campId }))
             .then((resp) => {
-                if (resp?.payload?.data === 200) {
-                    toast.info("Campaign Approved Successfully")
+                if (resp?.payload?.status === 200) {
+                    toast.success("Campaign Approved Successfully")
                     getCampList();
                 }
                 else {
-                    toast.info("Error While Approving Campaign ")
+                    toast.error("Error While Approving Campaign ")
                 }
                 setbackdrop(false)
             })
@@ -205,7 +205,7 @@ const ViewCampApproval = ({ list, approval }) => {
                 {campStatus()}
             </TableCell>
             <TableCell className="border border-2" align="center" >
-                <button className="border-0" style={{ background: 'transparent' }} onClick={showModal}>
+                {/* <button className="border-0" style={{ background: 'transparent' }} onClick={showModal}>
                     <p style={{ color: 'blue', fontWeight: 'bolder' }}>Test</p>
                 </button>
 
@@ -273,7 +273,7 @@ const ViewCampApproval = ({ list, approval }) => {
                             Clear
                         </CommanButton>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
                 <button className="border-0" style={{ background: 'transparent' }} onClick={() => approval('A', data.CAMPAIGN_ID)} >
                     <p style={{ color: 'green', fontWeight: 'bolder' }}>Approve</p>
                 </button>

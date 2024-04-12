@@ -5,7 +5,7 @@ import axios from "axios";
 export const viewPolicyManagement = createAsyncThunk("viewPolicyManagement", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/getAllPolices`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/getAllPolices`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
@@ -17,7 +17,7 @@ export const viewPolicyManagement = createAsyncThunk("viewPolicyManagement", asy
 export  const addPolicyManagement = createAsyncThunk("addPolicyManagement", async (data) => {
     const response = axios({
         method: 'post',
-        url: `${process.env.REACT_APP_API_URL}/savePolicy`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/savePolicy`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -31,7 +31,7 @@ export  const addPolicyManagement = createAsyncThunk("addPolicyManagement", asyn
 export  const modifyPolicyManagement = createAsyncThunk("modifyPolicyManagement", async (data) => {
     const response = axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}/updatePolicy/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/updatePolicy/${data.id}`,
         data: data.data,
         headers: {
             "Authorization": `Bearer ${data.token}`
@@ -45,7 +45,7 @@ export  const modifyPolicyManagement = createAsyncThunk("modifyPolicyManagement"
 export  const deletePolicyManagement = createAsyncThunk("deletePolicyManagement", async (data) => {
     const response = axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_URL}/deletePolicy/${data.id}`,
+        url: `${process.env.REACT_APP_API_URL}/OperatorConfiguration/deletePolicy/${data.id}`,
         headers: {
             "Authorization": `Bearer ${data.token}`
         },
