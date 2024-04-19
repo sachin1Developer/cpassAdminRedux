@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getUserActivity = createAsyncThunk("getUserActivity", async (data) => {
@@ -11,5 +12,8 @@ export const getUserActivity = createAsyncThunk("getUserActivity", async (data) 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

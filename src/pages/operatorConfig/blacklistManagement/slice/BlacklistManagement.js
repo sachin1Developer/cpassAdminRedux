@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const viewBlacklistManagement = createAsyncThunk("viewBlacklistManagement", async (token) => {
@@ -11,6 +12,9 @@ export const viewBlacklistManagement = createAsyncThunk("viewBlacklistManagement
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -23,6 +27,9 @@ export  const addMsisdnToBlacklist= createAsyncThunk("addMsisdnToBlacklist", asy
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -36,6 +43,9 @@ export  const addGroupMsisdnToBlacklist = createAsyncThunk("addGroupMsisdnToBlac
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -50,6 +60,9 @@ export  const modifyBlacklistManagement = createAsyncThunk("modifyBlacklistManag
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -63,6 +76,9 @@ export  const deleteBlacklistGroup = createAsyncThunk("deleteBlacklistGroup", as
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -76,6 +92,9 @@ export  const deleteBlacklistRange = createAsyncThunk("deleteBlacklistRange", as
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -88,6 +107,9 @@ export  const getBlacklistName = createAsyncThunk("getBlacklistName", async (tok
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -102,6 +124,9 @@ export  const addRangeBlacklist = createAsyncThunk("addRangeBlacklist", async (d
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -116,6 +141,9 @@ export  const addGroupBlacklistMsisdn = createAsyncThunk("addGroupBlacklist", as
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -129,6 +157,9 @@ export const getBlacklistRange = createAsyncThunk("getBlacklistRange", async (to
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -141,6 +172,9 @@ export const getBlacklistGroupName  = createAsyncThunk("getBlacklistGroupName", 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -154,6 +188,9 @@ export const searchSpecificMsisdninBlacklist  = createAsyncThunk("searchSpecific
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -167,5 +204,8 @@ export  const deleteBlacklistManagerGroup = createAsyncThunk("deleteBlacklistMan
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

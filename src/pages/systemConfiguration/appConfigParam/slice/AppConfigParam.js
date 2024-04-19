@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getParamList = createAsyncThunk("getParamList", async (token) => {
@@ -11,6 +12,9 @@ export const getParamList = createAsyncThunk("getParamList", async (token) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,6 +28,9 @@ export  const addAppParams = createAsyncThunk("addAppParams", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -38,6 +45,9 @@ export  const updateAppParam = createAsyncThunk("updateAppParam", async (data) =
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,5 +61,8 @@ export  const deleteParams = createAsyncThunk("deleteParams", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

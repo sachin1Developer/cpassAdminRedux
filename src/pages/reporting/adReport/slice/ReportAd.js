@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import CheckTokenExpired from '../../../../components/CheckTokenExpired';
 
 const initialState = {
     data: null,
@@ -16,6 +17,9 @@ export const getAdReport = createAsyncThunk("getAdReport", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -28,6 +32,9 @@ export const getAdSummaryReports = createAsyncThunk("getAdSummaryReports", async
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -40,6 +47,9 @@ export const getAdReportBySpecificId = createAsyncThunk("getAdReportBySpecificId
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 

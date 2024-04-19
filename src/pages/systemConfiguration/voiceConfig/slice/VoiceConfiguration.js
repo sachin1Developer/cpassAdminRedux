@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getSystemVoiceList = createAsyncThunk("getSystemVoiceList", async (token) => {
@@ -11,6 +12,9 @@ export const getSystemVoiceList = createAsyncThunk("getSystemVoiceList", async (
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,6 +28,9 @@ export  const addVoice = createAsyncThunk("addVoice", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -38,6 +45,9 @@ export  const modifyVoice = createAsyncThunk("modifyVoice", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,5 +61,8 @@ export  const deleteVoiceById = createAsyncThunk("deleteVoiceById", async (data)
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

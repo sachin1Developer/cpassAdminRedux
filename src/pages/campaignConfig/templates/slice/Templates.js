@@ -1,16 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getLbsTemplates = createAsyncThunk("getLbsTemplates", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/CampaignConfiguration/getLbsTemplates`,
+        url: `${process.env.REACT_APP_API_URL}/getLbsTemplates`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,6 +28,9 @@ export  const addLbsTemplate = createAsyncThunk("addLbsTemplate", async (data) =
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -37,6 +44,9 @@ export  const addLbsTemplateById = createAsyncThunk("addLbsTemplateById", async 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,6 +61,9 @@ export  const modifyLbsTemplate = createAsyncThunk("modifyLbsTemplate", async (d
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -64,5 +77,8 @@ export  const deleteLbsTemplate = createAsyncThunk("deleteLbsTemplate", async (d
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

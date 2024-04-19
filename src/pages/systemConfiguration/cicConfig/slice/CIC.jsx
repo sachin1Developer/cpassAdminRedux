@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const createChannelandServerID = createAsyncThunk("createChannelandServerID", async (token) => {
@@ -11,6 +12,9 @@ export const createChannelandServerID = createAsyncThunk("createChannelandServer
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -23,6 +27,9 @@ export const getServersWithIds = createAsyncThunk("getServersWithIds", async (to
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -35,6 +42,9 @@ export const createChannel = createAsyncThunk("createChannel", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -48,6 +58,9 @@ export const deleteChannel = createAsyncThunk("deleteChannel", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -60,6 +73,9 @@ export const ViewServersAndCICs = createAsyncThunk("ViewServersAndCICs", async (
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -72,5 +88,8 @@ export const getServersAndCICsList = createAsyncThunk("getServersAndCICsList", a
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

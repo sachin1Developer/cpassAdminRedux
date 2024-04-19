@@ -54,7 +54,61 @@ export default function CreateCamp() {
             <Heading name='Create Campaign'>
 
             </Heading>
-            <div className="container w-75" >
+            <div className='container'>
+                <form>
+                    <div class="row g-3">
+                        <div class="form-group col">
+                            <label for="inputEmail4">Campaign Name</label>
+                            <input type="email" class="form-control" id="inputEmail4" value={name} onChange={(event) => setname(event.target.value)} />
+                        </div>
+                        <div class="form-group col">
+                            <label for="inputPassword4">Campaign Priority </label>
+                            <input type="range" class="form-range" id="inputPassword4" value={priority} min={1} max={10} onChange={(event) => setpriority(event.target.value)} />
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="form-group col">
+                            <label for="inputEmail4">Daily Limit</label>
+                            <input type="number" class="form-control" id="inputEmail4" value={dailyLimit} min={-1} onChange={(event) => setDailyLimit(event.target.value)} />
+                        </div>
+                        <div class="form-group col">
+                            <label for="inputPassword4">Campaign Re-Cycle </label>
+                            <select class="form-select" aria-label="Default select example" value={recycle} onChange={(event) => setrecycle(event.target.value)} >
+                                <option value={1} >Non-Recycle</option>
+                                <option value={2} >Recycle</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" id="inputCity" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">State</label>
+                            <select id="inputState" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputZip">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck" />
+                            <label class="form-check-label" for="gridCheck">
+                                Check me out
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </form>
+            </div>
+            {/* <div className="container w-75" >
                 <CampInput name='Campaign Name'>
                     <input type="text" value={name} onChange={(event) => setname(event.target.value)} />
                 </CampInput>
@@ -170,7 +224,7 @@ export default function CreateCamp() {
                         </CustomTabPanel>
                     </Box>
                 </CampInput>
-            </div>
+            </div> */}
         </div>
     )
 }

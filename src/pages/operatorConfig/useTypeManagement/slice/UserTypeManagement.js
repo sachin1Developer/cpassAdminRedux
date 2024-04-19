@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getUserList = createAsyncThunk("getUserList", async (token) => {
@@ -11,6 +12,9 @@ export const getUserList = createAsyncThunk("getUserList", async (token) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -23,6 +27,9 @@ export const getRoleTypeNameAndId = createAsyncThunk("getRoleTypeNameAndId", asy
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -36,6 +43,9 @@ export  const createUser = createAsyncThunk("createUser", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -49,6 +59,9 @@ export  const getUserbyName = createAsyncThunk("getUserbyName", async (data) => 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -63,6 +76,9 @@ export  const modifyUserType = createAsyncThunk("modifyUserType", async (data) =
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -76,6 +92,9 @@ export  const deleteUserByName = createAsyncThunk("deleteUserByName", async (dat
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -95,6 +114,9 @@ export const getVendorList = createAsyncThunk("getVendorList", async (token) => 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -107,6 +129,9 @@ export  const deleteVendorById = createAsyncThunk("deleteVendorById", async (dat
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -121,6 +146,9 @@ export  const createVendor = createAsyncThunk("createVendor", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -136,6 +164,9 @@ export  const getVendorById = createAsyncThunk("getVendorById", async (data) => 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -149,5 +180,8 @@ export  const modifyVendor = createAsyncThunk("modifyVendor", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

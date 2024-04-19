@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const viewPolicyManagement = createAsyncThunk("viewPolicyManagement", async (token) => {
@@ -11,6 +12,9 @@ export const viewPolicyManagement = createAsyncThunk("viewPolicyManagement", asy
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,6 +28,9 @@ export  const addPolicyManagement = createAsyncThunk("addPolicyManagement", asyn
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -38,6 +45,9 @@ export  const modifyPolicyManagement = createAsyncThunk("modifyPolicyManagement"
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,5 +61,8 @@ export  const deletePolicyManagement = createAsyncThunk("deletePolicyManagement"
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

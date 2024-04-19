@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getSystemCountryCode = createAsyncThunk("getSystemCountryCode", async (token) => {
@@ -11,6 +12,9 @@ export const getSystemCountryCode = createAsyncThunk("getSystemCountryCode", asy
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,6 +28,9 @@ export  const createSystemCountryCode = createAsyncThunk("createSystemCountryCod
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -38,6 +45,9 @@ export  const modifyCountryCode = createAsyncThunk("modifyCountryCode", async (d
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,5 +61,8 @@ export  const deleteSystemCountryCode = createAsyncThunk("deleteSystemCountryCod
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

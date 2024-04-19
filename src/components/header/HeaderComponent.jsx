@@ -16,7 +16,7 @@ function HeaderComponent() {
     const userDetails = useSelector(state => state.profile?.data?.username)
 
     useEffect(() => {
-        dispatch(getProfileData({ token: token, id: userId }))
+        // dispatch(getProfileData({ token: token, id: userId }))
         setAnchor(null)
     }, [])
 

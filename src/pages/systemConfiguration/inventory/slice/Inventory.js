@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getCampaignInventory = createAsyncThunk("getCampaignInventory", async (token) => {
@@ -11,6 +12,9 @@ export const getCampaignInventory = createAsyncThunk("getCampaignInventory", asy
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,7 +28,10 @@ export const getCampaignInventory = createAsyncThunk("getCampaignInventory", asy
 //         },
 //     })
 //     // console.log(response)
-//     return response;
+//     response.catch((err)=>{
+    //     CheckTokenExpired(err?.response?.status)
+    // })
+    // return response;
 // })
 
 
@@ -38,6 +45,9 @@ export  const modifyCampaignInventory = createAsyncThunk("modifyCampaignInventor
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -51,5 +61,8 @@ export  const modifyCampaignInventory = createAsyncThunk("modifyCampaignInventor
 //         },
 //     })
 //     // console.log(response)
-//     return response;
+//     response.catch((err)=>{
+    //     CheckTokenExpired(err?.response?.status)
+    // })
+    // return response;
 // })

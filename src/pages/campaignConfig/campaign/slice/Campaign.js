@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const getCampaignByDistinct = createAsyncThunk("getCampaignByDistinct", async (token) => {
@@ -11,6 +12,9 @@ export const getCampaignByDistinct = createAsyncThunk("getCampaignByDistinct", a
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -24,7 +28,10 @@ export const getCampaignByDistinct = createAsyncThunk("getCampaignByDistinct", a
 //         },
 //     })
 //     // console.log(response)
-//     return response;
+//     response.catch((err)=>{
+    //     CheckTokenExpired(err?.response?.status)
+    // })
+    // return response;
 // })
 
 
@@ -38,7 +45,10 @@ export const getCampaignByDistinct = createAsyncThunk("getCampaignByDistinct", a
 //         },
 //     })
 //     // console.log(response)
-//     return response;
+//     response.catch((err)=>{
+    //     CheckTokenExpired(err?.response?.status)
+    // })
+    // return response;
 // })
 
 
@@ -51,6 +61,9 @@ export  const deleteCampaignById = createAsyncThunk("deleteCampaignById", async 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -64,6 +77,9 @@ export const getCampaignApproval = createAsyncThunk("getCampaignApproval", async
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -78,6 +94,9 @@ export const getAllCampaign = createAsyncThunk("getAllCampaign", async (token) =
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -85,12 +104,15 @@ export const getAllCampaign = createAsyncThunk("getAllCampaign", async (token) =
 export const getOriginationNumber = createAsyncThunk("getOriginationNumber", async (token) => {
     const response = axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/CampaignConfiguration/getAllOriginationNUmber`,
+        url: `${process.env.REACT_APP_API_URL}/getAllOriginationNUmber`,
         headers: {
             "Authorization": `Bearer ${token}`
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -104,6 +126,9 @@ export const createPvm = createAsyncThunk("createPvm", async (data) => {
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response
 
 })
@@ -117,6 +142,9 @@ export const getCampaignStatusByFilter = createAsyncThunk("getCampaignStatusByFi
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -129,6 +157,9 @@ export const getCampaignStatusfor15Days = createAsyncThunk("getCampaignStatusfor
         },
     })
     console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -141,5 +172,8 @@ export const getCampaignStatusforDateWise = createAsyncThunk("getCampaignStatusf
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

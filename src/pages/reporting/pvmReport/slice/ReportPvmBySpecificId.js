@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import CheckTokenExpired from '../../../../components/CheckTokenExpired';
 
 const initialState = {
     data: null,
@@ -16,6 +17,9 @@ export const getPvmReportBySpecificId = createAsyncThunk("getPvmReportBySpecific
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 

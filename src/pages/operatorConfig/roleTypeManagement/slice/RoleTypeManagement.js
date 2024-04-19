@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import CheckTokenExpired from "../../../../components/CheckTokenExpired";
 
 
 export const viewRoleTypeManagement = createAsyncThunk("viewRoleTypeManagement", async (token) => {
@@ -11,6 +12,9 @@ export const viewRoleTypeManagement = createAsyncThunk("viewRoleTypeManagement",
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -23,6 +27,9 @@ export const getAllHttpLinks = createAsyncThunk("getAllHttpLinks", async (token)
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -36,6 +43,9 @@ export const getAllRoleNameOnly = createAsyncThunk("getAllRoleNameOnly", async (
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -48,6 +58,9 @@ export const getRoleDetailsById = createAsyncThunk("getRoleDetailsById", async (
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -61,6 +74,9 @@ export  const addRoleTypeManagement = createAsyncThunk("addRoleTypeManagement", 
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -75,6 +91,9 @@ export  const modifyRoleTypeManagement = createAsyncThunk("modifyRoleTypeManagem
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
@@ -88,5 +107,8 @@ export  const deleteRoleTypeManagement = createAsyncThunk("deleteRoleTypeManagem
         },
     })
     // console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import CheckTokenExpired from '../../../components/CheckTokenExpired';
 
 const initialState = {
     data: {},
@@ -16,6 +17,9 @@ export const getProfileData = createAsyncThunk("getProfileData", async (data) =>
         },
     })
     console.log(response)
+    response.catch((err)=>{
+        CheckTokenExpired(err?.response?.status)
+    })
     return response;
 })
 
